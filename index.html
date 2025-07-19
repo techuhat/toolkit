@@ -1,0 +1,2989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImagePDF Toolkit - Professional Image & PDF Tools</title>
+    <meta name="description" content="Professional multi-tool Image and PDF Toolkit with advanced client-side processing. Convert, compress, resize images and create PDFs - all in your browser with complete privacy.">
+    <meta name="keywords" content="image converter, pdf tools, image compression, resize images, format converter, batch processing">
+    <meta name="author" content="ImagePDF Toolkit">
+    
+    <!-- Open Graph Meta Tags for Social Media -->
+    <meta property="og:title" content="ImagePDF Toolkit - Professional Image & PDF Tools">
+    <meta property="og:description" content="Convert, compress, resize images and create PDFs entirely in your browser. 100% private, no uploads, lightning fast processing with 6+ professional tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-domain.com">
+    <meta property="og:site_name" content="ImagePDF Toolkit">
+    <meta property="og:locale" content="en_US">
+    
+    <!-- Open Graph Image (1200x630 recommended) -->
+    <meta property="og:image" content="https://your-domain.com/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="ImagePDF Toolkit - Professional Image & PDF Processing Tools">
+    <meta property="og:image:type" content="image/png">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ImagePDF Toolkit - Professional Image & PDF Tools">
+    <meta name="twitter:description" content="Convert, compress, resize images and create PDFs entirely in your browser. 100% private, no uploads, lightning fast processing with 6+ professional tools.">
+    <meta name="twitter:image" content="https://your-domain.com/twitter-image.png">
+    <meta name="twitter:image:alt" content="ImagePDF Toolkit - Professional Image & PDF Processing Tools">
+    <meta name="twitter:site" content="@yourtwitterhandle">
+    <meta name="twitter:creator" content="@yourtwitterhandle">
+    
+    <!-- WhatsApp Meta Tags -->
+    <meta property="og:image:secure_url" content="https://your-domain.com/og-image.png">
+    
+    <!-- LinkedIn Meta Tags -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Facebook Meta Tags -->
+    <meta property="fb:app_id" content="your-facebook-app-id">
+    <meta property="fb:pages" content="your-facebook-page-id">
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#4F46E5">
+    <meta name="msapplication-TileColor" content="#4F46E5">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ImagePDF Toolkit">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://your-domain.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm1 2v10h14V7H5zm2 2h10v2H7V9zm0 4h6v2H7v-2z'/></svg>">
+    
+    <!-- CSS Dependencies -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <!-- JavaScript Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+    
+    <style>
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);
+        }
+        
+        .tool-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tool-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .tool-card:hover::before {
+            left: 100%;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.05);
+        }
+        
+        .dark .tool-card:hover {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-bar {
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            animation: progress-flow 2s ease-in-out infinite;
+        }
+        
+        @keyframes progress-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .file-drop-zone {
+            border: 2px dashed #d1d5db;
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-zone.drag-over {
+            border-color: #4f46e5;
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+        
+        .dark .file-drop-zone {
+            border-color: #4b5563;
+        }
+        
+        .dark .file-drop-zone.drag-over {
+            border-color: #6366f1;
+            background-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .toast {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+            max-width: 100%;
+            width: 100%;
+            word-wrap: break-word;
+            word-break: break-word;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            z-index: 100000; /* Extremely high z-index to ensure visibility */
+            position: relative;
+        }
+        
+        /* Desktop toast animation fix */
+        @media (min-width: 641px) {
+            .toast {
+                transform: translateX(0) !important;
+                transition: opacity 0.3s ease-in-out !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+            
+            .toast.show {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+            
+            /* Prevent toast from sliding off-screen */
+            .toast.translate-x-full {
+                transform: translateX(0) !important;
+            }
+        }
+        
+        /* Mobile toast animation fix */
+        @media (max-width: 640px) {
+            .toast {
+                transform: translateX(0) !important;
+                transition: opacity 0.3s ease-in-out !important;
+                left: 0 !important;
+                right: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+            
+            .toast.show {
+                opacity: 1 !important;
+                transform: translateX(0) !important;
+            }
+            
+            /* Prevent toast from sliding off-screen */
+            .toast.translate-x-full {
+                transform: translateX(0) !important;
+            }
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Tool toast container specific styles */
+        #tool-toast-container {
+            max-width: 350px;
+            pointer-events: none;
+            position: fixed;
+            top: 100px; /* Increased from 20px to avoid header overlap */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000; /* Increased z-index */
+            width: calc(100% - 40px);
+        }
+        
+        /* Desktop tool toast positioning */
+        @media (min-width: 641px) {
+            #tool-toast-container {
+                top: 20px !important;
+                right: 20px !important;
+                left: auto !important;
+                transform: none !important;
+                width: 350px !important;
+                max-width: 350px !important;
+            }
+        }
+        
+        /* Mobile tool toast container adjustments */
+        @media (max-width: 640px) {
+            #tool-toast-container {
+                left: 10px !important;
+                right: 10px !important;
+                transform: none !important;
+                width: calc(100vw - 20px) !important;
+                max-width: calc(100vw - 20px) !important;
+            }
+        }
+        
+        #tool-toast-container .toast {
+            pointer-events: auto;
+            margin-left: auto;
+            margin-right: 0;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark #tool-toast-container .toast {
+            background-color: rgba(31, 41, 55, 0.95);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Professional loading animation */
+        .loading-dots {
+            display: inline-block;
+        }
+        
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        
+        /* Professional button hover effects */
+        .btn-professional {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-professional::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-professional:hover::before {
+            left: 100%;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .scale-in {
+            animation: scaleIn 0.3s ease-out;
+        }
+        
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Complete Dark mode styles */
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .dark body {
+            background-color: #111827;
+            color: #f9fafb;
+        }
+        
+        .dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #111827 !important;
+        }
+        
+        .dark .bg-gray-100 {
+            background-color: #374151 !important;
+        }
+        
+        .dark .text-gray-900 {
+            color: #f9fafb !important;
+        }
+        
+        .dark .text-gray-600 {
+            color: #d1d5db !important;
+        }
+        
+        .dark .text-gray-500 {
+            color: #9ca3af !important;
+        }
+        
+        .dark .border-gray-200 {
+            border-color: #374151 !important;
+        }
+        
+        .dark .border {
+            border-color: #4b5563 !important;
+        }
+        
+        .theme-transition {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        /* Day/Night Toggle Switch Styles */
+        .toggleWrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .toggleWrapper input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        /* Default state - Day mode */
+        .toggle {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            width: 45px;
+            height: 25px;
+            background-color: #83D8FF;
+            border-radius: 84px;
+            transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        .toggle__handler {
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background-color: #FFCF96;
+            border-radius: 50px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.3);
+            transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: rotate(-45deg);
+        }
+
+        .crater {
+            position: absolute;
+            background-color: #E8CDA5;
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+            border-radius: 100%;
+        }
+
+        .crater--1 {
+            top: 9px;
+            left: 5px;
+            width: 2px;
+            height: 2px;
+        }
+
+        .crater--2 {
+            top: 14px;
+            left: 11px;
+            width: 3px;
+            height: 3px;
+        }
+
+        .crater--3 {
+            top: 5px;
+            left: 12px;
+            width: 4px;
+            height: 4px;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            transition: all 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+            border-radius: 50%;
+        }
+
+        .star--1 {
+            top: 5px;
+            left: 17px;
+            z-index: 0;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--2 {
+            top: 9px;
+            left: 14px;
+            z-index: 1;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--3 {
+            top: 14px;
+            left: 20px;
+            z-index: 0;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--4,
+        .star--5,
+        .star--6 {
+            opacity: 0;
+            transition: all 300ms 0 cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        .star--4 {
+            top: 8px;
+            left: 6px;
+            z-index: 0;
+            width: 1px;
+            height: 1px;
+            transform: translate3d(3px,0,0);
+        }
+
+        .star--5 {
+            top: 16px;
+            left: 9px;
+            z-index: 0;
+            width: 1.5px;
+            height: 1.5px;
+            transform: translate3d(3px,0,0);
+        }
+
+        .star--6 {
+            top: 18px;
+            left: 14px;
+            z-index: 0;
+            width: 1px;
+            height: 1px;
+            transform: translate3d(3px,0,0);
+        }
+
+        /* Night mode - Checked state styles */
+        input:checked + .toggle {
+            background-color: #749DD6;
+        }
+
+        input:checked + .toggle .toggle__handler {
+            background-color: #FFE5B5;
+            transform: translate3d(20px, 0, 0) rotate(0deg);
+        }
+
+        input:checked + .toggle .crater {
+            opacity: 1;
+        }
+
+        input:checked + .toggle .star--1 {
+            width: 1px;
+            height: 1px;
+        }
+
+        input:checked + .toggle .star--2 {
+            width: 2px;
+            height: 2px;
+            transform: translate3d(-5px, 0, 0);
+        }
+
+        input:checked + .toggle .star--3 {
+            width: 1px;
+            height: 1px;
+            transform: translate3d(-7px, 0, 0);
+        }
+
+        input:checked + .toggle .star--4,
+        input:checked + .toggle .star--5,
+        input:checked + .toggle .star--6 {
+            opacity: 1;
+            transform: translate3d(0,0,0);
+        }
+
+        input:checked + .toggle .star--4 {
+            transition: all 300ms 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        input:checked + .toggle .star--5 {
+            transition: all 300ms 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        input:checked + .toggle .star--6 {
+            transition: all 300ms 400ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+        
+        /* Image Slider Styles */
+        .image-slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        
+        .image-slides {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .image-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .image-slide img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        
+        .slider-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-nav:hover {
+            background: rgba(0, 0, 0, 0.9);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .slider-nav.prev {
+            left: 10px;
+        }
+        
+        .slider-nav.next {
+            right: 10px;
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #cbd5e1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background: #3b82f6;
+            transform: scale(1.2);
+        }
+        
+        .dark .slider-dot {
+            background: #4b5563;
+        }
+        
+        .dark .slider-dot.active {
+            background: #60a5fa;
+        }
+        
+        /* File input styles */
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Responsive image preview grid */
+        .image-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 8px; /* Add padding for scrollbar */
+        }
+
+        /* Scrollbar styling for the preview grid */
+        .image-preview-grid::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .image-preview-grid::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+        }
+
+        .image-preview-grid::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+        }
+
+        .dark .image-preview-grid::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .dark .image-preview-grid::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Enhanced Drag and Drop Styles */
+        .file-drop-zone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-drop-zone::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .file-drop-zone:hover {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+        
+        .file-drop-zone:hover::before {
+            left: 100%;
+        }
+        
+        .file-drop-zone.drag-over {
+            border-color: #3b82f6;
+            background-color: rgba(59, 130, 246, 0.1);
+            transform: scale(1.02);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.2);
+        }
+        
+        .file-drop-zone.drag-over .fa-cloud-upload-alt {
+            animation: bounce 0.6s infinite;
+            color: #3b82f6 !important;
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        
+        .dark .file-drop-zone {
+            border-color: #4b5563;
+        }
+        
+        .dark .file-drop-zone:hover {
+            border-color: #60a5fa;
+            background-color: rgba(96, 165, 250, 0.05);
+        }
+        
+        .dark .file-drop-zone.drag-over {
+            border-color: #60a5fa;
+            background-color: rgba(96, 165, 250, 0.1);
+        }
+        
+        /* Global drop overlay styles */
+        #global-drop-overlay {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        #global-drop-overlay .animate-bounce {
+            animation: bounce 1s infinite;
+        }
+        
+        /* File list item styles */
+        .file-item {
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateX(4px);
+            background-color: rgba(59, 130, 246, 0.05);
+        }
+        
+        .dark .file-item:hover {
+            background-color: rgba(96, 165, 250, 0.05);
+        }
+        
+        /* Toast progress animation */
+        @keyframes toast-progress {
+            from {
+                width: 100%;
+            }
+            to {
+                width: 0%;
+            }
+        }
+        
+        /* Enhanced button styles */
+        .btn-enhanced {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-enhanced:hover::before {
+            left: 100%;
+        }
+        
+        .btn-enhanced:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Toast enhanced styles */
+        .toast {
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+        
+        .toast.show {
+            animation: slideInRight 0.3s ease-out;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        /* Progress bar enhanced styles */
+        #progress-bar {
+            background: linear-gradient(90deg, #3b82f6, #1d4ed8, #3b82f6);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: progressShine 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% 0;
+            }
+            100% {
+                background-position: 200% 0;
+            }
+        }
+        
+        @keyframes progressShine {
+            0% {
+                left: -100%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+        
+        /* Image preview item enhanced styles */
+        .image-preview-item {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            min-height: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a1a;
+        }
+
+        .image-preview-item img {
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            background: #1a1a1a;
+            border-radius: 8px;
+        }
+
+        .image-preview-item .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 12px;
+            font-size: 13px;
+            line-height: 1.4;
+            word-break: break-word;
+            text-align: center;
+            max-height: 50%;
+            overflow-y: auto;
+            backdrop-filter: blur(4px);
+        }
+        
+        .image-preview-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .dark .image-preview-item:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            #tool-toast-container {
+                max-width: calc(100vw - 40px);
+                top: 120px; /* Increased from 80px to ensure visibility */
+                left: 50%;
+                transform: translateX(-50%);
+                z-index: 10000; /* Increased z-index to ensure it's above header */
+                padding: 0 10px;
+                position: fixed;
+                pointer-events: none;
+                width: 100%;
+            }
+
+            .toast {
+                max-width: 100%;
+                margin: 0 auto;
+                font-size: 14px;
+                padding: 12px 16px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+                width: 100%;
+                z-index: 10001; /* Ensure toast is above container */
+            }
+
+            .image-preview-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .image-preview-item {
+                width: 100%;
+                max-width: 300px;
+                height: auto;
+                aspect-ratio: 1;
+                margin: 0 auto;
+            }
+            
+            .file-item {
+                padding: 10px;
+                flex-direction: column;
+                align-items: flex-start;
+                word-wrap: break-word;
+                border-radius: 8px;
+                margin-bottom: 8px;
+                background-color: rgba(0, 0, 0, 0.03);
+            }
+
+            .file-item .font-medium {
+                white-space: normal;
+                word-break: break-word;
+                font-size: 14px;
+                max-width: 100%;
+                display: block;
+                line-height: 1.4;
+                padding: 4px 0;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+
+            .file-item .ml-4 {
+                margin-left: 0;
+                margin-top: 8px;
+            }
+
+            /* Tool modal adjustments for mobile */
+            .tool-modal .modal-content {
+                margin: 10px;
+                max-height: calc(100vh - 20px);
+            }
+
+            .tool-modal .modal-header {
+                padding: 12px 16px;
+            }
+
+            .tool-modal .modal-body {
+                padding: 16px;
+                max-height: calc(100vh - 120px);
+                overflow-y: auto;
+            }
+        }
+        
+        .btn-enhanced::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-enhanced:hover::before {
+            left: 100%;
+        }
+        
+        /* Additional responsive enhancements */
+        
+        /* Desktop toast positioning */
+        @media (min-width: 641px) {
+            #toast-container {
+                top: 20px !important;
+                right: 20px !important;
+                left: auto !important;
+                width: 400px !important;
+                max-width: 400px !important;
+                z-index: 100000 !important;
+                transform: none !important;
+            }
+            
+            #toast-container .toast {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                font-size: 14px !important;
+                padding: 16px 20px !important;
+                border-radius: 12px !important;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+                transform: translateX(0) !important;
+                position: relative !important;
+                left: 0 !important;
+                right: 0 !important;
+                overflow: hidden !important;
+            }
+        }
+        
+        /* Mobile-specific toast adjustments */
+        @media (max-width: 640px) {
+            #toast-container {
+                top: 100px !important; /* Increased from 80px to ensure visibility */
+                left: 16px !important;
+                right: 16px !important;
+                z-index: 100000 !important;
+                width: calc(100vw - 32px) !important;
+                max-width: calc(100vw - 32px) !important;
+                transform: none !important;
+            }
+            
+            #toast-container .toast {
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0 !important;
+                font-size: 14px !important;
+                padding: 12px 16px !important;
+                border-radius: 8px !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25) !important;
+                transform: translateX(0) !important;
+                left: 0 !important;
+                right: 0 !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+            
+            #tool-toast-container {
+                top: 120px !important; /* Even higher for tool modal toasts */
+                z-index: 100001 !important;
+                width: calc(100vw - 32px) !important;
+                max-width: calc(100vw - 32px) !important;
+                left: 16px !important;
+                right: 16px !important;
+                transform: none !important;
+            }
+            
+            #tool-toast-container .toast {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                transform: translateX(0) !important;
+                position: relative !important;
+                overflow: hidden !important;
+            }
+        }
+        
+        /* Tablet specific adjustments */
+        @media (min-width: 641px) and (max-width: 1024px) {
+            #tool-toast-container {
+                max-width: calc(100vw - 60px);
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                position: fixed;
+                pointer-events: none;
+            }
+            
+            .image-preview-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 15px;
+            }
+            
+            .file-item .font-medium {
+                white-space: normal;
+                word-break: break-word;
+                max-width: 100%;
+                display: block;
+            }
+        }
+        
+        /* Responsive enhancements */
+        @media (max-width: 768px) {
+            .file-drop-zone {
+                padding: 2rem 1rem;
+            }
+            
+            #global-drop-overlay .max-w-md {
+                max-width: 90vw;
+            }
+        }
+        
+        .image-preview-item {
+            position: relative;
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-preview-item:hover {
+            transform: scale(1.05);
+        }
+        
+        .image-preview-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .image-preview-item .remove-btn {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .image-preview-item .file-name {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 4px 8px;
+            font-size: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Enhanced file name handling for mobile */
+        @media (max-width: 768px) {
+            .file-item .font-medium {
+                word-break: break-all;
+                hyphens: auto;
+                line-height: 1.3;
+                max-height: 3.9em; /* Allow up to 3 lines */
+                overflow: hidden;
+                display: -webkit-box;
+                -webkit-line-clamp: 3;
+                -webkit-box-orient: vertical;
+            }
+            
+            .file-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .file-item > div:first-child {
+                flex: 1;
+                min-width: 0;
+            }
+            
+            .file-item button {
+                align-self: flex-end;
+                margin-top: 8px;
+            }
+        }
+        
+        /* Android-specific toast fixes */
+        @supports (-webkit-touch-callout: none) {
+            /* iOS Safari */
+            #toast-container, #tool-toast-container {
+                top: 120px !important;
+                z-index: 100000 !important;
+            }
+        }
+        
+        /* Android Chrome and other mobile browsers */
+        @media screen and (max-width: 768px) and (orientation: portrait) {
+            #toast-container {
+                top: 120px !important;
+                z-index: 100000 !important;
+                position: fixed !important;
+            }
+            
+            #tool-toast-container {
+                top: 140px !important;
+                z-index: 100001 !important;
+                position: fixed !important;
+            }
+            
+            .toast {
+                z-index: 100002 !important;
+                position: relative !important;
+            }
+        }
+    </style>
+</head>
+<body class="theme-transition bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2 md:top-4 md:right-4 sm:top-24 sm:left-4 sm:right-4 sm:z-[100000] sm:transform-none sm:w-[calc(100vw-32px)]"></div>
+    
+    <!-- Progress Bar -->
+    <div id="progress-container" class="fixed top-0 left-0 w-full h-1 z-40 hidden">
+        <div id="progress-bar" class="h-full progress-bar" style="width: 0%"></div>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-30 backdrop-blur-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="relative">
+                            <i class="fas fa-file-pdf text-white text-lg"></i>
+                            <i class="fas fa-image text-blue-200 text-xs absolute -top-1 -right-1"></i>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">ImagePDF Toolkit</span>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Professional Tools</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button onclick="scrollToSection('tools')" class="hidden md:block text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        Tools
+                    </button>
+                    <button onclick="scrollToSection('features')" class="hidden md:block text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                        Features
+                    </button>
+                    <div class="toggleWrapper">
+                        <input type="checkbox" id="dn" />
+                        <label for="dn" class="toggle">
+                            <span class="toggle__handler">
+                                <span class="crater crater--1"></span>
+                                <span class="crater crater--2"></span>
+                                <span class="crater crater--3"></span>
+                            </span>
+                            <span class="star star--1"></span>
+                            <span class="star star--2"></span>
+                            <span class="star star--3"></span>
+                            <span class="star star--4"></span>
+                            <span class="star star--5"></span>
+                            <span class="star star--6"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="fade-in">
+                <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">
+                    Professional Image & PDF Tools
+                </h1>
+                <p class="text-xl md:text-2xl text-white opacity-90 mb-8 max-w-3xl mx-auto">
+                    Convert, compress, resize, and manipulate images and PDFs entirely in your browser. 
+                    No uploads, complete privacy, lightning fast.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="scrollToSection('tools')" class="btn-professional bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-tools mr-2"></i>
+                        Explore Tools
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section id="features" class="py-20 bg-white dark:bg-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Why Choose Our Toolkit?</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+                    Advanced client-side processing with enterprise-grade features
+                </p>
+            </div>
+            
+            <!-- Professional Statistics -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-blue-600 mb-2">6+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Professional Tools</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-green-600 mb-2">100%</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Client-Side</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-purple-600 mb-2">∞</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">No Limits</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-3xl md:text-4xl font-bold text-orange-600 mb-2">0ms</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">Upload Time</div>
+                </div>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center scale-in">
+                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-2xl text-blue-600 dark:text-blue-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">100% Private</h3>
+                    <p class="text-gray-600 dark:text-gray-300">All processing happens in your browser. No uploads, no tracking.</p>
+                </div>
+                
+                <div class="text-center scale-in" style="animation-delay: 0.1s;">
+                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-bolt text-2xl text-green-600 dark:text-green-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Lightning Fast</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Optimized algorithms for instant processing and conversion.</p>
+                </div>
+                
+                <div class="text-center scale-in" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-layer-group text-2xl text-purple-600 dark:text-purple-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Batch Processing</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Handle multiple files simultaneously with smart optimization.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tools Section -->
+    <section id="tools" class="py-20 bg-gray-50 dark:bg-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold mb-4">Professional Tools</h2>
+                <p class="text-xl text-gray-600 dark:text-gray-300">
+                    Choose from our comprehensive suite of image and PDF tools
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Image to PDF Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('image-to-pdf')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-file-pdf text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Image to PDF</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Convert single or multiple images to PDF with custom layouts</p>
+                    <div class="flex items-center text-blue-600 dark:text-blue-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- PDF to Images Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('pdf-to-images')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-images text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">PDF to Images</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Extract images from PDF files in various formats</p>
+                    <div class="flex items-center text-green-600 dark:text-green-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- Image Compressor Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('image-compressor')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-compress-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Image Compressor</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Reduce file size while maintaining quality</p>
+                    <div class="flex items-center text-purple-600 dark:text-purple-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- Image Resizer Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('image-resizer')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-expand-arrows-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Image Resizer</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Resize images to custom dimensions</p>
+                    <div class="flex items-center text-orange-600 dark:text-orange-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- Format Converter Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('format-converter')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-exchange-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Format Converter</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Convert between JPG, PNG, WebP, AVIF, and more</p>
+                    <div class="flex items-center text-red-600 dark:text-red-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+                
+                <!-- Batch Processor Tool -->
+                <div class="tool-card bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl" onclick="openTool('batch-processor')">
+                    <div class="w-12 h-12 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg flex items-center justify-center mb-4 shadow-md">
+                        <i class="fas fa-layer-group text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2 text-gray-900 dark:text-white">Batch Processor</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-4">Process multiple files with combined operations</p>
+                    <div class="flex items-center text-indigo-600 dark:text-indigo-400 font-medium group">
+                        <span>Get Started</span>
+                        <i class="fas fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Tool Workspace Modal -->
+    <div id="tool-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <!-- Tool Toast Container -->
+            <div id="tool-toast-container" class="absolute top-20 right-4 z-100 space-y-2"></div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl max-w-5xl w-full max-h-[90vh]">
+                <div class="p-6 border-b dark:border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <h2 id="tool-title" class="text-2xl font-bold">Tool Workspace</h2>
+                        <button onclick="closeTool()" class="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="tool-content" class="p-6 overflow-y-auto" style="max-height: calc(90vh - 100px);">
+                    <!-- Tool content will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
+                            <div class="relative">
+                                <i class="fas fa-file-pdf text-white text-lg"></i>
+                                <i class="fas fa-image text-blue-200 text-xs absolute -top-1 -right-1"></i>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">ImagePDF Toolkit</span>
+                            <span class="text-xs text-gray-500 font-medium">Professional Tools</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">Professional image and PDF processing tools for modern workflows.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="openTool('image-to-pdf')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image to PDF</a></li>
+                        <li><a href="#" onclick="openTool('pdf-to-images')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to Images</a></li>
+                        <li><a href="#" onclick="openTool('image-compressor')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Compressor</a></li>
+                        <li><a href="#" onclick="openTool('image-resizer')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
+                        <li><a href="#" onclick="openTool('format-converter')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
+                        <li><a href="#" onclick="openTool('batch-processor')" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ImagePDF Toolkit. All rights reserved. Design by Tech U ❤️</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // Global variables
+        let currentFiles = [];
+        let processedFiles = [];
+        let currentTool = '';
+        let currentSlideIndex = 0;
+        let imageDataUrls = [];
+        
+        // Theme Management
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        }
+        
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+        
+        // Initialize theme on page load
+        initTheme();
+        
+        // Theme toggle event listener and global initialization
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('dn');
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                toggle.checked = savedTheme === 'dark';
+                // Apply theme based on saved preference
+                if (savedTheme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            } else {
+                // Set toggle based on current theme
+                toggle.checked = document.documentElement.classList.contains('dark');
+            }
+            
+            // Listen for toggle changes
+            toggle.addEventListener('change', function() {
+                const theme = this.checked ? 'dark' : 'light';
+                localStorage.setItem('theme', theme);
+                
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+            
+            // Initialize global drag and drop functionality
+            setupGlobalDragDrop();
+        });
+        
+        // Utility Functions
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+        
+        function showToast(message, type = 'success', duration = 3000) {
+            // Determine which container to use based on whether the tool modal is open
+            const isToolOpen = !document.getElementById('tool-modal').classList.contains('hidden');
+            const containerId = isToolOpen ? 'tool-toast-container' : 'toast-container';
+            const container = document.getElementById(containerId);
+            
+            const toast = document.createElement('div');
+            const toastId = 'toast-' + Date.now();
+            toast.id = toastId;
+            toast.className = `toast bg-white dark:bg-gray-800 border-l-4 ${
+                type === 'success' ? 'border-green-500' : 
+                type === 'error' ? 'border-red-500' : 
+                type === 'warning' ? 'border-yellow-500' :
+                'border-blue-500'
+            } p-4 rounded-lg shadow-lg transform translate-x-full opacity-0 transition-all duration-300 ease-out`;
+            
+            // Add additional styles for better visibility
+            if (isToolOpen) {
+                toast.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)';
+                toast.style.fontWeight = '500';
+                toast.style.zIndex = '9999';
+            }
+            
+            const iconClass = type === 'success' ? 'fa-check-circle text-green-500' :
+                             type === 'error' ? 'fa-exclamation-circle text-red-500' :
+                             type === 'warning' ? 'fa-exclamation-triangle text-yellow-500' :
+                             'fa-info-circle text-blue-500';
+            
+            toast.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center flex-1">
+                        <i class="fas ${iconClass} mr-3 text-lg"></i>
+                        <span class="text-sm font-medium text-gray-900 dark:text-white">${message}</span>
+                    </div>
+                    <button onclick="dismissToast('${toastId}')" class="ml-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+                        <i class="fas fa-times text-sm"></i>
+                    </button>
+                </div>
+                <div class="absolute bottom-0 left-0 h-1 bg-gradient-to-r ${
+                    type === 'success' ? 'from-green-500 to-green-400' :
+                    type === 'error' ? 'from-red-500 to-red-400' :
+                    type === 'warning' ? 'from-yellow-500 to-yellow-400' :
+                    'from-blue-500 to-blue-400'
+                } rounded-bl-lg transition-all duration-${duration} ease-linear" style="width: 100%; animation: toast-progress ${duration}ms linear;"></div>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Show toast with animation
+            requestAnimationFrame(() => {
+                if (window.innerWidth <= 640) {
+                    // Mobile devices - use opacity animation instead of transform
+                    toast.classList.remove('opacity-0');
+                    toast.classList.add('opacity-100');
+                    // Ensure toast is properly positioned on mobile
+                    toast.style.transform = 'translateX(0)';
+                    toast.style.left = '0';
+                    toast.style.right = '0';
+                    toast.style.width = '100%';
+                    toast.style.maxWidth = '100%';
+                } else {
+                    // Desktop devices - use transform animation but ensure proper positioning
+                    toast.classList.remove('translate-x-full', 'opacity-0');
+                    toast.classList.add('translate-x-0', 'opacity-100');
+                    // Ensure toast is properly positioned on desktop
+                    toast.style.transform = 'translateX(0)';
+                    toast.style.left = '0';
+                    toast.style.right = '0';
+                    toast.style.width = '100%';
+                    toast.style.maxWidth = '100%';
+                }
+            });
+            
+            // Auto-remove toast
+            const timeoutId = setTimeout(() => {
+                dismissToast(toastId);
+            }, duration);
+            
+            // Store timeout ID for manual dismissal
+            toast.dataset.timeoutId = timeoutId;
+        }
+        
+        function dismissToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                // Clear timeout if manually dismissed
+                if (toast.dataset.timeoutId) {
+                    clearTimeout(toast.dataset.timeoutId);
+                }
+                
+                if (window.innerWidth <= 640) {
+                    // Mobile devices - use opacity animation
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                    // Ensure toast stays in position during dismissal
+                    toast.style.transform = 'translateX(0)';
+                } else {
+                    // Desktop devices - use opacity animation to prevent sliding off-screen
+                    toast.classList.remove('opacity-100');
+                    toast.classList.add('opacity-0');
+                    // Ensure toast stays in position during dismissal
+                    toast.style.transform = 'translateX(0)';
+                }
+                
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }
+        }
+        
+        function showProgress(show = true, message = 'Processing...') {
+            const container = document.getElementById('progress-container');
+            const bar = document.getElementById('progress-bar');
+            const text = container.querySelector('.progress-text');
+            
+            if (show) {
+                container.classList.remove('hidden');
+                bar.style.width = '0%';
+                bar.style.transition = 'width 0.3s ease-out';
+                if (text) text.textContent = message;
+                
+                // Add pulse animation to container
+                container.classList.add('animate-pulse');
+                setTimeout(() => container.classList.remove('animate-pulse'), 500);
+            } else {
+                // Smooth hide animation
+                container.style.opacity = '0';
+                setTimeout(() => {
+                    container.classList.add('hidden');
+                    container.style.opacity = '1';
+                }, 300);
+            }
+        }
+        
+        function updateProgress(percentage, message = null) {
+            const bar = document.getElementById('progress-bar');
+            const container = document.getElementById('progress-container');
+            const text = container.querySelector('.progress-text');
+            
+            const clampedPercentage = Math.min(100, Math.max(0, percentage));
+            bar.style.width = `${clampedPercentage}%`;
+            
+            // Update message if provided
+            if (message && text) {
+                text.textContent = message;
+            }
+            
+            // Add completion animation
+            if (clampedPercentage === 100) {
+                bar.classList.add('animate-pulse');
+                setTimeout(() => {
+                    bar.classList.remove('animate-pulse');
+                    showProgress(false);
+                }, 500);
+            }
+            
+            // Update progress bar color based on percentage
+            if (clampedPercentage < 30) {
+                bar.className = bar.className.replace(/bg-\w+-\d+/g, '') + ' bg-red-500';
+            } else if (clampedPercentage < 70) {
+                bar.className = bar.className.replace(/bg-\w+-\d+/g, '') + ' bg-yellow-500';
+            } else {
+                bar.className = bar.className.replace(/bg-\w+-\d+/g, '') + ' bg-green-500';
+            }
+        }
+        
+        // Enhanced File handling functions with improved drag-and-drop
+        function handleFileSelect(event, callback) {
+            event.preventDefault();
+            event.stopPropagation();
+            
+            const files = event.target.files || event.dataTransfer.files;
+            if (files && files.length > 0) {
+                const fileArray = Array.from(files);
+                const validFiles = filterValidFiles(fileArray);
+                
+                if (validFiles.length !== fileArray.length) {
+                    const invalidCount = fileArray.length - validFiles.length;
+                    showToast(`${invalidCount} file(s) skipped - invalid format for current tool`, 'warning');
+                }
+                
+                if (validFiles.length > 0) {
+                    callback(validFiles);
+                    showToast(`${validFiles.length} file(s) added successfully!`);
+                }
+                
+                // Clear the input to allow re-selection of the same file
+                if (event.target.type === 'file') {
+                    event.target.value = '';
+                }
+            }
+        }
+        
+        function filterValidFiles(files) {
+            if (!currentTool) return files;
+            
+            return files.filter(file => {
+                switch (currentTool) {
+                    case 'image-to-pdf':
+                    case 'image-compressor':
+                    case 'image-resizer':
+                    case 'format-converter':
+                    case 'batch-processor':
+                        return file.type.startsWith('image/');
+                    case 'pdf-to-images':
+                        return file.type === 'application/pdf';
+                    default:
+                        return file.type.startsWith('image/') || file.type === 'application/pdf';
+                }
+            });
+        }
+        
+        function setupFileDropZone(element, callback) {
+            element.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                element.classList.add('drag-over');
+            });
+            
+            element.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                element.classList.add('drag-over');
+            });
+            
+            element.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                // Only remove drag-over if we're leaving the element entirely
+                if (!element.contains(e.relatedTarget)) {
+                    element.classList.remove('drag-over');
+                }
+            });
+            
+            element.addEventListener('drop', (e) => {
+                e.preventDefault();
+                element.classList.remove('drag-over');
+                handleFileSelect(e, callback);
+            });
+        }
+        
+        // Global drag and drop functionality
+        function setupGlobalDragDrop() {
+            let dragCounter = 0;
+            
+            document.addEventListener('dragenter', (e) => {
+                e.preventDefault();
+                dragCounter++;
+                if (currentTool && dragCounter === 1) {
+                    showGlobalDropOverlay();
+                }
+            });
+            
+            document.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dragCounter--;
+                if (dragCounter === 0) {
+                    hideGlobalDropOverlay();
+                }
+            });
+            
+            document.addEventListener('dragover', (e) => {
+                e.preventDefault();
+            });
+            
+            document.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dragCounter = 0;
+                hideGlobalDropOverlay();
+                
+                if (currentTool && !e.target.closest('.file-drop-zone')) {
+                    const files = Array.from(e.dataTransfer.files);
+                    if (files.length > 0) {
+                        const validFiles = filterValidFiles(files);
+                        if (validFiles.length > 0) {
+                            currentFiles = [...currentFiles, ...validFiles];
+                            updateFileList(currentFiles);
+                            showToast(`${validFiles.length} file(s) added via drag & drop!`);
+                        }
+                        if (validFiles.length !== files.length) {
+                            const invalidCount = files.length - validFiles.length;
+                            showToast(`${invalidCount} file(s) skipped - invalid format`, 'warning');
+                        }
+                    }
+                }
+            });
+        }
+        
+        function showGlobalDropOverlay() {
+            let overlay = document.getElementById('global-drop-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'global-drop-overlay';
+                overlay.className = 'fixed inset-0 bg-blue-600/20 backdrop-blur-sm z-50 flex items-center justify-center transition-all duration-300';
+                overlay.innerHTML = `
+                    <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl border-4 border-dashed border-blue-500 text-center max-w-md mx-4 transform scale-95 hover:scale-100 transition-transform">
+                        <i class="fas fa-cloud-upload-alt text-6xl text-blue-500 mb-4 animate-bounce"></i>
+                        <h3 class="text-2xl font-bold text-gray-800 dark:text-white mb-2">Drop Files Here</h3>
+                        <p class="text-gray-600 dark:text-gray-300">Release to add files to <span class="font-semibold text-blue-600">${getToolDisplayName()}</span></p>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            }
+            overlay.classList.remove('hidden');
+            setTimeout(() => overlay.style.opacity = '1', 10);
+        }
+        
+        function hideGlobalDropOverlay() {
+            const overlay = document.getElementById('global-drop-overlay');
+            if (overlay) {
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.classList.add('hidden'), 300);
+            }
+        }
+        
+        function getToolDisplayName() {
+            const names = {
+                'image-to-pdf': 'Image to PDF Converter',
+                'pdf-to-images': 'PDF to Images Converter',
+                'image-compressor': 'Image Compressor',
+                'image-resizer': 'Image Resizer',
+                'format-converter': 'Format Converter',
+                'batch-processor': 'Batch Processor'
+            };
+            return names[currentTool] || 'Current Tool';
+        }
+        
+        // Image Slider Functions - Removed to fix errors
+        function createImageSlider(files) {
+            return new Promise((resolve) => {
+                // Simply resolve with empty string as we've removed the slider functionality
+                resolve('');
+            });
+        }
+        
+        // Tool management
+        function openTool(toolName) {
+            currentTool = toolName;
+            const modal = document.getElementById('tool-modal');
+            const title = document.getElementById('tool-title');
+            const content = document.getElementById('tool-content');
+            
+            // Set title
+            const titles = {
+                'image-to-pdf': 'Image to PDF Converter',
+                'pdf-to-images': 'PDF to Images Converter',
+                'image-compressor': 'Image Compressor',
+                'image-resizer': 'Image Resizer',
+                'format-converter': 'Format Converter',
+                'batch-processor': 'Batch Processor'
+            };
+            
+            title.textContent = titles[toolName] || 'Tool Workspace';
+            
+            // Load tool content
+            content.innerHTML = getToolContent(toolName);
+            
+            // Show modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            
+            // Initialize tool
+            setTimeout(() => initializeTool(toolName), 100);
+            
+            // Show success toast for better UX
+            showToast(`Opening ${titles[toolName]}...`, 'success', 2000);
+        }
+        
+        function closeTool() {
+            const modal = document.getElementById('tool-modal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            
+            // Reset state
+            currentFiles = [];
+            processedFiles = [];
+            currentTool = '';
+            currentSlideIndex = 0;
+            imageDataUrls = [];
+        }
+        
+        function getToolContent(toolName) {
+            const commonFileInput = `
+                <div class="file-drop-zone rounded-xl p-8 text-center mb-6">
+                    <div class="file-input-wrapper">
+                        <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                        <p class="text-lg font-medium mb-2">Drag & drop files here</p>
+                        <p class="text-gray-500 mb-4">or click to browse</p>
+                        <button type="button" onclick="document.getElementById('file-input').click()" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                            Choose Files
+                        </button>
+                        <input type="file" id="file-input" multiple accept="image/*,.pdf" class="hidden">
+                    </div>
+                </div>
+                <!-- Image slider container removed -->
+                <div id="file-preview" class="hidden mb-6">
+                    <h3 class="text-lg font-semibold mb-4">Selected Files</h3>
+                    <div id="file-list" class="space-y-2 mb-4"></div>
+                    <div id="image-preview-grid" class="image-preview-grid"></div>
+                </div>
+            `;
+            
+            const controls = {
+                'batch-processor': `
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold mb-4">Individual Image Settings</h3>
+                        <div id="batch-images" class="grid gap-6 md:grid-cols-2">
+                            <!-- Individual image controls will be added here -->
+                        </div>
+                    </div>
+                `,
+                'pdf-to-images': `
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Output Format</label>
+                            <select id="pdf-extract-format" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                                <option value="jpeg">JPEG</option>
+                                <option value="png">PNG</option>
+                                <option value="webp">WebP</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Quality</label>
+                            <input type="range" id="pdf-extract-quality" min="10" max="100" value="90" class="w-full">
+                            <div class="text-center text-sm text-gray-500 mt-1">
+                                <span id="pdf-extract-quality-value">90</span>%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">DPI (Resolution)</label>
+                        <select id="pdf-extract-dpi" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                            <option value="96">96 DPI (Screen Resolution)</option>
+                            <option value="150">150 DPI (Medium Quality)</option>
+                            <option value="300">300 DPI (High Quality)</option>
+                        </select>
+                    </div>
+                `,
+                'image-to-pdf': `
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Page Layout</label>
+                            <select id="pdf-layout" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                                <option value="portrait">Portrait</option>
+                                <option value="landscape">Landscape</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Page Size</label>
+                            <select id="pdf-size" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                                <option value="a4">A4</option>
+                                <option value="letter">Letter</option>
+                                <option value="legal">Legal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Margin (px)</label>
+                        <input type="range" id="pdf-margin" min="0" max="50" value="10" class="w-full">
+                        <div class="text-center text-sm text-gray-500 mt-1">
+                            <span id="margin-value">10</span>px
+                        </div>
+                    </div>
+                `,
+                'image-compressor': `
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Quality</label>
+                        <input type="range" id="quality-slider" min="10" max="100" value="80" class="w-full">
+                        <div class="text-center text-sm text-gray-500 mt-1">
+                            <span id="quality-value">80</span>%
+                        </div>
+                    </div>
+                    <div id="compression-stats" class="hidden bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6">
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-sm text-gray-500">Original</div>
+                                <div id="original-size" class="font-bold">-</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500">Compressed</div>
+                                <div id="compressed-size" class="font-bold">-</div>
+                            </div>
+                            <div>
+                                <div class="text-sm text-gray-500">Saved</div>
+                                <div id="saved-percentage" class="font-bold text-green-600">-</div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                'image-resizer': `
+                    <div class="grid md:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Width (px)</label>
+                            <input type="number" id="resize-width" placeholder="800" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Height (px)</label>
+                            <input type="number" id="resize-height" placeholder="600" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="flex items-center">
+                            <input type="checkbox" id="maintain-aspect" checked class="mr-2">
+                            <span class="text-sm">Maintain aspect ratio</span>
+                        </label>
+                    </div>
+                `,
+                'format-converter': `
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Output Format</label>
+                        <select id="output-format" class="w-full p-3 border dark:border-gray-600 rounded-lg dark:bg-gray-700">
+                            <option value="jpeg">JPEG</option>
+                            <option value="png">PNG</option>
+                            <option value="webp">WebP</option>
+                            <option value="avif">AVIF</option>
+                            <option value="bmp">BMP</option>
+                            <option value="tiff">TIFF</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium mb-2">Quality</label>
+                        <input type="range" id="convert-quality" min="10" max="100" value="90" class="w-full">
+                        <div class="text-center text-sm text-gray-500 mt-1">
+                            <span id="convert-quality-value">90</span>%
+                        </div>
+                    </div>
+                `
+            };
+            
+            return `
+                ${commonFileInput}
+                ${controls[toolName] || ''}
+                <div class="flex space-x-4">
+                    <button id="process-btn" class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                        <i class="fas fa-cog mr-2"></i>
+                        Process Files
+                    </button>
+                    <button id="download-btn" class="flex-1 bg-green-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-green-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed hidden" disabled>
+                        <i class="fas fa-download mr-2"></i>
+                        Download All
+                    </button>
+                </div>
+                <div id="results" class="mt-6 hidden">
+                    <h3 class="text-lg font-semibold mb-4">Processed Files</h3>
+                    <div id="results-list" class="space-y-2"></div>
+                </div>
+            `;
+        }
+        
+        function initializeTool(toolName) {
+            const fileInput = document.getElementById('file-input');
+            const fileDropZone = document.querySelector('.file-drop-zone');
+            const processBtn = document.getElementById('process-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            
+            // Setup file input
+            if (fileInput) {
+                fileInput.addEventListener('change', (e) => {
+                    handleFileSelect(e, updateFileList);
+                });
+            }
+            
+            // Setup drop zone
+            if (fileDropZone) {
+                setupFileDropZone(fileDropZone, updateFileList);
+            }
+            
+            // Setup process button
+            if (processBtn) {
+                processBtn.addEventListener('click', () => processFiles(toolName));
+            }
+            
+            // Setup download button
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', downloadAllFiles);
+            }
+            
+            // Setup tool-specific controls
+            setupToolControls(toolName);
+        }
+        
+        function setupToolControls(toolName) {
+            switch (toolName) {
+                case 'image-compressor':
+                    const qualitySlider = document.getElementById('quality-slider');
+                    const qualityValue = document.getElementById('quality-value');
+                    if (qualitySlider && qualityValue) {
+                        qualitySlider.addEventListener('input', (e) => {
+                            qualityValue.textContent = e.target.value;
+                        });
+                    }
+                    break;
+                    
+                case 'image-to-pdf':
+                    const marginSlider = document.getElementById('pdf-margin');
+                    const marginValue = document.getElementById('margin-value');
+                    if (marginSlider && marginValue) {
+                        marginSlider.addEventListener('input', (e) => {
+                            marginValue.textContent = e.target.value;
+                        });
+                    }
+                    break;
+                    
+                case 'pdf-to-images':
+                    const pdfExtractQualitySlider = document.getElementById('pdf-extract-quality');
+                    const pdfExtractQualityValue = document.getElementById('pdf-extract-quality-value');
+                    if (pdfExtractQualitySlider && pdfExtractQualityValue) {
+                        pdfExtractQualitySlider.addEventListener('input', (e) => {
+                            pdfExtractQualityValue.textContent = e.target.value;
+                        });
+                    }
+                    break;
+                    
+                case 'format-converter':
+                    const convertQualitySlider = document.getElementById('convert-quality');
+                    const convertQualityValue = document.getElementById('convert-quality-value');
+                    if (convertQualitySlider && convertQualityValue) {
+                        convertQualitySlider.addEventListener('input', (e) => {
+                            convertQualityValue.textContent = e.target.value;
+                        });
+                    }
+                    break;
+                    
+                case 'image-resizer':
+                    const widthInput = document.getElementById('resize-width');
+                    const heightInput = document.getElementById('resize-height');
+                    const maintainAspect = document.getElementById('maintain-aspect');
+                    
+                    if (widthInput && heightInput && maintainAspect) {
+                        let aspectRatio = 1;
+                        
+                        widthInput.addEventListener('input', (e) => {
+                            if (maintainAspect.checked && currentFiles.length > 0) {
+                                const newHeight = Math.round(e.target.value / aspectRatio);
+                                heightInput.value = newHeight;
+                            }
+                        });
+                        
+                        heightInput.addEventListener('input', (e) => {
+                            if (maintainAspect.checked && currentFiles.length > 0) {
+                                const newWidth = Math.round(e.target.value * aspectRatio);
+                                widthInput.value = newWidth;
+                            }
+                        });
+                    }
+                    break;
+            }
+        }
+        
+        async function updateFileList(files) {
+            currentFiles = files;
+            const filePreview = document.getElementById('file-preview');
+            const fileList = document.getElementById('file-list');
+            const processBtn = document.getElementById('process-btn');
+            const imagePreviewGrid = document.getElementById('image-preview-grid');
+            
+            if (files.length > 0) {
+                filePreview.classList.remove('hidden');
+                fileList.innerHTML = '';
+                
+                // Get image files
+                const imageFiles = files.filter(file => file.type.startsWith('image/'));
+                
+                // Create file list with enhanced styling and animations
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'file-item flex items-start justify-between bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border border-gray-200 dark:border-gray-600 transition-all duration-200 hover:shadow-md hover:border-blue-300 dark:hover:border-blue-500';
+                    fileItem.style.opacity = '0';
+                    fileItem.style.transform = 'translateY(10px)';
+                    
+                    const fileIcon = getFileIcon(file.type);
+                    const fileTypeClass = file.type.startsWith('image/') ? 'text-green-600' : 
+                                         file.type === 'application/pdf' ? 'text-red-600' : 'text-blue-600';
+                    
+                    fileItem.innerHTML = `
+                        <div class="flex items-start flex-1 min-w-0">
+                            <div class="flex-shrink-0 w-12 h-12 bg-white dark:bg-gray-600 rounded-lg flex items-center justify-center mr-4 shadow-sm">
+                                <i class="fas ${fileIcon} ${fileTypeClass} text-lg"></i>
+                            </div>
+                            <div class="flex-1 min-w-0 overflow-hidden">
+                                <div class="font-medium text-gray-900 dark:text-white break-words leading-tight">${file.name}</div>
+                                <div class="text-sm text-gray-500 dark:text-gray-400 flex flex-wrap items-center mt-1 gap-1">
+                                    <span>${formatFileSize(file.size)}</span>
+                                    <span class="hidden sm:inline">•</span>
+                                    <span class="capitalize">${file.type.split('/')[1] || 'Unknown'}</span>
+                                    ${file.lastModified ? `<span class="hidden sm:inline">•</span><span>${new Date(file.lastModified).toLocaleDateString()}</span>` : ''}
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="removeFile(${index})" class="btn-enhanced flex-shrink-0 ml-4 p-2 text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-all duration-200">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    fileList.appendChild(fileItem);
+                    
+                    // Animate in
+                    setTimeout(() => {
+                        fileItem.style.opacity = '1';
+                        fileItem.style.transform = 'translateY(0)';
+                    }, index * 50);
+                });
+                
+                // Create enhanced image preview grid
+                imagePreviewGrid.innerHTML = '';
+                let imageLoadCount = 0;
+                
+                files.forEach((file, index) => {
+                    if (file.type.startsWith('image/')) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            const previewItem = document.createElement('div');
+                            previewItem.className = 'image-preview-item group relative overflow-hidden';
+                            previewItem.style.opacity = '0';
+                            previewItem.style.transform = 'scale(0.9)';
+                            
+                            previewItem.innerHTML = `
+                                <div class="relative w-full h-full">
+                                    <img src="${e.target.result}" alt="${file.name}" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                                    <button class="remove-btn absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-all duration-200 hover:bg-red-600 hover:scale-110 flex items-center justify-center" onclick="event.stopPropagation(); removeFile(${index})">
+                                        <i class="fas fa-times text-xs"></i>
+                                    </button>
+                                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3 transform translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                                        <div class="file-name text-white text-sm font-medium truncate">${file.name}</div>
+                                        <div class="text-white/80 text-xs mt-1">${formatFileSize(file.size)}</div>
+                                    </div>
+                                </div>
+                            `;
+                            
+                            imagePreviewGrid.appendChild(previewItem);
+                            
+                            // Animate in with stagger
+                            setTimeout(() => {
+                                previewItem.style.opacity = '1';
+                                previewItem.style.transform = 'scale(1)';
+                            }, imageLoadCount * 100);
+                            
+                            imageLoadCount++;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+                
+                // Generate batch processor controls if needed
+                if (currentTool === 'batch-processor') {
+                    generateBatchControls(imageFiles);
+                }
+                
+                processBtn.disabled = false;
+            } else {
+                filePreview.classList.add('hidden');
+                processBtn.disabled = true;
+            }
+        }
+        
+        function generateBatchControls(imageFiles) {
+            const batchContainer = document.getElementById('batch-images');
+            if (!batchContainer) return;
+            
+            batchContainer.innerHTML = '';
+            
+            imageFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const controlCard = document.createElement('div');
+                    controlCard.className = 'bg-white dark:bg-gray-700 rounded-lg p-4 border dark:border-gray-600';
+                    controlCard.innerHTML = `
+                        <div class="flex flex-col space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <img src="${e.target.result}" alt="${file.name}" class="w-16 h-16 object-cover rounded-lg">
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-sm font-medium truncate">${file.name}</h4>
+                                    <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+                                </div>
+                                <button onclick="removeBatchFile(${index})" class="text-red-500 hover:text-red-700 p-1">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Output Format</label>
+                                    <select id="batch-format-${index}" class="w-full p-2 text-sm border dark:border-gray-600 rounded dark:bg-gray-600">
+                                        <option value="jpeg">JPEG</option>
+                                        <option value="png">PNG</option>
+                                        <option value="webp">WebP</option>
+                                        <option value="avif">AVIF</option>
+                                    </select>
+                                </div>
+                                
+                                <div>
+                                    <label class="block text-xs font-medium mb-1">Quality: <span id="batch-quality-value-${index}">80</span>%</label>
+                                    <input type="range" id="batch-quality-${index}" min="10" max="100" value="80" class="w-full" 
+                                           oninput="document.getElementById('batch-quality-value-${index}').textContent = this.value">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    batchContainer.appendChild(controlCard);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        function removeBatchFile(index) {
+            removeFile(index);
+        }
+        
+        function removeFile(index) {
+            currentFiles.splice(index, 1);
+            updateFileList(currentFiles);
+        }
+        
+        function getFileIcon(mimeType) {
+            if (mimeType.startsWith('image/')) return 'fa-image';
+            if (mimeType === 'application/pdf') return 'fa-file-pdf';
+            return 'fa-file';
+        }
+        
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Enhanced processing functions with better feedback
+        async function processFiles(toolName) {
+            if (currentFiles.length === 0) {
+                showToast('No files selected for processing', 'warning');
+                return;
+            }
+            
+            const toolDisplayName = getToolDisplayName(toolName);
+            showProgress(true, `Initializing ${toolDisplayName}...`);
+            processedFiles = [];
+            
+            const processBtn = document.getElementById('process-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            
+            // Enhanced button state with animation
+            processBtn.disabled = true;
+            processBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+            processBtn.classList.add('opacity-75', 'cursor-not-allowed');
+            
+            const startTime = Date.now();
+            let processedCount = 0;
+            
+            try {
+                showToast(`Starting ${toolDisplayName} for ${currentFiles.length} file(s)`, 'info', 2000);
+                
+                for (let i = 0; i < currentFiles.length; i++) {
+                    const file = currentFiles[i];
+                    const progressPercent = (i / currentFiles.length) * 90; // Reserve 10% for final steps
+                    
+                    updateProgress(progressPercent, `Processing ${file.name}... (${i + 1}/${currentFiles.length})`);
+                    
+                    let processedFile;
+                    
+                    try {
+                        switch (toolName) {
+                            case 'image-to-pdf':
+                                // Skip individual processing for image-to-pdf as we'll create a combined PDF later
+                                if (file.type.startsWith('image/')) {
+                                    processedFile = file;
+                                    updateProgress(progressPercent + (90 / currentFiles.length) * 0.5, `Preparing ${file.name} for PDF...`);
+                                }
+                                break;
+                            case 'pdf-to-images':
+                                if (file.type === 'application/pdf') {
+                                    updateProgress(progressPercent + (90 / currentFiles.length) * 0.3, `Extracting images from ${file.name}...`);
+                                    const extractedImages = await extractImagesFromPDF(file);
+                                    if (extractedImages && extractedImages.length > 0) {
+                                        processedFiles = [...processedFiles, ...extractedImages];
+                                        processedCount += extractedImages.length;
+                                        updateProgress(progressPercent + (90 / currentFiles.length) * 0.8, `Extracted ${extractedImages.length} images from ${file.name}`);
+                                    }
+                                }
+                                break;
+                            case 'image-compressor':
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.3, `Compressing ${file.name}...`);
+                                processedFile = await compressImage(file);
+                                if (processedFile) {
+                                    const compressionRatio = ((file.size - processedFile.size) / file.size * 100).toFixed(1);
+                                    updateProgress(progressPercent + (90 / currentFiles.length) * 0.8, `Compressed ${file.name} (${compressionRatio}% reduction)`);
+                                }
+                                break;
+                            case 'image-resizer':
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.3, `Resizing ${file.name}...`);
+                                processedFile = await resizeImage(file);
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.8, `Resized ${file.name}`);
+                                break;
+                            case 'format-converter':
+                                const outputFormat = document.getElementById('output-format')?.value || 'jpeg';
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.3, `Converting ${file.name} to ${outputFormat.toUpperCase()}...`);
+                                processedFile = await convertImageFormat(file);
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.8, `Converted ${file.name} to ${outputFormat.toUpperCase()}`);
+                                break;
+                            case 'batch-processor':
+                                const batchFormat = document.getElementById(`batch-format-${i}`)?.value || 'jpeg';
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.3, `Batch processing ${file.name} to ${batchFormat.toUpperCase()}...`);
+                                processedFile = await processBatchImage(file, i);
+                                updateProgress(progressPercent + (90 / currentFiles.length) * 0.8, `Processed ${file.name}`);
+                                break;
+                            default:
+                                processedFile = file;
+                        }
+                        
+                        if (processedFile && toolName !== 'pdf-to-images') {
+                            processedFiles.push(processedFile);
+                            processedCount++;
+                        }
+                        
+                    } catch (fileError) {
+                        console.error(`Error processing ${file.name}:`, fileError);
+                        showToast(`Failed to process ${file.name}`, 'error', 2000);
+                    }
+                }
+                
+                updateProgress(95, 'Finalizing processing...');
+                
+                if (toolName === 'image-to-pdf' && processedFiles.length > 0) {
+                    updateProgress(97, 'Creating PDF from images...');
+                    const combinedPDF = await createPDFFromImages(currentFiles);
+                    processedFiles = [combinedPDF];
+                    processedCount = 1;
+                }
+                
+                updateProgress(100, 'Processing complete!');
+                
+                const processingTime = ((Date.now() - startTime) / 1000).toFixed(1);
+                showResults();
+                showToast(`Successfully processed ${processedCount} file(s) in ${processingTime}s!`, 'success', 4000);
+                
+            } catch (error) {
+                console.error('Processing error:', error);
+                showToast(`Error during ${toolDisplayName}: ${error.message || 'Please try again.'}`, 'error', 5000);
+                updateProgress(0);
+            } finally {
+                setTimeout(() => {
+                    showProgress(false);
+                }, 1000);
+                
+                // Reset button state with animation
+                processBtn.disabled = false;
+                processBtn.innerHTML = '<i class="fas fa-cog mr-2"></i>Process Files';
+                processBtn.classList.remove('opacity-75', 'cursor-not-allowed');
+                
+                if (processedFiles.length > 0) {
+                    downloadBtn.classList.remove('hidden');
+                    downloadBtn.disabled = false;
+                    
+                    // Add success animation to download button
+                    downloadBtn.classList.add('animate-pulse');
+                    setTimeout(() => downloadBtn.classList.remove('animate-pulse'), 2000);
+                }
+            }
+        }
+        
+        // Batch processing function
+        async function processBatchImage(file, index) {
+            if (!file.type.startsWith('image/')) return file;
+            
+            const img = await loadImage(file);
+            const formatSelect = document.getElementById(`batch-format-${index}`);
+            const qualitySlider = document.getElementById(`batch-quality-${index}`);
+            
+            if (!formatSelect || !qualitySlider) return file;
+            
+            const format = formatSelect.value;
+            const quality = qualitySlider.value / 100;
+            
+            const canvas = createCanvas(img.width, img.height);
+            const ctx = canvas.getContext('2d');
+            
+            // Set white background for JPEG
+            if (format === 'jpeg') {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            ctx.drawImage(img, 0, 0);
+            
+            const mimeType = `image/${format}`;
+            const extension = format === 'jpeg' ? 'jpg' : format;
+            const newFileName = file.name.replace(/\.[^/.]+$/, `.${extension}`);
+            
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const newFile = new File([blob], newFileName, { type: mimeType });
+                    resolve(newFile);
+                }, mimeType, quality);
+            });
+        }
+        
+        // Image processing functions
+        function createCanvas(width, height) {
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            return canvas;
+        }
+        
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.onload = () => resolve(img);
+                img.onerror = reject;
+                img.src = URL.createObjectURL(file);
+            });
+        }
+        
+        async function compressImage(file) {
+            const img = await loadImage(file);
+            const quality = document.getElementById('quality-slider').value / 100;
+            
+            const canvas = createCanvas(img.width, img.height);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const newFile = new File([blob], file.name, { type: file.type });
+                    updateCompressionStats(file.size, blob.size);
+                    resolve(newFile);
+                }, file.type, quality);
+            });
+        }
+        
+        function updateCompressionStats(originalSize, compressedSize) {
+            const originalElement = document.getElementById('original-size');
+            const compressedElement = document.getElementById('compressed-size');
+            const savedElement = document.getElementById('saved-percentage');
+            const statsContainer = document.getElementById('compression-stats');
+            
+            if (originalElement && compressedElement && savedElement) {
+                const savedPercentage = Math.round(((originalSize - compressedSize) / originalSize) * 100);
+                
+                originalElement.textContent = formatFileSize(originalSize);
+                compressedElement.textContent = formatFileSize(compressedSize);
+                savedElement.textContent = `${savedPercentage}%`;
+                
+                statsContainer.classList.remove('hidden');
+            }
+        }
+        
+        async function resizeImage(file) {
+            const img = await loadImage(file);
+            const width = parseInt(document.getElementById('resize-width').value) || img.width;
+            const height = parseInt(document.getElementById('resize-height').value) || img.height;
+            
+            const canvas = createCanvas(width, height);
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const newFile = new File([blob], file.name, { type: file.type });
+                    resolve(newFile);
+                }, file.type, 0.9);
+            });
+        }
+        
+        async function convertImageFormat(file) {
+            const img = await loadImage(file);
+            const format = document.getElementById('output-format').value;
+            const quality = document.getElementById('convert-quality').value / 100;
+            
+            const canvas = createCanvas(img.width, img.height);
+            const ctx = canvas.getContext('2d');
+            
+            // Set white background for JPEG
+            if (format === 'jpeg') {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+            
+            ctx.drawImage(img, 0, 0);
+            
+            const mimeType = `image/${format}`;
+            const extension = format === 'jpeg' ? 'jpg' : format;
+            const newFileName = file.name.replace(/\.[^/.]+$/, `.${extension}`);
+            
+            return new Promise((resolve) => {
+                canvas.toBlob((blob) => {
+                    const newFile = new File([blob], newFileName, { type: mimeType });
+                    resolve(newFile);
+                }, mimeType, quality);
+            });
+        }
+        
+        async function createPDFFromImages(files) {
+            const { jsPDF } = window.jspdf;
+            const layout = document.getElementById('pdf-layout').value;
+            const size = document.getElementById('pdf-size').value;
+            const margin = parseInt(document.getElementById('pdf-margin').value);
+            
+            const pdf = new jsPDF(layout, 'pt', size);
+            
+            for (let i = 0; i < files.length; i++) {
+                if (i > 0) pdf.addPage();
+                
+                const img = await loadImage(files[i]);
+                const canvas = createCanvas(img.width, img.height);
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0);
+                
+                const imgData = canvas.toDataURL('image/jpeg', 0.8);
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+                
+                const imgWidth = pageWidth - (margin * 2);
+                const imgHeight = (img.height * imgWidth) / img.width;
+                
+                const x = margin;
+                const y = margin;
+                
+                pdf.addImage(imgData, 'JPEG', x, y, imgWidth, Math.min(imgHeight, pageHeight - (margin * 2)));
+            }
+            
+            const pdfBlob = pdf.output('blob');
+            return new File([pdfBlob], 'converted-images.pdf', { type: 'application/pdf' });
+        }
+        
+        async function extractImagesFromPDF(file) {
+            try {
+                // Load the PDF file
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                const numPages = pdf.numPages;
+                
+                const format = document.getElementById('pdf-extract-format').value;
+                const quality = document.getElementById('pdf-extract-quality').value / 100;
+                const dpi = parseInt(document.getElementById('pdf-extract-dpi').value);
+                
+                // Calculate scale factor based on DPI (72 is the default PDF DPI)
+                const scaleFactor = dpi / 72;
+                
+                const extractedImages = [];
+                
+                // Process each page
+                for (let i = 1; i <= numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    
+                    // Get viewport at desired DPI
+                    const viewport = page.getViewport({ scale: scaleFactor });
+                    
+                    // Create canvas for rendering
+                    const canvas = createCanvas(viewport.width, viewport.height);
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Render PDF page to canvas
+                    await page.render({
+                        canvasContext: ctx,
+                        viewport: viewport
+                    }).promise;
+                    
+                    // Set white background for JPEG
+                    if (format === 'jpeg') {
+                        const tempCanvas = createCanvas(viewport.width, viewport.height);
+                        const tempCtx = tempCanvas.getContext('2d');
+                        tempCtx.fillStyle = 'white';
+                        tempCtx.fillRect(0, 0, viewport.width, viewport.height);
+                        tempCtx.drawImage(canvas, 0, 0);
+                        canvas.width = viewport.width;
+                        canvas.height = viewport.height;
+                        ctx.drawImage(tempCanvas, 0, 0);
+                    }
+                    
+                    // Convert canvas to blob
+                    const mimeType = `image/${format}`;
+                    const extension = format === 'jpeg' ? 'jpg' : format;
+                    const fileName = `page-${i}.${extension}`;
+                    
+                    const blob = await new Promise(resolve => {
+                        canvas.toBlob(blob => resolve(blob), mimeType, quality);
+                    });
+                    
+                    const imageFile = new File([blob], fileName, { type: mimeType });
+                    extractedImages.push(imageFile);
+                }
+                
+                return extractedImages;
+            } catch (error) {
+                console.error('Error extracting images from PDF:', error);
+                showToast('Error extracting images from PDF. Please try again.', 'error');
+                return [];
+            }
+        }
+        
+        // Results and download functions
+        function showResults() {
+            const results = document.getElementById('results');
+            const resultsList = document.getElementById('results-list');
+            
+            results.classList.remove('hidden');
+            resultsList.innerHTML = '';
+            
+            processedFiles.forEach((file, index) => {
+                const resultItem = document.createElement('div');
+                resultItem.className = 'flex items-center justify-between bg-gray-50 dark:bg-gray-700 p-3 rounded-lg';
+                resultItem.innerHTML = `
+                    <div class="flex items-center">
+                        <i class="fas ${getFileIcon(file.type)} text-green-600 mr-3"></i>
+                        <div>
+                            <div class="font-medium">${file.name}</div>
+                            <div class="text-sm text-gray-500">${formatFileSize(file.size)}</div>
+                        </div>
+                    </div>
+                    <button onclick="downloadSingleFile(${index})" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-download mr-1"></i>
+                        Download
+                    </button>
+                `;
+                resultsList.appendChild(resultItem);
+            });
+        }
+        
+        function downloadSingleFile(index) {
+            const file = processedFiles[index];
+            const url = URL.createObjectURL(file);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        async function downloadAllFiles() {
+            if (processedFiles.length === 1) {
+                downloadSingleFile(0);
+                return;
+            }
+            
+            // Create ZIP file
+            const zip = new JSZip();
+            
+            processedFiles.forEach(file => {
+                zip.file(file.name, file);
+            });
+            
+            showProgress(true);
+            
+            try {
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                const url = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'processed-files.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast('Files downloaded successfully!');
+            } catch (error) {
+                console.error('Download error:', error);
+                showToast('Error downloading files. Please try again.', 'error');
+            } finally {
+                showProgress(false);
+            }
+        }
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch (e.key.toLowerCase()) {
+                    case 'o':
+                        e.preventDefault();
+                        if (currentTool) {
+                            const fileInput = document.getElementById('file-input');
+                            if (fileInput) fileInput.click();
+                        }
+                        break;
+                    case 'p':
+                        e.preventDefault();
+                        if (currentTool) {
+                            const processBtn = document.getElementById('process-btn');
+                            if (processBtn && !processBtn.disabled) processBtn.click();
+                        }
+                        break;
+                    case 's':
+                        e.preventDefault();
+                        if (currentTool && processedFiles.length > 0) {
+                            downloadAllFiles();
+                        }
+                        break;
+                }
+            }
+            
+            if (e.key === 'Escape' && currentTool) {
+                closeTool();
+            }
+            
+            // Arrow keys navigation removed
+        });
+        
+        // Close modal on background click
+        document.getElementById('tool-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'tool-modal') {
+                closeTool();
+            }
+        });
+        
+        // Initialize PDF.js worker
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+        
+        // PWA Service Worker (basic implementation)
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                const swCode = `
+                    const CACHE_NAME = 'imagepdf-toolkit-v1';
+                    const urlsToCache = ['/'];
+                    
+                    self.addEventListener('install', (event) => {
+                        event.waitUntil(
+                            caches.open(CACHE_NAME)
+                                .then((cache) => cache.addAll(urlsToCache))
+                        );
+                    });
+                    
+                    self.addEventListener('fetch', (event) => {
+                        event.respondWith(
+                            caches.match(event.request)
+                                .then((response) => response || fetch(event.request))
+                        );
+                    });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(() => console.log('Service Worker registered'))
+                    .catch(() => console.log('Service Worker registration failed'));
+            });
+        }
+    </script>
+</body>
+</html>
