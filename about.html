@@ -1,78 +1,572 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About Us | ImagePDF Toolkit</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | ImagePDF Toolkit - Professional Image & PDF Tools</title>
+    <meta name="description" content="Learn about ImagePDF Toolkit - a professional, privacy-first suite of image and PDF tools. All processing done in your browser with complete privacy.">
+    <meta name="keywords" content="about ImagePDF Toolkit, privacy-first tools, client-side processing, image tools, pdf tools">
+    <meta name="author" content="ImagePDF Toolkit">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="About Us | ImagePDF Toolkit">
+    <meta property="og:description" content="Learn about ImagePDF Toolkit - a professional, privacy-first suite of image and PDF tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://techuhat.github.io/toolkit/about.html">
+    <meta property="og:site_name" content="ImagePDF Toolkit">
+    
+    <!-- PERFORMANCE: Use only minified, purged Tailwind CSS for used classes -->
+    <link rel="stylesheet" href="styles.min.css">
+    <link rel="stylesheet" href="tailwind-complete.css">
+    <link rel="stylesheet" href="css/all.min.css">
+    
+    <style>
+        .glass-effect {
+            background: rgba(248, 250, 252, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+        }
+        
+        .dark .glass-effect {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .dark .gradient-bg {
+            background: linear-gradient(135deg, #4c1d95 0%, #1e1b4b 100%);
+        }
+        
+        .theme-transition {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .dark {
+            color-scheme: dark;
+        }
+        
+        .dark body {
+            background-color: #111827 !important;
+            color: #f9fafb !important;
+        }
+        
+        .dark .bg-white {
+            background-color: #1f2937 !important;
+        }
+        
+        .dark .bg-gray-50 {
+            background-color: #111827 !important;
+        }
+        
+        .dark .text-gray-900 {
+            color: #f9fafb !important;
+        }
+        
+        .dark .text-gray-600 {
+            color: #d1d5db !important;
+        }
+        
+        .dark .text-gray-500 {
+            color: #9ca3af !important;
+        }
+        
+        .btn-professional {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-professional::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-professional:hover::before {
+            left: 100%;
+        }
+        
+        /* Day/Night Toggle Switch Styles */
+        .toggleWrapper {
+            position: relative;
+            overflow: hidden;
+            padding: 0;
+            display: inline-block;
+        }
+
+        .toggleWrapper input {
+            position: absolute;
+            left: -9999px;
+            opacity: 0;
+        }
+
+        .toggle {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            width: 45px;
+            height: 25px;
+            background-color: #83D8FF;
+            border-radius: 84px;
+            transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+        }
+
+        .toggle__handler {
+            display: inline-block;
+            position: relative;
+            z-index: 1;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background-color: #FFCF96;
+            border-radius: 50px;
+            box-shadow: 0 2px 6px rgba(0,0,0,.3);
+            transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: rotate(-45deg);
+        }
+
+        .crater {
+            position: absolute;
+            background-color: #E8CDA5;
+            opacity: 0;
+            transition: opacity 200ms ease-in-out;
+            border-radius: 100%;
+        }
+
+        .crater--1 {
+            top: 9px;
+            left: 5px;
+            width: 2px;
+            height: 2px;
+        }
+
+        .crater--2 {
+            top: 14px;
+            left: 11px;
+            width: 3px;
+            height: 3px;
+        }
+
+        .crater--3 {
+            top: 5px;
+            left: 12px;
+            width: 4px;
+            height: 4px;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #ffffff;
+            transition: all 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+            border-radius: 50%;
+        }
+
+        .star--1 {
+            top: 5px;
+            left: 17px;
+            z-index: 0;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--2 {
+            top: 9px;
+            left: 14px;
+            z-index: 1;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--3 {
+            top: 13px;
+            left: 17px;
+            z-index: 0;
+            width: 15px;
+            height: 2px;
+        }
+
+        .star--4 {
+            top: 6px;
+            left: 32px;
+            z-index: 0;
+            width: 2px;
+            height: 2px;
+        }
+
+        .star--5 {
+            top: 15px;
+            left: 35px;
+            z-index: 0;
+            width: 3px;
+            height: 3px;
+        }
+
+        .star--6 {
+            top: 3px;
+            left: 40px;
+            z-index: 0;
+            width: 2px;
+            height: 2px;
+        }
+
+        .toggleWrapper input:checked + .toggle {
+            background-color: #749DD6;
+        }
+
+        .toggleWrapper input:checked + .toggle:before {
+            color: #749ED7;
+        }
+
+        .toggleWrapper input:checked + .toggle .toggle__handler {
+            background-color: #FFE5B5;
+            transform: translate3d(20px, 0, 0) rotate(0);
+        }
+
+        .toggleWrapper input:checked + .toggle .crater {
+            opacity: 1;
+        }
+
+        .toggleWrapper input:checked + .toggle .star--1 {
+            width: 2px;
+            height: 2px;
+        }
+
+        .toggleWrapper input:checked + .toggle .star--2 {
+            width: 4px;
+            height: 4px;
+            transform: translate3d(-5px, 0, 0);
+        }
+
+        .toggleWrapper input:checked + .toggle .star--3 {
+            width: 2px;
+            height: 2px;
+            transform: translate3d(-7px, 0, 0);
+        }
+
+        .toggleWrapper input:checked + .toggle .star--4,
+        .toggleWrapper input:checked + .toggle .star--5,
+        .toggleWrapper input:checked + .toggle .star--6 {
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .mobile-menu-btn span {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background-color: currentColor;
+            border-radius: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(248, 250, 252, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.3);
+            border-radius: 8px;
+            margin: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+        
+        .dark .mobile-menu {
+            background: rgba(31, 41, 55, 0.95);
+            border: 1px solid rgba(75, 85, 99, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: flex;
+            }
+            
+            .desktop-nav {
+                display: none;
+            }
+        }
+    </style>
 </head>
-<body class="bg-gray-50 text-gray-900 min-h-screen flex flex-col">
-  <!-- Header (same as home page) -->
-  <nav class="glass-effect sticky top-0 z-30 backdrop-blur-lg">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-16">
-        <div class="flex items-center space-x-3">
-          <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
-            <div class="relative">
-              <i class="fas fa-file-pdf text-white text-lg"></i>
-              <i class="fas fa-image text-blue-200 text-xs absolute -top-1 -right-1"></i>
+<body class="theme-transition bg-slate-50 dark:bg-gray-900 text-slate-800 dark:text-gray-100 min-h-screen">
+    <!-- Navigation -->
+    <nav class="glass-effect sticky top-0 z-30 backdrop-blur-lg" role="navigation" aria-label="Main navigation">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg" aria-hidden="true">
+                        <div class="relative">
+                            <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z M8.5 12.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
+                            <svg class="w-4 h-4 text-blue-200 absolute -top-1 -right-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z M8.5 12.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col">
+                        <h1 class="text-xl font-bold text-gray-900 dark:text-white">ImagePDF Toolkit</h1>
+                        <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Professional Tools</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Desktop Navigation -->
+                    <div class="desktop-nav flex items-center space-x-4">
+                        <a href="index.html" class="text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
+                        <a href="about.html" class="text-sm text-blue-600 dark:text-blue-400 font-medium">About</a>
+                        <a href="privacy.html" class="text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy</a>
+                        <a href="terms.html" class="text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms</a>
+                        <a href="contact.html" class="text-sm hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Contact</a>
+                    </div>
+                    
+                    <!-- Theme Toggle -->
+                    <div class="toggleWrapper">
+                        <input type="checkbox" id="dn" aria-label="Toggle dark mode" />
+                        <label for="dn" class="toggle" aria-label="Dark mode toggle">
+                            <span class="toggle__handler" aria-hidden="true">
+                                <span class="crater crater--1"></span>
+                                <span class="crater crater--2"></span>
+                                <span class="crater crater--3"></span>
+                            </span>
+                            <span class="star star--1" aria-hidden="true"></span>
+                            <span class="star star--2" aria-hidden="true"></span>
+                            <span class="star star--3" aria-hidden="true"></span>
+                            <span class="star star--4" aria-hidden="true"></span>
+                            <span class="star star--5" aria-hidden="true"></span>
+                            <span class="star star--6" aria-hidden="true"></span>
+                        </label>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">ImagePDF Toolkit</span>
-            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Professional Tools</span>
-          </div>
         </div>
-        <div class="flex items-center space-x-4">
-          <a href="index.html" class="text-sm hover:text-blue-600 transition-colors">Home</a>
-          <a href="about.html" class="text-sm hover:text-blue-600 transition-colors">About</a>
-          <a href="privacy.html" class="text-sm hover:text-blue-600 transition-colors">Privacy</a>
-          <a href="terms.html" class="text-sm hover:text-blue-600 transition-colors">Terms</a>
-          <a href="contact.html" class="text-sm hover:text-blue-600 transition-colors">Contact</a>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20" aria-labelledby="hero-heading">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 id="hero-heading" class="text-5xl md:text-6xl font-bold text-white mb-6">
+                About Us
+            </h2>
+            <p class="text-xl md:text-2xl text-white opacity-90 mb-8 max-w-3xl mx-auto">
+                ImagePDF Toolkit is a modern, privacy-first suite of image and PDF tools. Our mission is to make file conversion, compression, and editing fast, secure, and accessible for everyone.
+            </p>
         </div>
-      </div>
-    </div>
-  </nav>
-  <!-- Gradient Hero Section -->
-  <section class="gradient-bg py-12">
-    <div class="max-w-2xl mx-auto px-4 text-center">
-      <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">About Us</h1>
-      <p class="text-lg text-white opacity-90 mb-4">ImagePDF Toolkit is a modern, privacy-first suite of image and PDF tools. Our mission is to make file conversion, compression, and editing fast, secure, and accessible for everyone—without uploading your files anywhere.</p>
-    </div>
-  </section>
-  <main class="flex-1 max-w-2xl mx-auto p-6 bg-white rounded-xl shadow mt-10">
-    <ul class="list-disc pl-6 mb-4 text-gray-600">
-      <li><strong>Client-Side Only:</strong> All processing is done in your browser for maximum privacy.</li>
-      <li><strong>Open Source:</strong> Our code is public and transparent on <a href="https://github.com/techuhat/toolkit" class="text-blue-600 underline" target="_blank">GitHub</a>.</li>
-      <li><strong>Made by Tech U:</strong> We are passionate about privacy-first, user-friendly tools for everyone.</li>
-    </ul>
-    <div class="mt-8">
-      <a href="index.html" class="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold shadow hover:bg-blue-700 transition">Back to Home</a>
-    </div>
-  </main>
-  <!-- Footer (same as home page) -->
-  <footer class="bg-gray-900 text-white py-8 mt-10">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex flex-wrap justify-center gap-6 mb-4">
-        <a href="about.html" class="hover:text-blue-400">About</a>
-        <a href="privacy.html" class="hover:text-blue-400">Privacy Policy</a>
-        <a href="terms.html" class="hover:text-blue-400">Terms of Service</a>
-        <a href="contact.html" class="hover:text-blue-400">Contact</a>
-        <a href="index.html" class="hover:text-blue-400">Home</a>
-      </div>
-      <div class="text-center text-gray-400">&copy; 2024 ImagePDF Toolkit. All rights reserved. Design by Tech U ❤️</div>
-    </div>
-  </footer>
-  <style>
-    .gradient-bg {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    </section>
+    
+    <!-- Main Content -->
+    <main class="max-w-4xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12">
+            <div class="prose prose-lg max-w-none dark:prose-invert">
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6">
+                    We believe in empowering users with powerful, privacy-first tools that work entirely in their browser. 
+                    No uploads, no data collection, no compromises on your privacy.
+                </p>
+                
+                <div class="grid md:grid-cols-2 gap-8 my-8">
+                    <div class="feature-card p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-blue-600 dark:text-blue-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">100% Privacy</h4>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            All processing happens locally in your browser. Your files never leave your device.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card p-6 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-green-600 dark:text-green-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                            </svg>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Open Source</h4>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Our code is transparent and available on <a href="https://github.com/techuhat/toolkit" class="text-blue-600 dark:text-blue-400 hover:underline" target="_blank">GitHub</a>.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card p-6 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-purple-600 dark:text-purple-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/>
+                            </svg>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">Lightning Fast</h4>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            No server uploads means instant processing and results.
+                        </p>
+                    </div>
+                    
+                    <div class="feature-card p-6 bg-orange-50 dark:bg-orange-900/20 rounded-xl">
+                        <div class="flex items-center mb-4">
+                            <svg class="w-8 h-8 text-orange-600 dark:text-orange-400 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">User-Focused</h4>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-300">
+                            Designed for everyone, from professionals to casual users.
+                        </p>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <a href="index.html" class="btn-professional inline-flex items-center px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all transform hover:scale-105 shadow-lg">
+                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
+                        </svg>
+                        Back to Tools
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
+                            <div class="relative">
+                                <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z M8.5 12.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
+                                <svg class="w-4 h-4 text-blue-200 absolute -top-1 -right-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z M8.5 12.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/></svg>
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xl font-bold text-white">ImagePDF Toolkit</span>
+                            <span class="text-xs text-gray-400 font-medium">Professional Tools</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">Professional image and PDF processing tools for modern workflows.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="index.html#tools" class="hover:text-white transition-colors">Image Converter</a></li>
+                        <li><a href="index.html#tools" class="hover:text-white transition-colors">PDF Tools</a></li>
+                        <li><a href="index.html#tools" class="hover:text-white transition-colors">Image Compressor</a></li>
+                        <li><a href="index.html#tools" class="hover:text-white transition-colors">Image Resizer</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+                        </a>
+                        <a href="https://github.com/techuhat/toolkit" class="text-gray-400 hover:text-white transition-colors" target="_blank" rel="noopener noreferrer">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ImagePDF Toolkit. All rights reserved. Design by Tech U ❤️</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode functionality
+        function initTheme() {
+            const darkModeToggle = document.getElementById('dn');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+            
+            // Check for saved theme preference or default to system preference
+            const savedTheme = localStorage.getItem('theme');
+            const systemTheme = prefersDark.matches ? 'dark' : 'light';
+            const currentTheme = savedTheme || systemTheme;
+            
+            // Apply the theme
+            if (currentTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if (darkModeToggle) darkModeToggle.checked = true;
+            } else {
+                document.documentElement.classList.remove('dark');
+                if (darkModeToggle) darkModeToggle.checked = false;
+            }
+        }
+        
+        function toggleTheme() {
+            const darkModeToggle = document.getElementById('dn');
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                if (darkModeToggle) darkModeToggle.checked = false;
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                if (darkModeToggle) darkModeToggle.checked = true;
+            }
+        }
+        
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initTheme);
+        
+        // Add event listener to toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('dn');
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('change', toggleTheme);
+            }
+        });
+        
+        // Listen for system theme changes
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+            if (!localStorage.getItem('theme')) {
+                const darkModeToggle = document.getElementById('dn');
+                if (e.matches) {
+                    document.documentElement.classList.add('dark');
+                    if (darkModeToggle) darkModeToggle.checked = true;
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    if (darkModeToggle) darkModeToggle.checked = false;
+                }
+            }
+        });
+    </script>
 </body>
 </html> 
