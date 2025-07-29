@@ -100,8 +100,8 @@
     <link rel="alternate" hreflang="en" href="https://techuhat.github.io/toolkit/">
     <link rel="alternate" hreflang="x-default" href="https://techuhat.github.io/toolkit/">
     
-    <!-- Manifest for PWA -->
-    <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;ImagePDF Toolkit&quot;,&quot;short_name&quot;:&quot;ImagePDF&quot;,&quot;start_url&quot;:&quot;/&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#ffffff&quot;,&quot;theme_color&quot;:&quot;#4F46E5&quot;,&quot;icons&quot;:[{&quot;src&quot;:&quot;data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-4v-2h4v2zm0-4H9v-2h6v2z'/></svg>&quot;,&quot;sizes&quot;:&quot;192x192&quot;,&quot;type&quot;:&quot;image/svg+xml&quot;}]}">
+    <!-- Manifest temporarily removed to prevent console errors -->
+    <!-- PWA features disabled for now -->
     
     <!-- Favicon with better formats -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234F46E5'><path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-4v-2h4v2zm0-4H9v-2h6v2z'/></svg>">
@@ -1156,6 +1156,20 @@
                 max-width: unset;
                 width: 100%;
             }
+            
+            .toast-inner {
+                cursor: grab;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            .toast-inner:active {
+                cursor: grabbing;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1167,6 +1181,11 @@
 
             .toast {
                 padding: 14px 16px;
+            }
+            
+            .toast-inner {
+                min-width: 280px;
+                font-size: 0.9rem;
             }
 
             .toast-message {
@@ -1949,7 +1968,7 @@
         let toastId = 0;
         const activeToasts = new Map();
 
-        // Completely simplified and working toast system with proper animations
+        // Completely simplified and working toast system with proper animations and swipe support
         function showToast(message, type = 'success', duration = 4000) {
             console.log('🍞 showToast called:', message, type, duration);
             
@@ -1965,7 +1984,7 @@
                 
                 // Beautiful glassmorphism toast with proper slide animation
                 toast.innerHTML = `
-                    <div style="
+                    <div class="toast-inner" style="
                         background: rgba(0, 0, 0, 0.85);
                         backdrop-filter: blur(20px);
                         -webkit-backdrop-filter: blur(20px);
@@ -1991,9 +2010,12 @@
                         pointer-events: auto;
                         font-weight: 500;
                         line-height: 1.4;
+                        user-select: none;
+                        -webkit-user-select: none;
+                        touch-action: pan-x;
                     ">
                         <span style="flex: 1; font-size: 0.95rem;">${message}</span>
-                        <button onclick="this.parentElement.parentElement.remove()" style="
+                        <button onclick="dismissToastElement(this.parentElement.parentElement)" style="
                             background: none;
                             border: none;
                             color: rgba(255, 255, 255, 0.7);
@@ -2021,6 +2043,9 @@
                 container.appendChild(toast);
                 console.log('✅ Toast added to container');
                 
+                // Add swipe functionality for mobile
+                addSwipeToToast(toast);
+                
                 // Smooth slide-in animation (original behavior)
                 setTimeout(() => {
                     const inner = toast.firstElementChild;
@@ -2031,26 +2056,136 @@
                 }, 50);
                 
                 // Auto remove with slide-out
-                setTimeout(() => {
-                    if (toast.parentNode) {
-                        const inner = toast.firstElementChild;
-                        if (inner) {
-                            inner.style.transform = 'translateX(120%)';
-                        }
-                        setTimeout(() => {
-                            if (toast.parentNode) {
-                                toast.remove();
-                                console.log('🗑️ Toast removed');
-                            }
-                        }, 400);
-                    }
+                const autoRemoveTimeout = setTimeout(() => {
+                    dismissToastElement(toast);
                 }, duration);
+                
+                // Store timeout so it can be cleared if manually dismissed
+                toast.dataset.timeoutId = autoRemoveTimeout;
                 
                 return id;
                 
             } catch (error) {
                 console.error('❌ Toast error:', error);
                 alert(`Toast: ${message}`);
+            }
+        }
+        
+        // Toast dismiss function
+        function dismissToastElement(toast) {
+            if (toast && toast.parentNode) {
+                // Clear auto-remove timeout if exists
+                if (toast.dataset.timeoutId) {
+                    clearTimeout(parseInt(toast.dataset.timeoutId));
+                }
+                
+                const inner = toast.firstElementChild;
+                if (inner) {
+                    inner.style.transform = 'translateX(120%)';
+                }
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                        console.log('🗑️ Toast removed');
+                    }
+                }, 400);
+            }
+        }
+        
+        // Add swipe functionality to toast
+        function addSwipeToToast(toast) {
+            const inner = toast.firstElementChild;
+            if (!inner) return;
+            
+            let startX = 0;
+            let currentX = 0;
+            let isDragging = false;
+            let initialTransform = 0;
+            
+            // Touch events for mobile
+            inner.addEventListener('touchstart', handleTouchStart, { passive: false });
+            inner.addEventListener('touchmove', handleTouchMove, { passive: false });
+            inner.addEventListener('touchend', handleTouchEnd);
+            
+            // Mouse events for desktop
+            inner.addEventListener('mousedown', handleMouseStart);
+            inner.addEventListener('mousemove', handleMouseMove);
+            inner.addEventListener('mouseup', handleMouseEnd);
+            inner.addEventListener('mouseleave', handleMouseEnd);
+            
+            function handleTouchStart(e) {
+                startX = e.touches[0].clientX;
+                isDragging = true;
+                const transform = getComputedStyle(inner).transform;
+                initialTransform = transform === 'none' ? 0 : parseFloat(transform.split(',')[4]) || 0;
+                inner.style.transition = 'none';
+                e.preventDefault();
+            }
+            
+            function handleMouseStart(e) {
+                startX = e.clientX;
+                isDragging = true;
+                const transform = getComputedStyle(inner).transform;
+                initialTransform = transform === 'none' ? 0 : parseFloat(transform.split(',')[4]) || 0;
+                inner.style.transition = 'none';
+                e.preventDefault();
+            }
+            
+            function handleTouchMove(e) {
+                if (!isDragging) return;
+                currentX = e.touches[0].clientX;
+                updateSwipePosition();
+                e.preventDefault();
+            }
+            
+            function handleMouseMove(e) {
+                if (!isDragging) return;
+                currentX = e.clientX;
+                updateSwipePosition();
+                e.preventDefault();
+            }
+            
+            function updateSwipePosition() {
+                const deltaX = currentX - startX;
+                const newTransform = initialTransform + deltaX;
+                
+                // Only allow swiping to the right (positive X)
+                if (newTransform >= 0) {
+                    inner.style.transform = `translateX(${newTransform}px)`;
+                    
+                    // Add visual feedback for swipe
+                    const opacity = Math.max(0.3, 1 - (newTransform / 200));
+                    inner.style.opacity = opacity;
+                }
+            }
+            
+            function handleTouchEnd(e) {
+                handleEnd();
+            }
+            
+            function handleMouseEnd(e) {
+                handleEnd();
+            }
+            
+            function handleEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                
+                const deltaX = currentX - startX;
+                inner.style.transition = 'all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                
+                // If swiped more than 100px to the right, dismiss the toast
+                if (deltaX > 100) {
+                    dismissToastElement(toast);
+                } else {
+                    // Snap back to original position
+                    inner.style.transform = 'translateX(0)';
+                    inner.style.opacity = '1';
+                }
+                
+                startX = 0;
+                currentX = 0;
+                initialTransform = 0;
             }
         }
         
@@ -2062,6 +2197,14 @@
             console.log('🧪 Welcome toast function called!');
             showToast('🎉 Welcome to ImagePDF Toolkit! All tools are ready to use.', 'info', 4000);
         }
+        
+        // Test function for swipe functionality
+        function testSwipeToast() {
+            showToast('📱 Swipe me to the right to dismiss! Works on mobile and desktop.', 'info', 8000);
+        }
+        
+        // Make test function globally accessible for console testing
+        window.testSwipeToast = testSwipeToast;
 
         // Performance Optimization Functions
         
@@ -2328,12 +2471,6 @@
             
             // Initialize global drag and drop functionality
             setupGlobalDragDrop();
-            
-            // Show welcome toast
-            setTimeout(() => {
-                console.log('🚀 DOM loaded, calling welcome toast...');
-                showWelcomeToast();
-            }, 1000);
         });
         
 
@@ -3562,42 +3699,31 @@
         // Initialize PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
         
-        // PWA Service Worker (basic implementation)
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                const swCode = `
-                    const CACHE_NAME = 'imagepdf-toolkit-v1';
-                    const urlsToCache = ['/'];
-                    
-                    self.addEventListener('install', (event) => {
-                        event.waitUntil(
-                            caches.open(CACHE_NAME)
-                                .then((cache) => cache.addAll(urlsToCache))
-                        );
-                    });
-                    
-                    self.addEventListener('fetch', (event) => {
-                        event.respondWith(
-                            caches.match(event.request)
-                                .then((response) => response || fetch(event.request))
-                        );
-                    });
-                `;
-                
-                const blob = new Blob([swCode], { type: 'application/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                
-                navigator.serviceWorker.register(swUrl)
-                    .then(() => console.log('Service Worker registered'))
-                    .catch(() => console.log('Service Worker registration failed'));
-            });
+        // PWA Service Worker (simplified - removed to prevent console errors)
+        // Service Worker functionality temporarily disabled to prevent console errors
+        if ('serviceWorker' in navigator && false) {
+            // Disabled for now to prevent registration errors
         }
 
-        // Show welcome toast on page load
-        window.addEventListener('load', function() {
-            setTimeout(() => {
+        // Show welcome toast on scroll to 75%
+        let welcomeToastShown = false;
+        
+        function checkScrollForWelcomeToast() {
+            if (welcomeToastShown) return;
+            
+            const scrollPercent = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            
+            if (scrollPercent >= 65) {
                 showToast('🚀 Welcome to ImagePDF Toolkit! Professional tools at your fingertips.', 'success');
-            }, 1000);
+                welcomeToastShown = true;
+                // Remove the scroll listener once toast is shown
+                window.removeEventListener('scroll', checkScrollForWelcomeToast);
+            }
+        }
+        
+        window.addEventListener('load', function() {
+            // Add scroll listener for welcome toast
+            window.addEventListener('scroll', checkScrollForWelcomeToast, { passive: true });
         });
     </script>
     <script src="script.js"></script>
