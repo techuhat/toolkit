@@ -10,7 +10,7 @@
     <meta http-equiv="Expires" content="0">
     
     <title>PDF Merge - Combine Multiple PDFs into One | ImagePDF Toolkit</title>
-    <meta name="description" content="Merge multiple PDF fi                        <li><a href="pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>s into a single PDF. Free online PDF merger tool with drag and drop support.">
+    <meta name="description" content="Merge multiple PDF files into a single PDF. Free online PDF merger tool with drag and drop support.">
     <meta name="keywords" content="PDF merge, combine PDFs, merge PDF files, PDF merger, combine multiple PDFs">
     <meta name="author" content="ImagePDF Toolkit">
     
@@ -18,18 +18,23 @@
     <meta property="og:title" content="PDF Merge - Combine Multiple PDFs into One">
     <meta property="og:description" content="Merge multiple PDF files into a single PDF. Free online PDF merger tool with drag and drop support.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://techuhat.github.io/toolkit/tools/pdf-merge.html">
+    <meta property="og:url" content="https://imagetoolkit.tech/tools/pdf-merge.html">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="theme-color" content="#4F46E5">
-    <link rel="canonical" href="https://techuhat.github.io/toolkit/tools/pdf-merge.html">
+    <link rel="canonical" href="https://imagetoolkit.tech/tools/pdf-merge.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../../../public/favicon.ico">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../../../public/styles.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/all.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=2.3.1">
+    <link rel="preload" href="../../../../public/styles.min.css?v=20250817" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../public/styles.min.css?v=20250817"></noscript>
+    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=20250817" data-legacy-tailwind>
+    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/webfonts/fontawesome-fallback.css?v=20250817">
     
     <!-- Custom styles -->
     <style>
@@ -45,6 +50,382 @@
             color: white; 
         }
 
+        /* Enhanced Progress Container - Fixed Overlay Issues */
+        .progress-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            visibility: hidden;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .progress-overlay.show {
+            display: flex !important;
+            opacity: 1;
+            pointer-events: auto;
+            visibility: visible;
+        }
+        
+        .progress-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+            visibility: hidden;
+        }
+        
+        @keyframes fadeIn {
+            from { 
+                opacity: 0; 
+                transform: scale(0.95);
+            }
+            to { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeOut {
+            from { 
+                opacity: 1; 
+                transform: scale(1);
+            }
+            to { 
+                opacity: 0; 
+                transform: scale(0.95);
+            }
+        }
+        
+        .progress-card {
+            background: white;
+            border-radius: 24px;
+            padding: 40px 30px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            max-height: 90vh;
+            position: relative;
+            transform: translateY(20px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: visible;
+            box-sizing: border-box;
+        }
+        
+        .progress-overlay.show .progress-card {
+            transform: translateY(0) scale(1);
+        }
+        
+        .progress-overlay.hide .progress-card {
+            transform: translateY(20px) scale(0.95);
+        }
+        
+        /* Enhanced Circular Progress Bar */
+        .circular-progress {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            margin: 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .circular-progress svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+            max-width: 100px;
+            max-height: 100px;
+        }
+        
+        .circular-progress .progress-circle-bg {
+            fill: none;
+            stroke: #f1f5f9;
+            stroke-width: 6;
+        }
+        
+        .circular-progress .progress-circle {
+            fill: none;
+            stroke: url(#progressGradient);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 283; /* 2 * π * 45 */
+            stroke-dashoffset: 283;
+            transition: stroke-dashoffset 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .circular-progress .progress-text {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 18px;
+            font-weight: 700;
+            color: #4f46e5;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            line-height: 1;
+        }
+        
+        .circular-progress .progress-subtext {
+            position: absolute;
+            top: 65%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 10px;
+            font-weight: 500;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 1;
+        }
+        
+        /* Linear Progress Bar (Alternative) */
+        .progress-bar-container {
+            width: 100%;
+            height: 16px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 25px 0;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4f46e5 0%, #7c3aed 50%, #06b6d4 100%);
+            border-radius: 12px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0%;
+            position: relative;
+            box-shadow: 0 2px 12px rgba(79, 70, 229, 0.4);
+        }
+        
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2s infinite;
+            border-radius: 12px;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+            z-index: 1;
+        }
+        
+        /* Enhanced Progress Stats */
+        .progress-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .progress-stat {
+            text-align: center;
+        }
+        
+        .progress-stat-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 4px;
+        }
+        
+        .progress-stat-label {
+            font-size: 11px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+        
+        /* Enhanced Cancel Button */
+        .cancel-button {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+        
+        .cancel-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+        }
+        
+        .cancel-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 640px) {
+            .progress-overlay {
+                padding: 15px;
+            }
+            
+            .progress-card {
+                max-width: 100%;
+                width: 100%;
+                padding: 25px 20px;
+                max-height: 85vh;
+                border-radius: 16px;
+            }
+            
+            .circular-progress {
+                width: 80px;
+                height: 80px;
+                margin: 10px auto;
+            }
+            
+            .circular-progress svg {
+                max-width: 80px;
+                max-height: 80px;
+            }
+            
+            .circular-progress .progress-text {
+                font-size: 16px;
+            }
+            
+            .circular-progress .progress-subtext {
+                font-size: 9px;
+                top: 63%;
+            }
+            
+            .progress-stats {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 15px;
+                margin: 15px 0;
+            }
+            
+            .progress-stat-value {
+                font-size: 16px;
+            }
+            
+            .cancel-button {
+                padding: 10px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .progress-overlay {
+                padding: 10px;
+            }
+            
+            .progress-card {
+                padding: 20px 15px;
+                max-height: 80vh;
+                border-radius: 12px;
+            }
+            
+            .circular-progress {
+                width: 70px;
+                height: 70px;
+                margin: 8px auto;
+            }
+            
+            .circular-progress svg {
+                max-width: 70px;
+                max-height: 70px;
+            }
+            
+            .circular-progress .progress-text {
+                font-size: 14px;
+            }
+            
+            .circular-progress .progress-subtext {
+                font-size: 8px;
+                top: 63%;
+            }
+            
+            .progress-stats {
+                padding: 12px;
+                margin: 12px 0;
+            }
+        }
+        
+        @media (max-width: 360px) {
+            .progress-overlay {
+                padding: 5px;
+            }
+            
+            .progress-card {
+                padding: 15px 10px;
+                max-height: 75vh;
+            }
+            
+            .circular-progress {
+                width: 60px;
+                height: 60px;
+                margin: 5px auto;
+            }
+            
+            .circular-progress svg {
+                max-width: 60px;
+                max-height: 60px;
+            }
+            
+            .circular-progress .progress-text {
+                font-size: 12px;
+            }
+            
+            .circular-progress .progress-subtext {
+                font-size: 7px;
+                top: 63%;
+            }
+        }
+
         /* File Drop Zone Styles */
         .file-drop-zone {
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
@@ -56,6 +437,253 @@
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
             border-color: #1d4ed8;
             transform: scale(1.02);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        /* File List Improvements - Enhanced */
+        .file-list { 
+            max-height: 450px; 
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 #f1f5f9;
+            padding: 8px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        .file-list::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .file-list::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 6px;
+            margin: 4px;
+        }
+        
+        .file-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+            border-radius: 6px;
+            border: 2px solid #f1f5f9;
+        }
+        
+        .file-list::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #94a3b8, #64748b);
+        }
+        
+        /* File Item Enhanced Styles */
+        .file-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 2px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 12px;
+            transform: translateY(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .file-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .file-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+            border-color: #c7d2fe;
+            background: linear-gradient(135deg, #ffffff 0%, #fefbff 100%);
+        }
+        
+        .file-item:hover::before {
+            opacity: 1;
+        }
+        
+        .file-item-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .file-item:hover .file-item-icon {
+            background: linear-gradient(135deg, #fecaca 0%, #f87171 100%);
+            transform: scale(1.05);
+        }
+        
+        .file-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .file-item-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 4px;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+        
+        .file-item-details {
+            font-size: 13px;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .file-item-size {
+            background: #f3f4f6;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .file-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: 16px;
+        }
+        
+        .file-remove-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #fee2e2;
+            color: #dc2626;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .file-remove-btn:hover {
+            background: #fecaca;
+            color: #b91c1c;
+            transform: scale(1.1);
+        }
+        
+        .file-remove-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Empty state for file list */
+        .file-list-empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+        
+        .file-list-empty svg {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 16px;
+            opacity: 0.5;
+        }
+
+        /* Processing Status Animation */
+        .processing-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        /* Results Section Enhancement */
+        .results-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+        
+        /* Button Enhancements */
+        .btn-merge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px; /* Minimum touch target */
+        }
+        
+        .btn-merge:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-merge:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-merge:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .btn-download {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+        }
+        
+        .btn-download:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 640px) {
+            .btn-merge, .btn-download {
+                width: 100%;
+                max-width: none;
+                padding: 12px 16px;
+                font-size: 14px;
+            }
+            
+            .btn-merge svg, .btn-download svg {
+                width: 16px;
+                height: 16px;
+            }
         }
 
         /* Day/Night Toggle Switch Styles */
@@ -368,12 +996,7 @@
         </section>
 
         <!-- Backend Status -->
-        <div id="backend-status" class="mb-6">
-            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-                <i class="fas fa-spinner fa-spin mr-2"></i>
-                Checking backend availability...
-            </div>
-        </div>
+        
 
         <!-- File Upload Area -->
         <section class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6">
@@ -409,11 +1032,11 @@
             <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                        <i class="fas fa-list text-blue-600 mr-2"></i>
+                        <svg class="w-5 h-5 text-blue-600 mr-2 inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M3 5h2v2H3V5zm4 0h14v2H7V5zm-4 6h2v2H3v-2zm4 0h14v2H7v-2zm-4 6h2v2H3v-2zm4 0h14v2H7v-2z"/></svg>
                         Files to Merge
                     </h3>
                     <button id="clear-all" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors">
-                        <i class="fas fa-trash mr-2"></i>
+                        <svg class="w-5 h-5 mr-2 inline" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M9 3v1H4v2h16V4h-5V3H9zm1 5v10h2V8h-2zm4 0v10h2V8h-2zM6 8v10c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V8H6z"/></svg>
                         Clear All
                     </button>
                 </div>
@@ -423,49 +1046,64 @@
 
         <!-- Merge Button -->
         <div id="merge-button-container" class="hidden text-center mb-6">
-            <button id="merge-pdfs" class="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg transition-colors text-lg">
-                <i class="fas fa-magic mr-2"></i>
-                Merge PDFs
+            <button id="merge-pdfs" class="btn-merge text-white font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-xl transition-all text-sm sm:text-lg shadow-lg w-full max-w-xs sm:max-w-none sm:w-auto">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"/>
+                </svg>
+                <span class="whitespace-nowrap">Merge PDFs</span>
             </button>
         </div>
 
         <!-- Processing Status -->
         <div id="processing-status" class="hidden">
-            <div class="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded">
+            <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700 text-blue-800 dark:text-blue-200 px-6 py-4 rounded-xl mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h4 class="font-semibold">
-                            <i class="fas fa-cogs mr-2"></i>
+                        <h4 class="font-semibold text-lg mb-1">
+                            <svg class="w-5 h-5 inline mr-2 processing-spinner" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2v4m0 12v4m10-10h-4M6 12H2m15.364-7.364l-2.828 2.828M9.464 18.536l-2.828 2.828m12.728 0l-2.828-2.828M9.464 5.464L6.636 2.636"/>
+                            </svg>
                             Merging PDF Files
                         </h4>
-                        <p class="text-sm opacity-90">Processing your PDF files...</p>
+                        <p class="text-sm opacity-90">Processing your PDF files, please wait...</p>
                     </div>
-                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-700"></div>
+                    <div class="processing-spinner">
+                        <svg class="w-8 h-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm0,19a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z" opacity=".25"/>
+                            <path d="M12,4a8,8,0,0,1,7.89,6.7A1.53,1.53,0,0,0,21.38,12h0a1.5,1.5,0,0,0,1.48-1.75,11,11,0,0,0-21.72,0A1.5,1.5,0,0,0,2.62,12h0a1.53,1.53,0,0,0,1.49-1.3A8,8,0,0,1,12,4Z"/>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Results -->
         <div id="results" class="hidden">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-                <div class="text-center">
-                    <i class="fas fa-check-circle text-6xl text-green-500 mb-4"></i>
-                    <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        PDFs Merged Successfully!
-                    </h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-6">
-                        Your PDF files have been merged into a single document.
-                    </p>
-                    <div class="flex justify-center space-x-4">
-                        <button id="download-merged" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
-                            <i class="fas fa-download mr-2"></i>
-                            Download Merged PDF
-                        </button>
-                        <button id="merge-another" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition-colors">
-                            <i class="fas fa-plus mr-2"></i>
-                            Merge Another Set
-                        </button>
-                    </div>
+            <div class="results-success rounded-xl p-8 text-center mb-6">
+                <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-10 h-10 text-green-600 dark:text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                    PDFs Merged Successfully!
+                </h3>
+                <p class="text-gray-600 dark:text-gray-400 mb-8">
+                    Your PDF files have been merged into a single document with optimized compression.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
+                    <button id="download-merged" class="btn-download text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl transition-all font-semibold text-sm sm:text-base w-full sm:w-auto">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                        </svg>
+                        <span class="whitespace-nowrap">Download Merged PDF</span>
+                    </button>
+                    <button id="merge-another" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-xl transition-colors font-semibold text-sm sm:text-base w-full sm:w-auto">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                        </svg>
+                        <span class="whitespace-nowrap">Merge Another Set</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -473,7 +1111,7 @@
         <!-- Error Display -->
         <div id="error-display" class="hidden">
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <svg class="w-5 h-5 mr-2 inline text-red-600" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M1 21h22L12 2 1 21zm12-3h-2v2h2v-2zm0-6h-2v5h2v-5z"/></svg>
                 <span id="error-message"></span>
             </div>
         </div>
@@ -508,12 +1146,9 @@
                         <li><a href="../image-tools/image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
                         <li><a href="../image-tools/format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
                         <li><a href="../utility-tools/batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
-                        <li><a href="pdf-to-doc.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to DOC</a></li>
-                        <li><a href="pdf-compressor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Compressor</a></li>
-                        <li><a href="pdf-ocr.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF OCR</a></li>
                         <li><a href="pdf-merge.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Merge</a></li>
                         <li><a href="pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>
-                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Code Generator</a></li>
+                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Generator</a></li>
                     </ul>
                 </div>
                 
@@ -547,79 +1182,106 @@
     </footer>
 
     <!-- Scripts -->
-    <script src="../../../../public/js/backend-config.js"></script>
-        <!-- Scripts -->
-    <script src="../../../../public/js/pdf.min.js"></script>
-    <script src="../../../../public/js/jspdf.min.js"></script>
+    <script src="../../../../public/js/pdf.min.js" defer></script>
+    <script src="../../../../public/js/jspdf.min.js" defer></script>
+    <script src="../../../../public/script.js?v=2.3.1" defer></script>
     <script>
-        // Configure PDF.js
+        // Force correct PDF.js worker path (override script.js setting)
         pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../../public/js/pdf.worker.min.js';
-    </script>
-    <script src="../../../../public/script.js?v=2.3.1"></script>
-    <script>
-        // Backend configuration
-        const BACKEND_CONFIG = {
-            baseUrl: 'https://imagetool-h4dmewahfmg4bkej.eastasia-01.azurewebsites.net',
-            endpoints: {
-                health: '/health',
-                pdfMerge: '/pdf-merge'
-            },
-            maxFileSize: 500 * 1024 * 1024 // 500MB
+        console.log('✅ PDF.js worker path corrected for PDF merge:', pdfjsLib.GlobalWorkerOptions.workerSrc);
+        
+        // Local configuration (avoid conflict with script.js)
+        const PDF_MERGE_CONFIG = {
+            maxFileSize: 100 * 1024 * 1024 // 100MB
         };
 
         // Global variables
         let selectedFiles = [];
         let mergeResults = null;
+        let cancelRequested = false; // Flag for cancellation
+        let currentMergeProcess = null; // Reference to current merge process
+
+        // Enhanced Cancel merge process function
+        function cancelMergeProcess() {
+            console.log('🛑 User requested merge cancellation');
+            
+            // Set cancellation flag
+            cancelRequested = true;
+            
+            // Get UI elements with fallback checks
+            const titleEl = document.getElementById('progressTitle');
+            const textEl = document.getElementById('progressText');
+            const cancelBtn = document.getElementById('cancelButton');
+            const progressCircle = document.getElementById('progressCircle');
+            const circularPercentage = document.getElementById('circularPercentage');
+            
+            // Update UI to show cancellation in progress
+            if (titleEl) titleEl.textContent = '🛑 Cancelling Process...';
+            if (textEl) textEl.textContent = 'Please wait while we stop the current operation...';
+            
+            // Disable and update cancel button
+            if (cancelBtn) {
+                cancelBtn.disabled = true;
+                cancelBtn.textContent = '⏳ Cancelling...';
+                cancelBtn.className = 'cancel-button opacity-60 cursor-not-allowed';
+            }
+            
+            // Show cancellation progress animation
+            if (progressCircle && circularPercentage) {
+                progressCircle.style.stroke = '#ef4444'; // Red color for cancellation
+                circularPercentage.textContent = '⏹️';
+            }
+            
+            // Hide progress after delay to show cancellation message
+            setTimeout(() => {
+                forceHideProgress();
+                showToast('🛑 Merge process cancelled by user', 'warning', 3000);
+                resetMergeState();
+                
+                // Reset merge button
+                const mergeButton = document.getElementById('merge-pdfs');
+                if (mergeButton) {
+                    mergeButton.disabled = false;
+                    mergeButton.innerHTML = `
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"/>
+                        </svg>
+                        <span class="whitespace-nowrap">Merge PDFs</span>
+                    `;
+                }
+            }, 1500);
+        }
+
+        // Enhanced Reset merge state function
+        function resetMergeState() {
+            console.log('🔄 Resetting merge state...');
+            
+            // Reset flags
+            cancelRequested = false;
+            currentMergeProcess = null;
+            
+            // Reset cancel button with proper styling
+            const cancelBtn = document.getElementById('cancelButton');
+            if (cancelBtn) {
+                cancelBtn.disabled = false;
+                cancelBtn.textContent = '❌ Cancel Process';
+                cancelBtn.className = 'cancel-button';
+            }
+            
+            // Reset progress circle color
+            const progressCircle = document.getElementById('progressCircle');
+            if (progressCircle) {
+                progressCircle.style.stroke = 'url(#progressGradient)';
+            }
+            
+            console.log('✅ Merge state reset complete');
+        }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            checkBackendStatus();
             setupEventListeners();
             // Theme toggle is handled by script.js
         });
-
-        // Check backend status
-        async function checkBackendStatus() {
-            try {
-                const response = await fetch(`${BACKEND_CONFIG.baseUrl}${BACKEND_CONFIG.endpoints.health}`);
-                const data = await response.json();
-                
-                if (data.status === 'healthy') {
-                    // Check if any PDF processing is available
-                    const hasPdfSupport = data.capabilities && (data.capabilities.pdf_compression || data.capabilities.pdf_to_docx || data.capabilities.batch_processing);
-                    
-                    if (hasPdfSupport) {
-                        document.getElementById('backend-status').innerHTML = `
-                            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-                                <i class="fas fa-check-circle mr-2"></i>
-                                Backend available - PDF processing ready
-                            </div>
-                        `;
-                    } else {
-                        document.getElementById('backend-status').innerHTML = `
-                            <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-                                <i class="fas fa-info-circle mr-2"></i>
-                                Backend available but PDF merge may use client-side processing
-                            </div>
-                        `;
-                    }
-                } else {
-                    document.getElementById('backend-status').innerHTML = `
-                        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-                            <i class="fas fa-exclamation-triangle mr-2"></i>
-                            Backend unhealthy
-                        </div>
-                    `;
-                }
-            } catch (error) {
-                document.getElementById('backend-status').innerHTML = `
-                    <div class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
-                        <i class="fas fa-wifi mr-2"></i>
-                        Using client-side processing (backend offline)
-                    </div>
-                `;
-            }
-        }
 
         // Setup event listeners
         function setupEventListeners() {
@@ -645,7 +1307,27 @@
         // Handle file selection
         function handleFileSelect(event) {
             const files = Array.from(event.target.files);
+            
+            if (files.length === 0) {
+                showToast('⚠️ No files selected', 'warning', 2000);
+                return;
+            }
+            
+            // Validate that files are PDFs before processing
+            const invalidFiles = files.filter(file => !file.type.includes('pdf'));
+            if (invalidFiles.length > 0) {
+                if (invalidFiles.length === files.length) {
+                    showToast('❌ Please select only PDF files', 'error', 3000);
+                    return;
+                } else {
+                    showToast(`⚠️ ${invalidFiles.length} non-PDF files will be skipped`, 'warning', 3000);
+                }
+            }
+            
             addFiles(files);
+            
+            // Reset input for reselection of same files
+            event.target.value = '';
         }
 
         // Handle drag and drop
@@ -656,7 +1338,10 @@
 
         function handleDragLeave(event) {
             event.preventDefault();
-            event.currentTarget.classList.remove('drag-over');
+            // Only remove drag-over if we're actually leaving the drop zone
+            if (!event.currentTarget.contains(event.relatedTarget)) {
+                event.currentTarget.classList.remove('drag-over');
+            }
         }
 
         function handleDrop(event) {
@@ -664,29 +1349,73 @@
             event.currentTarget.classList.remove('drag-over');
             
             const files = Array.from(event.dataTransfer.files);
-            addFiles(files);
+            
+            if (files.length === 0) {
+                showToast('⚠️ No files detected in drop', 'warning', 2000);
+                return;
+            }
+            
+            // Check for PDF files
+            const pdfFiles = files.filter(file => file.type.includes('pdf'));
+            const nonPdfFiles = files.filter(file => !file.type.includes('pdf'));
+            
+            if (pdfFiles.length === 0) {
+                showToast('❌ Please drop PDF files only', 'error', 3000);
+                return;
+            }
+            
+            if (nonPdfFiles.length > 0) {
+                showToast(`⚠️ ${nonPdfFiles.length} non-PDF files ignored`, 'warning', 2000);
+            }
+            
+            addFiles(pdfFiles);
         }
 
         // Add files to the list
         function addFiles(files) {
             const validFiles = files.filter(file => {
+                // Check file type
                 if (!file.type.includes('pdf')) {
-                    showError('Please select only PDF files');
+                    showToast(`❌ "${file.name}" is not a PDF file`, 'error', 3000);
                     return false;
                 }
-                if (file.size > BACKEND_CONFIG.maxFileSize) {
-                    showError(`File ${file.name} exceeds 500MB limit`);
+                
+                // Check file size
+                if (file.size > PDF_MERGE_CONFIG.maxFileSize) {
+                    showToast(`❌ "${file.name}" exceeds 100MB limit`, 'error', 3000);
                     return false;
                 }
+                
+                // Check for duplicates
+                const isDuplicate = selectedFiles.some(existingFile => 
+                    existingFile.name === file.name && existingFile.size === file.size
+                );
+                if (isDuplicate) {
+                    showToast(`⚠️ "${file.name}" already added`, 'warning', 2000);
+                    return false;
+                }
+                
                 return true;
             });
 
-            if (selectedFiles.length + validFiles.length > 20) {
-                showError('Maximum 20 files allowed');
+            if (validFiles.length === 0) {
                 return;
             }
 
-            selectedFiles = selectedFiles.concat(validFiles);
+            // Check total file limit
+            if (selectedFiles.length + validFiles.length > 20) {
+                const canAdd = 20 - selectedFiles.length;
+                if (canAdd > 0) {
+                    selectedFiles = selectedFiles.concat(validFiles.slice(0, canAdd));
+                    showToast(`⚠️ Added ${canAdd} files. Maximum 20 files allowed`, 'warning', 3000);
+                } else {
+                    showToast('❌ Maximum 20 files already selected', 'error', 3000);
+                    return;
+                }
+            } else {
+                selectedFiles = selectedFiles.concat(validFiles);
+            }
+
             updateFileList();
             showMergeButton();
         }
@@ -694,61 +1423,126 @@
         // Update file list display
         function updateFileList() {
             const container = document.getElementById('files-container');
+            const fileListSection = document.getElementById('file-list');
+            const mergeButtonContainer = document.getElementById('merge-button-container');
+            
             container.innerHTML = '';
 
-            selectedFiles.forEach((file, index) => {
+            if (selectedFiles.length === 0) {
+                fileListSection.classList.add('hidden');
+                mergeButtonContainer.classList.add('hidden');
+                return;
+            }
+
+                selectedFiles.forEach((file, index) => {
                 const fileItem = document.createElement('div');
-                fileItem.className = 'file-item flex justify-between items-center';
+                fileItem.className = 'file-item flex items-center';
+                
                 fileItem.innerHTML = `
-                    <div class="flex items-center">
-                        <i class="fas fa-file-pdf mr-3"></i>
-                        <span>${file.name}</span>
-                        <span class="ml-2 text-sm opacity-75">(${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
+                    <div class="file-item-icon">
+                        <svg class="w-6 h-6 text-red-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.11 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                        </svg>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <button onclick="moveFile(${index}, -1)" class="bg-white bg-opacity-20 px-2 py-1 rounded" ${index === 0 ? 'disabled' : ''}>
-                            <i class="fas fa-arrow-up"></i>
-                        </button>
-                        <button onclick="moveFile(${index}, 1)" class="bg-white bg-opacity-20 px-2 py-1 rounded" ${index === selectedFiles.length - 1 ? 'disabled' : ''}>
-                            <i class="fas fa-arrow-down"></i>
-                        </button>
-                        <button onclick="removeFile(${index})" class="bg-red-500 px-2 py-1 rounded">
-                            <i class="fas fa-times"></i>
+                    <div class="file-item-content">
+                        <div class="file-item-name" title="${file.name}">
+                            ${file.name}
+                        </div>
+                        <div class="file-item-details">
+                            <span class="file-item-size">${(file.size / 1024 / 1024).toFixed(1)} MB</span>
+                            <span>PDF Document</span>
+                            <span>Page ${index + 1} of ${selectedFiles.length}</span>
+                        </div>
+                    </div>
+                    <div class="file-item-actions">
+                        <button onclick="removeFile(${index})" 
+                                class="file-remove-btn" 
+                                title="Remove file">
+                            <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
                         </button>
                     </div>
                 `;
                 container.appendChild(fileItem);
             });
 
-            document.getElementById('file-list').classList.remove('hidden');
-        }
-
-        // Move file in the list
-        function moveFile(index, direction) {
-            const newIndex = index + direction;
-            if (newIndex >= 0 && newIndex < selectedFiles.length) {
-                const temp = selectedFiles[index];
-                selectedFiles[index] = selectedFiles[newIndex];
-                selectedFiles[newIndex] = temp;
-                updateFileList();
+            // Show sections
+            fileListSection.classList.remove('hidden');
+            
+            // Show merge button only if we have 2+ files
+            if (selectedFiles.length >= 2) {
+                mergeButtonContainer.classList.remove('hidden');
+            } else {
+                mergeButtonContainer.classList.add('hidden');
+            }
+            
+            // Show success toast for file additions
+            if (selectedFiles.length === 1) {
+                showToast(`📄 ${selectedFiles.length} PDF added for merging`, 'success', 2000);
+            } else if (selectedFiles.length > 1) {
+                showToast(`📄 ${selectedFiles.length} PDFs ready to merge`, 'success', 2000);
             }
         }
 
         // Remove file from list
         function removeFile(index) {
-            selectedFiles.splice(index, 1);
-            updateFileList();
-            if (selectedFiles.length === 0) {
-                document.getElementById('file-list').classList.add('hidden');
-                document.getElementById('merge-button-container').classList.add('hidden');
+            if (index >= 0 && index < selectedFiles.length) {
+                const removedFile = selectedFiles[index];
+                selectedFiles.splice(index, 1);
+                updateFileList();
+                showMergeButton();
+                
+                showToast(`🗑️ Removed "${removedFile.name}"`, 'warning', 2000);
+                
+                // Hide results if they were showing
+                if (document.getElementById('results').classList.contains('hidden') === false) {
+                    document.getElementById('results').classList.add('hidden');
+                    mergeResults = null;
+                }
+            }
+        }
+
+        // Show merge button when appropriate
+        function showMergeButton() {
+            const mergeButtonContainer = document.getElementById('merge-button-container');
+            if (selectedFiles.length >= 2) {
+                mergeButtonContainer.classList.remove('hidden');
+            } else {
+                mergeButtonContainer.classList.add('hidden');
             }
         }
 
         // Clear all files
         function clearAllFiles() {
             selectedFiles = [];
+            mergeResults = null;
+            
+            // Clean up any object URLs to prevent memory leaks
+            document.querySelectorAll('.file-item img[src^="blob:"]').forEach(img => {
+                URL.revokeObjectURL(img.src);
+            });
+            
             document.getElementById('file-list').classList.add('hidden');
             document.getElementById('merge-button-container').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('error-display').classList.add('hidden');
+            
+            // Reset file input
+            const fileInput = document.getElementById('pdf-input');
+            if (fileInput) fileInput.value = '';
+            
+            showToast('🗑️ All files cleared', 'success', 2000);
+        }
+
+        // Show merge button when appropriate
+        function showMergeButton() {
+            const mergeButtonContainer = document.getElementById('merge-button-container');
+            if (selectedFiles.length >= 2) {
+                mergeButtonContainer.classList.remove('hidden');
+            } else {
+                mergeButtonContainer.classList.add('hidden');
+            }
         }
 
         // Show merge button
@@ -758,122 +1552,370 @@
             }
         }
 
-        // Merge PDFs
+        // Enhanced Merge PDFs function
         async function mergePdfs() {
             if (selectedFiles.length < 2) {
                 showError('Please select at least 2 PDF files to merge');
                 return;
             }
 
-            showProcessingStatus();
+            const mergeButton = document.getElementById('merge-pdfs');
+            mergeButton.disabled = true;
+            mergeButton.innerHTML = '<svg class="w-4 h-4 inline mr-2 animate-spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="m7 10 5 5 5-5"></path></svg>Processing...';
+            
+            
+            // Hide old processing status and use enhanced progress
+            hideProcessingStatus();
             
             try {
-                // Try backend first
-                try {
-                    const formData = new FormData();
-                    selectedFiles.forEach((file, index) => {
-                        formData.append(`file_${index}`, file);
-                    });
-                    formData.append('file_count', selectedFiles.length);
-
-                    const response = await fetch(`${BACKEND_CONFIG.baseUrl}${BACKEND_CONFIG.endpoints.pdfMerge}`, {
-                        method: 'POST',
-                        body: formData
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        
-                        if (result.success) {
-                            mergeResults = result;
-                            showResults();
-                            return;
-                        }
-                    }
-                } catch (backendError) {
-                    console.warn('Backend merge failed, falling back to client-side:', backendError);
-                }
-
-                // Fallback to client-side merge
-                showToast('Using client-side PDF merge...', 'info', 2000);
+                console.log('🚀 Starting enhanced merge process...');
+                
                 const mergedBlob = await mergePDFsClientSide(selectedFiles);
                 
                 mergeResults = {
                     success: true,
                     blob: mergedBlob,
-                    filename: 'merged.pdf',
-                    client_side: true
+                    filename: `merged_${selectedFiles.length}_files.pdf`,
+                    client_side: true,
+                    fileCount: selectedFiles.length,
+                    mergedSize: mergedBlob.size
                 };
                 
                 showResults();
+                // Toast will be shown by mergePDFsClientSide function, don't duplicate
                 
             } catch (error) {
-                showError(`PDF merge failed: ${error.message}`);
+                console.error('❌ PDF merge error:', error);
+                
+                // Ensure overlay is completely hidden on error
+                forceHideProgress();
+                
+                if (!error.message.includes('cancelled by user')) {
+                    showError(`Merge failed: ${error.message}`);
+                    showToast('❌ Merge failed. Please try with different PDF files.', 'error', 4000);
+                }
             } finally {
+                // Ensure processing status is hidden and button is reset
                 hideProcessingStatus();
+                mergeButton.disabled = false;
+                mergeButton.innerHTML = `
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5 inline mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"/>
+                    </svg>
+                    <span class="whitespace-nowrap">Merge PDFs</span>
+                `;
             }
         }
 
-        // Client-side PDF merge using PDF.js and jsPDF
+        // Simple Client-side PDF merge to avoid call stack issues
         async function mergePDFsClientSide(files) {
-            if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
-                throw new Error('jsPDF library not loaded');
-            }
-
-            const { jsPDF } = window.jspdf;
-            const mergedPdf = new jsPDF();
-            let isFirstPage = true;
-
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const arrayBuffer = await file.arrayBuffer();
+            try {
+                // Reset cancellation flag
+                cancelRequested = false;
+                currentMergeProcess = 'active';
                 
-                try {
-                    // Load PDF using PDF.js
-                    const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                // Check libraries
+                if (!window.jspdf || !window.jspdf.jsPDF) {
+                    throw new Error('jsPDF library not available');
+                }
+                if (!window.pdfjsLib) {
+                    throw new Error('PDF.js library not available');
+                }
+
+                console.log('🚀 Starting advanced PDF merge with optimizations...');
+                showProgress('🔄 Initializing PDF Merge', 'Preparing to process files...');
+                
+                // Immediate visual feedback
+                setTimeout(() => updateProgress(5, 1, files.length, 0, 0, 0), 100);
+
+                const { jsPDF } = window.jspdf;
+                
+                // Create PDF with optimized settings
+                const pdf = new jsPDF({
+                    orientation: 'portrait',
+                    unit: 'mm', 
+                    format: 'a4',
+                    compress: true, // Enable built-in compression
+                    precision: 2    // Optimize decimal precision
+                });
+
+                let pageAdded = false;
+                let totalProcessed = 0;
+                
+                // Pre-calculate total pages for better progress tracking
+                // This ensures consistent progress regardless of file count
+                let estimatedPages = 0;
+                updateProgress(10, 1, files.length, 0, 0, 0);
+                
+                // Count total pages across ALL files first
+                // Example: 2 files with 3 pages each = 6 total pages
+                // Example: 5 files with 2 pages each = 10 total pages  
+                // Example: 1 file with 50 pages = 50 total pages
+                for (let fileIndex = 0; fileIndex < files.length; fileIndex++) {
+                    // Check for cancellation
+                    if (cancelRequested) {
+                        throw new Error('Process cancelled by user');
+                    }
                     
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        const page = await pdf.getPage(pageNum);
-                        const viewport = page.getViewport({ scale: 1.5 });
+                    const file = files[fileIndex];
+                    try {
+                        const buffer = await file.arrayBuffer();
+                        const doc = await pdfjsLib.getDocument({ data: buffer, verbosity: 0 }).promise;
+                        estimatedPages += doc.numPages;
                         
-                        // Create canvas
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
-                        canvas.height = viewport.height;
-                        canvas.width = viewport.width;
+                        // Update progress during counting
+                        const countProgress = 10 + Math.round((fileIndex + 1) / files.length * 15);
+                        updateProgress(countProgress, fileIndex + 1, files.length, 0, doc.numPages, 0);
                         
-                        // Render page to canvas
-                        await page.render({
-                            canvasContext: context,
-                            viewport: viewport
-                        }).promise;
+                    } catch (e) {
+                        estimatedPages += 1; // Estimate 1 page if can't read
+                    }
+                }
+                
+                // Final cancellation check before processing
+                if (cancelRequested) {
+                    throw new Error('Process cancelled by user');
+                }
+                
+                updateProgress(25, files.length, files.length, 0, estimatedPages, 0);
+                console.log(`📊 Total estimated pages: ${estimatedPages} from ${files.length} files`);
+
+                // Process files with advanced optimizations
+                for (let i = 0; i < files.length; i++) {
+                    // Check for cancellation at start of each file
+                    if (cancelRequested) {
+                        throw new Error('Process cancelled by user');
+                    }
+                    
+                    const file = files[i];
+                    console.log(`📄 Processing file ${i + 1}/${files.length}: ${file.name}`);
+
+                    try {
+                        const arrayBuffer = await file.arrayBuffer();
                         
-                        // Convert canvas to image and add to PDF
-                        const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                        
-                        if (!isFirstPage) {
-                            mergedPdf.addPage();
+                        // Check cancellation after file read
+                        if (cancelRequested) {
+                            throw new Error('Process cancelled by user');
                         }
                         
-                        mergedPdf.addImage(
-                            imgData, 
-                            'JPEG', 
-                            0, 
-                            0, 
-                            mergedPdf.internal.pageSize.getWidth(), 
-                            mergedPdf.internal.pageSize.getHeight()
-                        );
-                        
-                        isFirstPage = false;
-                    }
-                } catch (error) {
-                    console.error(`Error processing file ${file.name}:`, error);
-                    throw new Error(`Failed to process ${file.name}: ${error.message}`);
-                }
-            }
+                        // Load PDF with enhanced options
+                        const pdfDoc = await pdfjsLib.getDocument({ 
+                            data: arrayBuffer,
+                            verbosity: 0,
+                            // Enhanced loading options
+                            password: '',
+                            ignoreErrors: true,
+                            pdfBug: false
+                        }).promise;
 
-            // Return as blob
-            return mergedPdf.output('blob');
+                        // Process each page with advanced quality optimizations
+                        for (let pageNum = 1; pageNum <= pdfDoc.numPages; pageNum++) {
+                            try {
+                                // Check for cancellation on each page
+                                if (cancelRequested) {
+                                    throw new Error('Process cancelled by user');
+                                }
+                                
+                                // Calculate accurate overall progress based on total processed pages
+                                // Progress ranges from 25% (after counting) to 95% (before final generation)
+                                const pageProgress = 25 + ((totalProcessed / estimatedPages) * 70);
+                                updateProgress(
+                                    Math.min(Math.round(pageProgress), 95), // Cap at 95% during processing
+                                    i + 1,
+                                    files.length,
+                                    pageNum,
+                                    estimatedPages, // Show total pages instead of current file pages
+                                    totalProcessed
+                                );
+
+                                const page = await pdfDoc.getPage(pageNum);
+                                
+                                // Get original dimensions for smart scaling
+                                const originalViewport = page.getViewport({ scale: 1.0 });
+                                
+                                // Adaptive scaling based on content size
+                                let optimalScale = 1.8; // Higher default quality
+                                if (originalViewport.width > 1200 || originalViewport.height > 1600) {
+                                    optimalScale = 1.4; // Reduce for very large pages
+                                } else if (originalViewport.width < 600 || originalViewport.height < 800) {
+                                    optimalScale = 2.2; // Increase for small pages
+                                }
+                                
+                                const viewport = page.getViewport({ scale: optimalScale });
+
+                                // Create high-DPI canvas for better quality
+                                const canvas = document.createElement('canvas');
+                                const ctx = canvas.getContext('2d');
+                                
+                                // High-DPI rendering support
+                                const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+                                canvas.width = viewport.width * devicePixelRatio;
+                                canvas.height = viewport.height * devicePixelRatio;
+                                ctx.scale(devicePixelRatio, devicePixelRatio);
+
+                                // Enhanced rendering with print quality
+                                const renderTask = page.render({
+                                    canvasContext: ctx,
+                                    viewport: viewport,
+                                    intent: 'print', // Better quality for text
+                                    renderInteractiveForms: false,
+                                    background: 'white' // Ensure white background
+                                });
+
+                                await renderTask.promise;
+
+                                // Smart image compression based on content
+                                let imageQuality = 0.95; // Very high quality by default
+                                const canvasSize = canvas.width * canvas.height;
+                                if (canvasSize > 3000000) {
+                                    imageQuality = 0.88; // Slightly reduce for large images
+                                } else if (canvasSize > 5000000) {
+                                    imageQuality = 0.82; // Further reduce for very large
+                                }
+                                
+                                const imgData = canvas.toDataURL('image/jpeg', imageQuality);
+
+                                // Enhanced A4 layout with minimal margins
+                                const A4_WIDTH = 210;
+                                const A4_HEIGHT = 297;
+                                const MARGIN = 6; // Smaller margins for more content
+                                
+                                const availableWidth = A4_WIDTH - (2 * MARGIN);
+                                const availableHeight = A4_HEIGHT - (2 * MARGIN);
+                                
+                                // Smart fit algorithm maintaining aspect ratio
+                                const contentAspectRatio = viewport.width / viewport.height;
+                                const pageAspectRatio = availableWidth / availableHeight;
+                                
+                                let imgWidth, imgHeight, offsetX, offsetY;
+                                
+                                if (contentAspectRatio > pageAspectRatio) {
+                                    // Content is wider - fit to width
+                                    imgWidth = availableWidth;
+                                    imgHeight = availableWidth / contentAspectRatio;
+                                    offsetX = MARGIN;
+                                    offsetY = MARGIN + (availableHeight - imgHeight) / 2;
+                                } else {
+                                    // Content is taller - fit to height  
+                                    imgHeight = availableHeight;
+                                    imgWidth = availableHeight * contentAspectRatio;
+                                    offsetX = MARGIN + (availableWidth - imgWidth) / 2;
+                                    offsetY = MARGIN;
+                                }
+
+                                // Add new page if needed
+                                if (pageAdded) {
+                                    pdf.addPage();
+                                }
+
+                                // Add image with optimization alias
+                                pdf.addImage(
+                                    imgData, 
+                                    'JPEG', 
+                                    offsetX, 
+                                    offsetY, 
+                                    imgWidth, 
+                                    imgHeight,
+                                    `p${i}_${pageNum}`, // Unique alias for caching
+                                    'FAST' // Fast compression mode
+                                );
+                                
+                                pageAdded = true;
+                                totalProcessed++;
+
+                                // Enhanced logging with size info (only for console, no toast)
+                                const sizeMB = (imgData.length * 0.75 / 1024 / 1024).toFixed(2);
+                                console.log(`✅ Page ${pageNum}/${pdfDoc.numPages} from ${file.name} - ${imgWidth.toFixed(0)}×${imgHeight.toFixed(0)}mm (${sizeMB}MB)`);
+
+                                // Update progress after processing each page - Single continuous progress
+                                // This formula ensures consistent progress regardless of total pages:
+                                // 25% base (file preparation) + (completed_pages / total_pages) * 70% processing
+                                // Works for: 2 pages, 10 pages, 100 pages - always smooth 0-100%
+                                const completionProgress = 25 + ((totalProcessed / estimatedPages) * 70);
+                                updateProgress(
+                                    Math.min(Math.round(completionProgress), 95),
+                                    i + 1,
+                                    files.length,
+                                    totalProcessed, // Current processed page number
+                                    estimatedPages, // Total pages across all files
+                                    totalProcessed
+                                );
+
+                                // Memory cleanup
+                                canvas.width = canvas.height = 0;
+                                
+                                // Adaptive delay based on page complexity
+                                const delay = canvasSize > 2000000 ? 80 : 40;
+                                await new Promise(resolve => setTimeout(resolve, delay));
+
+                            } catch (pageError) {
+                                console.warn(`⚠️ Skipped page ${pageNum} from ${file.name}:`, pageError.message);
+                                // Only show toast for errors, not every page
+                            }
+                        }
+
+                        // Inter-file processing delay
+                        await new Promise(resolve => setTimeout(resolve, 150));
+
+                    } catch (fileError) {
+                        console.error(`❌ Error processing ${file.name}:`, fileError.message);
+                        // Only show error toasts, not success ones
+                        showToast(`❌ Failed: ${file.name}`, 'error', 2000);
+                        continue; // Skip this file and continue with others
+                    }
+                }
+
+                // Validation check
+                if (!pageAdded) {
+                    hideProgress();
+                    throw new Error('No pages could be processed from any file');
+                }
+
+                // Final progress update
+                updateProgress(95, files.length, files.length, 0, estimatedPages, totalProcessed);
+                console.log(`🎉 Successfully processed ${totalProcessed} pages from ${files.length} files`);
+
+                // Generate final PDF with compression
+                updateProgress(100, files.length, files.length, 0, estimatedPages, totalProcessed);
+                const pdfBlob = pdf.output('blob');
+                const sizeMB = (pdfBlob.size / 1024 / 1024).toFixed(2);
+                
+                // Enhanced completion with proper cleanup
+                updateProgress(100, files.length, files.length, 0, estimatedPages, totalProcessed);
+                
+                // Wait a moment to show 100% completion
+                await new Promise(resolve => setTimeout(resolve, 500));
+                
+                // Hide progress with enhanced cleanup
+                hideProgress();
+                currentMergeProcess = null;
+                resetMergeState();
+                
+                console.log(`✅ PDF generated successfully - Final size: ${sizeMB}MB`);
+                showToast(`🎯 PDF merged successfully! Size: ${sizeMB}MB`, 'success', 4000);
+                
+                return pdfBlob;
+
+            } catch (error) {
+                // Enhanced error handling with proper cleanup
+                console.error('❌ Advanced PDF merge failed:', error);
+                
+                // Force hide progress overlay
+                forceHideProgress();
+                currentMergeProcess = null;
+                
+                // Handle cancellation differently from other errors
+                if (error.message.includes('cancelled by user')) {
+                    console.log('🛑 Merge process was cancelled by user');
+                    resetMergeState();
+                    // Don't show error toast for user cancellation, already handled
+                } else {
+                    resetMergeState();
+                    showToast(`❌ Merge failed: ${error.message}`, 'error', 5000);
+                }
+                
+                throw error;
+            }
         }
 
         // Show processing status
@@ -895,24 +1937,253 @@
 
         // Download merged PDF
         function downloadMergedPdf() {
-            if (mergeResults && mergeResults.download_url) {
+            if (mergeResults && mergeResults.blob) {
+                try {
+                    const url = URL.createObjectURL(mergeResults.blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = mergeResults.filename || 'merged_document.pdf';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    
+                    // Show success message
+                    if (typeof showToast === 'function') {
+                        showToast('✅ PDF downloaded successfully!', 'success', 3000);
+                    }
+                } catch (error) {
+                    console.error('Download failed:', error);
+                    showError(`Download failed: ${error.message}`);
+                }
+            } else if (mergeResults && mergeResults.download_url) {
+                // Fallback for server-side downloads
                 const a = document.createElement('a');
                 a.href = mergeResults.download_url;
                 a.download = 'merged_document.pdf';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+            } else {
+                showError('No merged PDF available to download');
             }
         }
 
         // Reset tool
         function resetTool() {
+            // Clear file data
             selectedFiles = [];
             mergeResults = null;
+            
+            // Clean up any object URLs
+            document.querySelectorAll('.file-item img[src^="blob:"]').forEach(img => {
+                URL.revokeObjectURL(img.src);
+            });
+            
+            // Hide all sections
             document.getElementById('file-list').classList.add('hidden');
             document.getElementById('merge-button-container').classList.add('hidden');
             document.getElementById('results').classList.add('hidden');
             document.getElementById('error-display').classList.add('hidden');
+            document.getElementById('processing-status').classList.add('hidden');
+            
+            // Reset file input
+            const fileInput = document.getElementById('pdf-input');
+            if (fileInput) fileInput.value = '';
+            
+            // Clear file container
+            const filesContainer = document.getElementById('files-container');
+            if (filesContainer) filesContainer.innerHTML = '';
+            
+            // Show success feedback
+            showToast('🔄 Ready for new PDF merge', 'success', 2000);
+        }
+
+        // Enhanced Progress management functions - Fixed Overlay Issues
+        function showProgress(title = 'Processing...', text = 'Please wait...') {
+            console.log('🚀 Showing progress overlay:', title);
+            
+            const overlay = document.getElementById('progressOverlay');
+            if (!overlay) {
+                console.error('❌ Progress overlay element not found!');
+                return;
+            }
+            
+            // Get all required elements with fallback checks
+            const titleEl = document.getElementById('progressTitle');
+            const textEl = document.getElementById('progressText');
+            const progressCircle = document.getElementById('progressCircle');
+            const circularPercentage = document.getElementById('circularPercentage');
+            const fileEl = document.getElementById('currentFile');
+            const pageEl = document.getElementById('currentPage');
+            const processedEl = document.getElementById('processedPages');
+            const cancelBtn = document.getElementById('cancelButton');
+            
+            // Reset all states and clear any existing classes
+            overlay.classList.remove('hide');
+            overlay.style.display = 'flex';
+            overlay.style.visibility = 'visible';
+            
+            // Set initial content with fallback checks
+            if (titleEl) titleEl.textContent = title;
+            if (textEl) textEl.textContent = text;
+            
+            // Reset circular progress with proper initialization
+            if (progressCircle) {
+                progressCircle.style.strokeDashoffset = '283';
+                progressCircle.style.transition = 'stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+            
+            if (circularPercentage) {
+                circularPercentage.textContent = '0%';
+            }
+            
+            // Reset stats
+            if (fileEl) fileEl.textContent = '1/1';
+            if (pageEl) pageEl.textContent = '0/0';
+            if (processedEl) processedEl.textContent = '0';
+            
+            // Reset cancel button
+            if (cancelBtn) {
+                cancelBtn.disabled = false;
+                cancelBtn.textContent = '❌ Cancel Process';
+                cancelBtn.className = 'cancel-button';
+            }
+            
+            // Show overlay with smooth animation
+            setTimeout(() => {
+                overlay.classList.add('show');
+                console.log('✅ Progress overlay displayed successfully');
+            }, 10);
+        }
+
+        function updateProgress(percentage, currentFile, totalFiles, currentPage, totalPages, processedPages) {
+            // Validate and sanitize inputs
+            const validPercentage = Math.min(Math.max(parseFloat(percentage) || 0, 0), 100);
+            const smoothPercentage = Math.round(validPercentage * 10) / 10;
+            
+            // Get elements with existence checks
+            const progressCircle = document.getElementById('progressCircle');
+            const circularPercentage = document.getElementById('circularPercentage');
+            const fileEl = document.getElementById('currentFile');
+            const pageEl = document.getElementById('currentPage');
+            const processedEl = document.getElementById('processedPages');
+            const textEl = document.getElementById('progressText');
+            
+            // Update circular progress with smooth animation
+            if (progressCircle && circularPercentage) {
+                const circumference = 283; // 2 * π * 45 (new radius)
+                const offset = circumference - (smoothPercentage / 100) * circumference;
+                
+                requestAnimationFrame(() => {
+                    progressCircle.style.strokeDashoffset = offset.toString();
+                    circularPercentage.textContent = Math.round(smoothPercentage) + '%';
+                });
+            }
+            
+            // Update stats with safe defaults - Show overall progress
+            if (fileEl) fileEl.textContent = `${currentFile || 1}/${totalFiles || 1}`;
+            if (pageEl) pageEl.textContent = `${processedPages || 0}/${totalPages || 0}`; // Show processed/total instead of current page
+            if (processedEl) processedEl.textContent = `${processedPages || 0}`;
+            
+            // Update descriptive text with current file info
+            if (textEl) {
+                if (selectedFiles && selectedFiles[currentFile - 1]) {
+                    const fileName = selectedFiles[currentFile - 1].name;
+                    const truncatedName = fileName.length > 30 ? fileName.substring(0, 30) + '...' : fileName;
+                    textEl.textContent = `Processing "${truncatedName}" (${processedPages}/${totalPages} pages)`;
+                } else {
+                    textEl.textContent = `Processing PDF files... (${processedPages}/${totalPages} pages)`;
+                }
+            }
+            
+            // Debug logging (reduced frequency)
+            if (smoothPercentage % 10 === 0 || smoothPercentage >= 95) {
+                console.log(`📊 Progress: ${Math.round(smoothPercentage)}% - File ${currentFile}/${totalFiles} - Processed ${processedPages}/${totalPages} pages`);
+            }
+        }
+
+        function hideProgress() {
+            const overlay = document.getElementById('progressOverlay');
+            if (!overlay) {
+                console.warn('⚠️ Progress overlay not found for hiding');
+                return;
+            }
+            
+            console.log('🔄 Hiding progress overlay...');
+            
+            // Start hide animation
+            overlay.classList.remove('show');
+            overlay.classList.add('hide');
+            
+            // Complete cleanup after animation
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                overlay.style.visibility = 'hidden';
+                overlay.classList.remove('hide');
+                
+                // Reset all progress elements
+                resetProgressElements();
+                
+                console.log('✅ Progress overlay hidden and reset');
+            }, 400); // Match CSS transition duration
+        }
+
+        function forceHideProgress() {
+            const overlay = document.getElementById('progressOverlay');
+            if (!overlay) {
+                console.warn('⚠️ Progress overlay not found for force hiding');
+                return;
+            }
+            
+            console.log('🚨 Force hiding progress overlay...');
+            
+            // Immediate cleanup without animation
+            overlay.style.display = 'none';
+            overlay.style.visibility = 'hidden';
+            overlay.classList.remove('show', 'hide');
+            
+            // Reset all progress elements
+            resetProgressElements();
+            
+            console.log('✅ Progress overlay force hidden');
+        }
+
+        function resetProgressElements() {
+            // Reset circular progress
+            const progressCircle = document.getElementById('progressCircle');
+            const circularPercentage = document.getElementById('circularPercentage');
+            
+            if (progressCircle) {
+                progressCircle.style.strokeDashoffset = '283';
+                progressCircle.style.transition = 'stroke-dashoffset 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+                progressCircle.style.stroke = 'url(#progressGradient)';
+            }
+            if (circularPercentage) {
+                circularPercentage.textContent = '0%';
+            }
+            
+            // Reset stats
+            const fileEl = document.getElementById('currentFile');
+            const pageEl = document.getElementById('currentPage');
+            const processedEl = document.getElementById('processedPages');
+            const textEl = document.getElementById('progressText');
+            const titleEl = document.getElementById('progressTitle');
+            
+            if (fileEl) fileEl.textContent = '1/1';
+            if (pageEl) pageEl.textContent = '0/0';
+            if (processedEl) processedEl.textContent = '0';
+            if (textEl) textEl.textContent = 'Ready to process...';
+            if (titleEl) titleEl.textContent = 'Processing...';
+            
+            // Reset cancel button
+            const cancelBtn = document.getElementById('cancelButton');
+            if (cancelBtn) {
+                cancelBtn.disabled = false;
+                cancelBtn.textContent = '❌ Cancel Process';
+                cancelBtn.className = 'cancel-button';
+            }
         }
 
         // Show error
@@ -920,7 +2191,113 @@
             document.getElementById('error-message').textContent = message;
             document.getElementById('error-display').classList.remove('hidden');
             document.getElementById('results').classList.add('hidden');
+            
+            // Also show toast error if available
+            if (typeof showToast === 'function') {
+                showToast(`❌ ${message}`, 'error', 4000);
+            }
+        }
+
+        // Toast notification system for PDF merge
+        function showToast(message, type = 'info', duration = 3000) {
+            // Prevent infinite recursion by checking if this is the global function
+            if (typeof window.showToast === 'function' && window.showToast !== showToast) {
+                return window.showToast(message, type, duration);
+            }
+            
+            // Fallback to simple console notification
+            console.log(`${type.toUpperCase()}: ${message}`);
+            
+            // Create simple toast element as visual fallback
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
+                color: white;
+                padding: 12px 24px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-family: system-ui, -apple-system, sans-serif;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+                max-width: 300px;
+                word-wrap: break-word;
+                opacity: 0;
+                transform: translateX(100%);
+                transition: all 0.3s ease;
+            `;
+            
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            // Animate in
+            setTimeout(() => {
+                toast.style.opacity = '1';
+                toast.style.transform = 'translateX(0)';
+            }, 10);
+            
+            // Remove after duration
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        document.body.removeChild(toast);
+                    }
+                }, 300);
+            }, duration);
         }
     </script>
+
+    <!-- Enhanced Progress Overlay -->
+    <div id="progressOverlay" class="progress-overlay">
+        <div class="progress-card">
+            <!-- Circular Progress Bar -->
+            <div id="circularProgress" class="circular-progress">
+                <svg viewBox="0 0 100 100" style="width: 100%; height: 100%;">
+                    <defs>
+                        <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#4f46e5;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#7c3aed;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#06b6d4;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle class="progress-circle-bg" cx="50" cy="50" r="45" stroke-width="6"></circle>
+                    <circle id="progressCircle" class="progress-circle" cx="50" cy="50" r="45" stroke-width="6"></circle>
+                </svg>
+                <div id="circularPercentage" class="progress-text">0%</div>
+                <div class="progress-subtext">Processing</div>
+            </div>
+            
+            <!-- Title and Description -->
+            <h3 id="progressTitle" class="text-2xl font-bold text-gray-800 mb-2">Processing PDFs...</h3>
+            <p id="progressText" class="text-gray-600 mb-6">Initializing merge process...</p>
+            
+            <!-- Enhanced Progress Stats -->
+            <div class="progress-stats">
+                <div class="progress-stat">
+                    <div id="currentFile" class="progress-stat-value">1/1</div>
+                    <div class="progress-stat-label">Files</div>
+                </div>
+                <div class="progress-stat">
+                    <div id="currentPage" class="progress-stat-value">0/0</div>
+                    <div class="progress-stat-label">Pages</div>
+                </div>
+                <div class="progress-stat">
+                    <div id="processedPages" class="progress-stat-value">0</div>
+                    <div class="progress-stat-label">Completed</div>
+                </div>
+            </div>
+            
+            <!-- Enhanced Cancel Button -->
+            <button id="cancelButton" 
+                    class="cancel-button"
+                    onclick="cancelMergeProcess()">
+                ❌ Cancel Process
+            </button>
+        </div>
+    </div>
+
 </body>
 </html> 

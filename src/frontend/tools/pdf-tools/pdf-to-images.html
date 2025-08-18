@@ -13,18 +13,18 @@
     <meta property="og:title" content="PDF to Images Converter - Extract Images from PDF Online">
     <meta property="og:description" content="Extract images from PDF files in various formats (JPG, PNG, WebP). Free PDF to images converter with high quality output.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://techuhat.github.io/toolkit/tools/pdf-to-images.html">
-    <meta property="og:image" content="../images/og.png">
+    <meta property="og:url" content="https://imagetoolkit.tech/tools/pdf-to-images.html">
+    <meta property="og:image" content="../../../../images/og.png">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="PDF to Images Converter - Extract Images from PDF Online">
     <meta name="twitter:description" content="Extract images from PDF files in various formats (JPG, PNG, WebP). Free PDF to images converter with high quality output.">
-    <meta name="twitter:image" content="../images/og.png">
+    <meta name="twitter:image" content="../../../../images/og.png">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#4F46E5">
-    <link rel="canonical" href="https://techuhat.github.io/toolkit/tools/pdf-to-images.html">
+    <link rel="canonical" href="https://imagetoolkit.tech/tools/pdf-to-images.html">
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -33,7 +33,7 @@
         "@type": "WebApplication",
         "name": "PDF to Images Converter",
         "description": "Extract images from PDF files in various formats (JPG, PNG, WebP). Free PDF to images converter with high quality output.",
-        "url": "https://techuhat.github.io/toolkit/tools/pdf-to-images.html",
+    "url": "https://imagetoolkit.tech/tools/pdf-to-images.html",
         "applicationCategory": "PDFConverter",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -52,11 +52,11 @@
     </script>
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../../../public/styles.min.css">
-    <link rel="stylesheet" href="../../../../public/tailwind-complete.css">
-    <link rel="stylesheet" href="../../../../public/css/all.min.css">
-    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css">
-    <link rel="stylesheet" href="../../../../public/css/icon-fix.css">
+    <link rel="preload" href="../../../../public/styles.min.css?v=20250817" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../public/styles.min.css?v=20250817"></noscript>
+    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=20250817">
     
     <!-- Theme initialization script - runs immediately -->
     <script>
@@ -73,6 +73,7 @@
     </script>
     
     <!-- PWA and Favicon -->
+    <link rel="icon" href="../../../../public/favicon.ico" type="image/x-icon">
     <link rel="manifest" href="../../../../public/manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -454,12 +455,20 @@
                     </svg>
                     Extract Images
                 </button>
-                <button id="download-btn" class="btn-base btn-success btn-lg flex-1 w-full sm:w-auto hidden">
-                    <svg class="w-5 h-5 mr-2 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
-                    </svg>
-                    Download All
-                </button>
+                <div id="download-buttons" class="flex gap-2 flex-1 hidden">
+                    <button id="download-individual-btn" class="btn-base btn-success btn-lg flex-1 w-full sm:w-auto">
+                        <svg class="w-5 h-5 mr-2 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M5,20H19V18H5M19,9H15V3H9V9H5L12,16L19,9Z"/>
+                        </svg>
+                        Download Individual
+                    </button>
+                    <button id="download-zip-btn" class="btn-base btn-info btn-lg flex-1 w-full sm:w-auto">
+                        <svg class="w-5 h-5 mr-2 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14,17H12V15H10V13H12V15H14M14,9V11H12V13H10V11H12V9M14,1H2V3H14V1M2,19V21H14V19H2M22,9V11H16V13H18V15H16V17H18V19H16V21H22V19H20V17H22V15H20V13H22V11H20V9H22Z"/>
+                        </svg>
+                        Download ZIP
+                    </button>
+                </div>
                 <button id="clear-btn" class="btn-base btn-secondary btn-lg flex-1 w-full sm:w-auto">
                     Clear All
                 </button>
@@ -532,18 +541,17 @@
                 <div>
                     <h4 class="font-semibold mb-4">Tools</h4>
                     <ul class="space-y-2 text-gray-400">
-                        <li><a href="image-to-pdf.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image to PDF</a></li>
+                        <li><a href="../image-tools/image-to-pdf.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image to PDF</a></li>
                         <li><a href="pdf-to-images.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to Images</a></li>
-                        <li><a href="image-compressor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Compressor</a></li>
-                        <li><a href="image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
-                        <li><a href="format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
-                        <li><a href="batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
-                        <li><a href="pdf-to-doc.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to DOC</a></li>
-                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Code Generator</a></li>
+                        <li><a href="../image-tools/image-compressor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Compressor</a></li>
+                        <li><a href="../image-tools/image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
+                        <li><a href="../image-tools/format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
+                        <li><a href="../utility-tools/batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
+                        <li><a href="pdf-merge.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Merge</a></li>
+                        <li><a href="pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>
+                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Generator</a></li>
                     </ul>
-                </div>
-                
-                <div>
+                </div>                <div>
                     <h4 class="font-semibold mb-4">Company</h4>
                     <ul class="space-y-2 text-gray-400">
                         <li><a href="../../pages/about.html" class="hover:text-white transition-colors">About Us</a></li>
@@ -576,7 +584,7 @@
     <script src="../../../../public/js/pdf.min.js"></script>
     <script src="../../../../public/js/pdf-config.js"></script>
     <!-- JSZip for multi-file ZIP downloads -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-J3UBbF7l10QmV5uF+Z0aW5E1H3q2u2k8p2U4kq9Q3Z4TtC6oJXw3qY0VYv3r6G6s2x9rN0xgYxZ0Q3r2wKp2eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // PDF.js worker will be automatically configured by pdf-config.js
         // Fallback configuration for immediate use
@@ -585,6 +593,80 @@
         }
     </script>
     <script src="../../../../public/script.js"></script>
+    <script>
+        // Global download functions for PDF to Images tool
+        
+        // Download all images individually
+        function downloadAllImagesIndividual() {
+            if (processedFiles.length === 0) {
+                showToast('No images to download', 'warning');
+                return;
+            }
+            
+            processedFiles.forEach((file, index) => {
+                setTimeout(() => {
+                    const url = URL.createObjectURL(file.blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = file.name;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, index * 100); // Small delay between downloads
+            });
+            
+            showToast(`Downloaded ${processedFiles.length} images individually`, 'success');
+        }
+        
+        // Download all images as ZIP
+        async function downloadAllImagesAsZip() {
+            if (processedFiles.length === 0) {
+                showToast('No images to download', 'warning');
+                return;
+            }
+            
+            if (!window.JSZip) {
+                showToast('ZIP functionality not available', 'error');
+                return;
+            }
+            
+            try {
+                const zip = new JSZip();
+                
+                // Add all images to ZIP
+                processedFiles.forEach(file => {
+                    zip.file(file.name, file.blob);
+                });
+                
+                // Generate ZIP file
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                
+                // Download ZIP file
+                const url = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'extracted_images.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast(`Downloaded ${processedFiles.length} images as ZIP`, 'success');
+            } catch (error) {
+                console.error('ZIP download failed:', error);
+                showToast('Failed to create ZIP file', 'error');
+            }
+        }
+        
+        // Function to show download buttons (called by the main script)
+        function showDownloadButtons() {
+            const downloadButtons = document.getElementById('download-buttons');
+            if (downloadButtons) {
+                downloadButtons.classList.remove('hidden');
+            }
+        }
+    </script>
     <script>
         // Global variables for tool functionality
         let currentFiles = [];
@@ -661,6 +743,18 @@
                     localStorage.setItem('theme', theme);
                     document.documentElement.classList.toggle('dark', themeToggle.checked);
                 });
+            }
+            
+            // Setup download buttons
+            const downloadIndividualBtn = document.getElementById('download-individual-btn');
+            const downloadZipBtn = document.getElementById('download-zip-btn');
+            
+            if (downloadIndividualBtn) {
+                downloadIndividualBtn.addEventListener('click', downloadAllImagesIndividual);
+            }
+            
+            if (downloadZipBtn) {
+                downloadZipBtn.addEventListener('click', downloadAllImagesAsZip);
             }
             
             // Show success message after initialization

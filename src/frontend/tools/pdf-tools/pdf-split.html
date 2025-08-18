@@ -4,20 +4,290 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
+    <!-- Cache Control for Development -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
     <title>PDF Split - Split PDF by Pages | ImagePDF Toolkit</title>
-    <meta name="description" content="Split PDF files by pages or ranges. Free online PDF splitter tool with custom page selection.">
+    <meta name="description" content="Split PDF files by pages or ranges. Free online PDF splitter with custom page selection & range validation.">
+    <meta name="keywords" content="PDF split, split PDF, PDF splitter, split PDF by pages, PDF page extractor">
+    <meta name="author" content="ImagePDF Toolkit">
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+    <!-- Open Graph -->
+    <meta property="og:title" content="PDF Split - Split PDF by Pages" />
+    <meta property="og:description" content="Split PDF files instantly by pages or custom ranges – 100% client-side, private." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://imagetoolkit.tech/tools/pdf-split.html" />
+    <meta property="og:image" content="../../../../images/og.png" />
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PDF Split - Split PDF by Pages" />
+    <meta name="twitter:description" content="Split PDF files instantly by pages or custom ranges – 100% private." />
+    <meta name="twitter:image" content="../../../../images/og.png" />
+    <link rel="canonical" href="https://imagetoolkit.tech/tools/pdf-split.html" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"PDF Split Tool","description":"Split PDF files by specifying individual pages or ranges entirely in the browser.","url":"https://imagetoolkit.tech/tools/pdf-split.html","applicationCategory":"PDFConverter","operatingSystem":"Any","browserRequirements":"Requires JavaScript. Requires HTML5.","softwareVersion":"2.0","author":{"@type":"Organization","name":"TechUhat","url":"https://github.com/techuhat"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../../../../public/favicon.ico">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../../../public/styles.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/all.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=2.3.1">
+    <link rel="preload" href="../../../../public/styles.min.css?v=20250817" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../public/styles.min.css?v=20250817"></noscript>
+    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=20250817" data-legacy-tailwind>
+    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=20250817">
     
     <!-- Scripts -->
-    <script src="../../../../public/js/pdf.min.js"></script>
-    <script src="../../../../public/js/jspdf.min.js"></script>
-    <script src="../../../../public/script.js?v=2.3.1"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="../../../../public/js/pdf.min.js" defer></script>
+    <script src="../../../../public/js/jspdf.min.js" defer></script>
+    <script src="../../../../public/script.js?v=2.3.1" defer></script>
+    
+    <style>
+        /* File Drop Zone Styles */
+        .file-drop-zone {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(37, 99, 235, 0.1));
+            border: 2px dashed #3b82f6;
+            transition: all 0.3s ease;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .file-drop-zone.drag-over {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+            border-color: #1d4ed8;
+            transform: scale(1.02);
+        }
+
+        /* Enhanced Button Visibility */
+        .upload-button, .action-button {
+            position: relative !important;
+            z-index: 10 !important;
+            min-width: 180px !important;
+            min-height: 50px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.025em !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+            border: none !important;
+            outline: none !important;
+            cursor: pointer !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        .upload-button:hover, .action-button:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+            opacity: 1 !important;
+        }
+
+        /* Ensure dark mode visibility */
+        .dark .upload-button, .dark .action-button {
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* Force button text visibility */
+        .upload-button *, .action-button * {
+            color: inherit !important;
+            fill: currentColor !important;
+            stroke: currentColor !important;
+        }
+
+        /* Day/Night Toggle Switch Styles */
+        .toggleWrapper {
+            position: relative !important;
+            overflow: hidden !important;
+            padding: 0 !important;
+            display: inline-block !important;
+        }
+
+        .toggleWrapper input {
+            position: absolute !important;
+            left: -9999px !important;
+            opacity: 0 !important;
+        }
+
+        /* Default state - Day mode */
+        .toggle {
+            cursor: pointer !important;
+            display: inline-block !important;
+            position: relative !important;
+            width: 45px !important;
+            height: 25px !important;
+            background-color: #83D8FF !important;
+            border-radius: 84px !important;
+            transition: background-color 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+        }
+
+        .toggle__handler {
+            display: inline-block !important;
+            position: relative !important;
+            z-index: 1 !important;
+            top: 2px !important;
+            left: 2px !important;
+            width: 21px !important;
+            height: 21px !important;
+            background-color: #FFCF96 !important;
+            border-radius: 50px !important;
+            box-shadow: 0 2px 6px rgba(0,0,0,.3) !important;
+            transition: all 400ms cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+            transform: rotate(-45deg) !important;
+        }
+
+        .crater {
+            position: absolute !important;
+            background-color: #E8CDA5 !important;
+            opacity: 0 !important;
+            transition: opacity 200ms ease-in-out !important;
+            border-radius: 100% !important;
+        }
+
+        .crater--1 {
+            top: 9px !important;
+            left: 5px !important;
+            width: 2px !important;
+            height: 2px !important;
+        }
+
+        .crater--2 {
+            top: 14px !important;
+            left: 11px !important;
+            width: 3px !important;
+            height: 3px !important;
+        }
+
+        .crater--3 {
+            top: 5px !important;
+            left: 12px !important;
+            width: 4px !important;
+            height: 4px !important;
+        }
+
+        .star {
+            position: absolute !important;
+            background-color: #ffffff !important;
+            transition: all 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+            border-radius: 50% !important;
+        }
+
+        .star--1 {
+            top: 5px !important;
+            left: 17px !important;
+            z-index: 0 !important;
+            width: 15px !important;
+            height: 2px !important;
+        }
+
+        .star--2 {
+            top: 9px !important;
+            left: 14px !important;
+            z-index: 1 !important;
+            width: 15px !important;
+            height: 2px !important;
+        }
+
+        .star--3 {
+            top: 14px !important;
+            left: 20px !important;
+            z-index: 0 !important;
+            width: 15px !important;
+            height: 2px !important;
+        }
+
+        .star--4,
+        .star--5,
+        .star--6 {
+            opacity: 0 !important;
+            transition: all 300ms 0 cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+        }
+
+        .star--4 {
+            top: 8px !important;
+            left: 6px !important;
+            z-index: 0 !important;
+            width: 1px !important;
+            height: 1px !important;
+            transform: translate3d(3px,0,0) !important;
+        }
+
+        .star--5 {
+            top: 16px !important;
+            left: 9px !important;
+            z-index: 0 !important;
+            width: 1.5px !important;
+            height: 1.5px !important;
+            transform: translate3d(3px,0,0) !important;
+        }
+
+        .star--6 {
+            top: 18px !important;
+            left: 14px !important;
+            z-index: 0 !important;
+            width: 1px !important;
+            height: 1px !important;
+            transform: translate3d(3px,0,0) !important;
+        }
+
+        /* Night mode - Checked state styles */
+        input:checked + .toggle {
+            background-color: #749DD6 !important;
+        }
+
+        input:checked + .toggle .toggle__handler {
+            background-color: #FFE5B5 !important;
+            transform: translate3d(20px, 0, 0) rotate(0deg) !important;
+        }
+
+        input:checked + .toggle .crater {
+            opacity: 1 !important;
+        }
+
+        input:checked + .toggle .star--1 {
+            width: 1px !important;
+            height: 1px !important;
+        }
+
+        input:checked + .toggle .star--2 {
+            width: 2px !important;
+            height: 2px !important;
+            transform: translate3d(-5px, 0, 0) !important;
+        }
+
+        input:checked + .toggle .star--3 {
+            width: 1px !important;
+            height: 1px !important;
+            transform: translate3d(-7px, 0, 0) !important;
+        }
+
+        input:checked + .toggle .star--4,
+        input:checked + .toggle .star--5,
+        input:checked + .toggle .star--6 {
+            opacity: 1 !important;
+            transform: translate3d(0,0,0) !important;
+        }
+
+        input:checked + .toggle .star--4 {
+            transition: all 300ms 200ms cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+        }
+
+        input:checked + .toggle .star--5 {
+            transition: all 300ms 300ms cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+        }
+
+        input:checked + .toggle .star--6 {
+            transition: all 300ms 400ms cubic-bezier(0.445, 0.05, 0.55, 0.95) !important;
+        }
+
+        /* Dark mode styles */
+        .dark {
+            color-scheme: dark;
+        }
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-gray-900 text-slate-800 dark:text-gray-100 min-h-screen">
     <!-- Toast Container -->
@@ -29,13 +299,36 @@
             <div class="flex justify-between items-center h-16">
                 <div class="flex items-center space-x-3">
                     <a href="../../../../index.html" class="flex items-center space-x-3">
-                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center">
+                        <div class="w-10 h-10 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 rounded-xl flex items-center justify-center shadow-lg">
                             <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-4v-2h4v2zm0-4H9v-2h6v2z"/>
                             </svg>
                         </div>
-                        <span class="text-xl font-bold">ImagePDF Toolkit</span>
+                        <div class="flex flex-col">
+                            <h1 class="text-xl font-bold text-gray-900 dark:text-white">ImagePDF Toolkit</h1>
+                            <span class="text-xs text-gray-500 dark:text-gray-400 font-medium">Professional Tools</span>
+                        </div>
                     </a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Theme Toggle -->
+                    <div class="toggleWrapper">
+                        <input type="checkbox" id="dn" aria-label="Toggle dark mode" />
+                        <label for="dn" class="toggle" aria-label="Dark mode toggle">
+                            <span class="toggle__handler" aria-hidden="true">
+                                <span class="crater crater--1"></span>
+                                <span class="crater crater--2"></span>
+                                <span class="crater crater--3"></span>
+                            </span>
+                            <span class="star star--1" aria-hidden="true"></span>
+                            <span class="star star--2" aria-hidden="true"></span>
+                            <span class="star star--3" aria-hidden="true"></span>
+                            <span class="star star--4" aria-hidden="true"></span>
+                            <span class="star star--5" aria-hidden="true"></span>
+                            <span class="star star--6" aria-hidden="true"></span>
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,50 +337,63 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <section class="text-center mb-12">
-            <h1 class="text-4xl font-bold mb-4">PDF Split Tool</h1>
+            <h1 class="text-4xl font-bold mb-4 text-gray-900 dark:text-white">PDF Split Tool</h1>
             <p class="text-xl text-gray-600 dark:text-gray-300">Split PDF files by pages or custom ranges</p>
         </section>
         
-        <!-- File Upload -->
-        <div class="max-w-2xl mx-auto mb-8">
-            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center" id="file-drop-zone">
-                <input type="file" id="file-input" accept=".pdf" class="hidden">
-                <div class="mb-4">
-                    <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                        <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
+        <!-- File Upload Area -->
+        <section class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6">
+            <div class="file-drop-zone rounded-xl p-8 text-center" id="file-drop-zone">
+                <div class="max-w-md mx-auto">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900 dark:to-indigo-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-10 h-10 text-blue-600 dark:text-blue-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                        Drop PDF file here to split
+                    </h3>
+                    <p class="text-gray-600 dark:text-gray-400 mb-6">
+                        or click to browse file
+                    </p>
+                    <div class="flex justify-center">
+                        <input type="file" id="file-input" accept=".pdf" class="hidden">
+                        <button onclick="document.getElementById('file-input').click()" class="upload-button flex items-center justify-center px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+                            <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+                            </svg>
+                            Choose PDF File
+                        </button>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
+                        Maximum 100MB • PDF format only
+                    </p>
                 </div>
-                <h3 class="text-lg font-medium mb-2">Drop PDF file here</h3>
-                <p class="text-gray-500 mb-4">or click to browse</p>
-                <button onclick="document.getElementById('file-input').click()" class="btn-base btn-primary">
-                    Choose PDF File
-                </button>
             </div>
-        </div>
+        </section>
         
         <!-- Split Options -->
-        <div id="split-options" class="max-w-4xl mx-auto mb-8 hidden">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <h3 class="text-lg font-semibold mb-4">Split Options</h3>
-                <div class="grid md:grid-cols-3 gap-4 mb-6">
-                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <input type="radio" name="split-type" value="individual" checked class="mr-3">
-                        <div>
-                            <div class="font-medium">Individual Pages</div>
-                            <div class="text-sm text-gray-500">Split into separate files for each page</div>
-                        </div>
-                    </label>
-                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <input type="radio" name="split-type" value="range" class="mr-3">
-                        <div>
-                            <div class="font-medium">Page Range</div>
-                            <div class="text-sm text-gray-500">Extract specific page ranges</div>
-                        </div>
-                    </label>
-                    <label class="flex items-center p-4 border rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <input type="radio" name="split-type" value="bulk" class="mr-3">
-                        <div>
-                            <div class="font-medium">Bulk Split</div>
+        <section id="split-options" class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6 hidden">
+            <h3 class="text-xl font-semibold mb-6 text-gray-900 dark:text-white">Split Options</h3>
+            <div class="grid md:grid-cols-3 gap-4 mb-6">
+                <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-blue-300 transition-all">
+                    <input type="radio" name="split-type" value="individual" checked class="mr-3 text-blue-600">
+                    <div>
+                        <div class="font-medium text-gray-900 dark:text-white">Individual Pages</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Split into separate files for each page</div>
+                    </div>
+                </label>
+                <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-blue-300 transition-all">
+                    <input type="radio" name="split-type" value="range" class="mr-3 text-blue-600">
+                    <div>
+                        <div class="font-medium text-gray-900 dark:text-white">Page Range</div>
+                        <div class="text-sm text-gray-500 dark:text-gray-400">Extract specific page ranges</div>
+                    </div>
+                </label>
+                <label class="flex items-center p-4 border-2 border-gray-200 dark:border-gray-600 rounded-lg cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-blue-300 transition-all">
+                    <input type="radio" name="split-type" value="bulk" class="mr-3 text-blue-600">
+                    <div>
+                        <div class="font-medium text-gray-900 dark:text-white">Bulk Split</div>
                             <div class="text-sm text-gray-500">Split into chunks of X pages</div>
                         </div>
                     </label>
@@ -95,59 +401,72 @@
                 
                 <!-- Range Options -->
                 <div id="range-options" class="hidden mb-4">
-                    <label class="block text-sm font-medium mb-2">Page Ranges (e.g., 1-3,5,7-9):</label>
-                    <input type="text" id="page-ranges" placeholder="1-3,5,7-9" class="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    <div class="flex items-center justify-between mb-2">
+                        <label class="block text-sm font-medium">Page Ranges (e.g., 1-3,5,7-9):</label>
+                        <span id="total-pages-info" class="text-xs text-gray-500 dark:text-gray-400 hidden"></span>
+                    </div>
+                    <input type="text" id="page-ranges" placeholder="1-3,5,7-9" class="w-full p-3 border rounded-lg" aria-describedby="total-pages-info">
+                    <p id="range-validation-hint" class="mt-2 text-xs text-gray-500 dark:text-gray-400"></p>
                 </div>
                 
                 <!-- Bulk Options -->
                 <div id="bulk-options" class="hidden mb-4">
                     <label class="block text-sm font-medium mb-2">Pages per file:</label>
-                    <input type="number" id="pages-per-split" value="1" min="1" class="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600">
+                    <input type="number" id="pages-per-split" value="1" min="1" class="w-full p-3 border rounded-lg">
                 </div>
                 
                 <div class="text-center">
-                    <button id="split-btn" class="btn-base btn-success btn-lg" onclick="splitPDF()">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="split-btn" class="action-button flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-500 to-red-600 text-white font-semibold rounded-xl hover:from-orange-600 hover:to-red-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl" onclick="splitPDF()">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         Split PDF
                     </button>
                 </div>
-            </div>
-        </div>
+            </section>
         
         <!-- Processing Status -->
-        <div id="processing-status" class="max-w-2xl mx-auto mb-8 hidden">
-            <div class="bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-700 rounded-lg p-4">
-                <div class="flex items-center">
-                    <div class="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-3"></div>
-                    <span>Processing PDF split...</span>
+        <section id="processing-status" class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6 hidden">
+            <div class="flex items-center justify-center">
+                <div class="animate-spin rounded-full h-8 w-8 border-4 border-blue-200 border-t-blue-600 mr-4"></div>
+                <div>
+                    <div class="text-lg font-semibold text-gray-900 dark:text-white">Processing PDF Split</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">Please wait while we split your PDF...</div>
                 </div>
             </div>
-        </div>
+        </section>
         
         <!-- Results -->
-        <div id="results" class="max-w-4xl mx-auto hidden">
-            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
-                <h3 class="text-lg font-semibold mb-4">Split Complete!</h3>
-                <div id="results-info" class="mb-4"></div>
-                <div class="flex gap-4">
-                    <button id="download-btn" class="btn-base btn-success" onclick="downloadResults()">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-4-4m4 4l4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <section id="results" class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6 hidden">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-100 to-emerald-100 dark:from-green-900 dark:to-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Split Complete!</h3>
+                <div id="results-info" class="text-gray-600 dark:text-gray-400 mb-6">PDF split completed successfully!</div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button id="download-btn" class="action-button flex items-center justify-center px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-semibold rounded-xl hover:from-emerald-600 hover:to-teal-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl" onclick="downloadResults()">
+                        <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
                         </svg>
                         Download Split Files
                     </button>
-                    <button class="btn-base btn-secondary" onclick="resetTool()">
+                    <button class="action-button flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold rounded-xl hover:from-purple-600 hover:to-indigo-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl" onclick="resetTool()">
+                        <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
                         Split Another PDF
                     </button>
                 </div>
             </div>
-        </div>
+        </section>
         
         <!-- Error Display -->
-        <div id="error-display" class="max-w-2xl mx-auto mb-8 hidden">
-            <div class="bg-red-50 dark:bg-red-900 border border-red-200 dark:border-red-700 rounded-lg p-4">
+        <section id="error-display" class="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg mb-6 hidden">
+            <div class="bg-red-50 dark:bg-red-900 border-2 border-red-200 dark:border-red-700 rounded-lg p-4">
                 <div class="flex">
                     <svg class="w-5 h-5 text-red-400 mr-3 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"/>
@@ -158,63 +477,141 @@
                     </div>
                 </div>
             </div>
+        </section>
+        
+        <!-- Back to Tools Button -->
+        <div class="max-w-2xl mx-auto mb-8 text-center">
+            <a href="../../../../index.html#tools" class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" aria-label="Back to tools section">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                Back to Tools
+            </a>
         </div>
     </main>
     
+    <!-- Footer -->
+    <footer class="bg-slate-900 dark:bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-lg mr-3 shadow-lg">
+                            <svg class="w-8 h-8 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-4-4h-4v-2h4v2zm0-4H9v-2h6v2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold">ImagePDF Toolkit</h3>
+                            <span class="text-xs text-gray-400 font-medium">Professional Tools</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400">Professional image and PDF processing tools for modern workflows.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="../image-tools/image-to-pdf.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image to PDF</a></li>
+                        <li><a href="pdf-to-images.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to Images</a></li>
+                        <li><a href="../image-tools/image-compressor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Compressor</a></li>
+                        <li><a href="../image-tools/image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
+                        <li><a href="../image-tools/format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
+                        <li><a href="../utility-tools/batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
+                        <li><a href="pdf-merge.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Merge</a></li>
+                        <li><a href="pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>
+                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Generator</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="../../pages/about.html" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="../../pages/privacy.html" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="../../pages/terms.html" class="hover:text-white transition-colors">Terms of Service</a></li>
+                        <li><a href="../../pages/contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ImagePDF Toolkit. All rights reserved. Made with ❤️ for productivity.</p>
+            </div>
+        </div>
+    </footer>
+    
     <script>
-        // Global variables for PDF split tool
-        let pdfSplitTool = {
-            currentFile: null,
-            totalPages: 0,
-            splitResults: null,
-            isProcessing: false
+        // Global variables
+        let currentFile = null;
+        let totalPages = 0;
+        let splitResults = null;
+        
+        // Configure PDF.js worker with correct path for this tool location
+        if (typeof pdfjsLib !== 'undefined') {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../../public/js/pdf.worker.min.js';
+            console.log('PDF.js worker configured for PDF Split tool:', pdfjsLib.GlobalWorkerOptions.workerSrc);
+        }
+        
+        // Client-side configuration
+        const PDF_SPLIT_CONFIG = {
+            maxFileSize: 100 * 1024 * 1024 // 100MB
         };
         
-        // Backend configuration
-        const BACKEND_CONFIG = {
-            baseUrl: 'https://imagetool-h4dmewahfmg4bkej.eastasia-01.azurewebsites.net',
-            endpoints: {
-                split: '/pdf-split'
-            }
-        };
-        
-        // Initialize when page loads
+        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Ensure PDF.js worker is configured with correct path
+            if (typeof pdfjsLib !== 'undefined') {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../../public/js/pdf.worker.min.js';
+                console.log('PDF.js worker reconfigured on DOMContentLoaded:', pdfjsLib.GlobalWorkerOptions.workerSrc);
+            }
+            
+            // Debug button visibility
+            setTimeout(() => {
+                const buttons = document.querySelectorAll('.upload-button, .action-button');
+                console.log('Found buttons:', buttons.length);
+                buttons.forEach((btn, index) => {
+                    const computedStyle = window.getComputedStyle(btn);
+                    console.log(`Button ${index}:`, {
+                        display: computedStyle.display,
+                        visibility: computedStyle.visibility,
+                        opacity: computedStyle.opacity,
+                        position: computedStyle.position,
+                        zIndex: computedStyle.zIndex
+                    });
+                });
+            }, 1000);
+            
             initializeFileHandling();
             initializeSplitOptions();
-            console.log('PDF Split Tool initialized');
         });
         
         function initializeFileHandling() {
             const fileInput = document.getElementById('file-input');
             const dropZone = document.getElementById('file-drop-zone');
             
-            if (fileInput) {
-                fileInput.addEventListener('change', handleFileSelect);
-            }
+            fileInput.addEventListener('change', handleFileSelect);
             
-            if (dropZone) {
-                // Drag and drop handlers
-                dropZone.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.add('border-blue-500', 'bg-blue-50');
-                });
+            // Drag and drop
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+            
+            dropZone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('drag-over');
                 
-                dropZone.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-blue-500', 'bg-blue-50');
-                });
-                
-                dropZone.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    dropZone.classList.remove('border-blue-500', 'bg-blue-50');
-                    
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        handleFileSelect({ target: { files } });
-                    }
-                });
-            }
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileSelect({ target: { files } });
+                }
+            });
         }
         
         function initializeSplitOptions() {
@@ -225,18 +622,15 @@
         }
         
         function updateSplitOptions() {
-            const selectedType = document.querySelector('input[name="split-type"]:checked')?.value;
+            const selectedType = document.querySelector('input[name="split-type"]:checked').value;
             
-            const rangeOptions = document.getElementById('range-options');
-            const bulkOptions = document.getElementById('bulk-options');
+            document.getElementById('range-options').classList.add('hidden');
+            document.getElementById('bulk-options').classList.add('hidden');
             
-            if (rangeOptions) rangeOptions.classList.add('hidden');
-            if (bulkOptions) bulkOptions.classList.add('hidden');
-            
-            if (selectedType === 'range' && rangeOptions) {
-                rangeOptions.classList.remove('hidden');
-            } else if (selectedType === 'bulk' && bulkOptions) {
-                bulkOptions.classList.remove('hidden');
+            if (selectedType === 'range') {
+                document.getElementById('range-options').classList.remove('hidden');
+            } else if (selectedType === 'bulk') {
+                document.getElementById('bulk-options').classList.remove('hidden');
             }
         }
         
@@ -247,60 +641,62 @@
                 return;
             }
             
-            if (file.size > 100 * 1024 * 1024) { // 100MB limit
+            if (file.size > PDF_SPLIT_CONFIG.maxFileSize) { // 100MB limit
                 showError('File too large. Maximum size is 100MB');
                 return;
             }
             
-            pdfSplitTool.currentFile = file;
+            currentFile = file;
             
             try {
-                // Initialize PDF.js if not already done
-                if (typeof pdfjsLib !== 'undefined') {
-                    pdfjsLib.GlobalWorkerOptions.workerSrc = '../../../../public/js/pdf.worker.min.js';
-                }
-                
                 // Get PDF info
                 const arrayBuffer = await file.arrayBuffer();
                 const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                pdfSplitTool.totalPages = pdf.numPages;
+                totalPages = pdf.numPages;
                 
-                const splitOptions = document.getElementById('split-options');
-                if (splitOptions) {
-                    splitOptions.classList.remove('hidden');
+                document.getElementById('split-options').classList.remove('hidden');
+                const infoEl = document.getElementById('total-pages-info');
+                if (infoEl) {
+                    infoEl.textContent = `Total pages: ${totalPages}`;
+                    infoEl.classList.remove('hidden');
                 }
-                
-                showToast(`PDF loaded: ${pdfSplitTool.totalPages} pages`, 'success');
+                setupLiveRangeValidation();
+                showToast(`PDF loaded: ${totalPages} pages`, 'success');
                 
             } catch (error) {
-                console.error('Error loading PDF:', error);
                 showError(`Failed to load PDF: ${error.message}`);
             }
         }
         
         async function splitPDF() {
-            if (!pdfSplitTool.currentFile) {
+            if (!currentFile) {
                 showError('Please select a PDF file first');
                 return;
             }
             
-            if (pdfSplitTool.isProcessing) {
-                showError('Split operation already in progress');
-                return;
-            }
-            
-            const selectedType = document.querySelector('input[name="split-type"]:checked')?.value;
+            const selectedType = document.querySelector('input[name="split-type"]:checked').value;
             let splitConfig = { type: selectedType };
             
             if (selectedType === 'range') {
-                const ranges = document.getElementById('page-ranges')?.value.trim();
+                const ranges = document.getElementById('page-ranges').value.trim();
                 if (!ranges) {
                     showError('Please specify page ranges');
                     return;
                 }
-                splitConfig.ranges = ranges;
+                // Validate ranges against totalPages
+                const { validRanges, invalidEntries } = validatePageRanges(ranges, totalPages);
+                if (invalidEntries.length > 0) {
+                    showError(`Invalid entries: ${invalidEntries.join(', ')}. PDF has ${totalPages} page${totalPages>1?'s':''}.`);
+                    return;
+                }
+                if (validRanges.length === 0) {
+                    showError(`No valid page ranges found. PDF has ${totalPages} page${totalPages>1?'s':''}.`);
+                    return;
+                }
+                splitConfig.ranges = ranges; // keep original for consistency
+                splitConfig.parsedRanges = validRanges; // pass parsed validated ranges
             } else if (selectedType === 'bulk') {
-                const pagesPerSplit = parseInt(document.getElementById('pages-per-split')?.value || '1');
+                const pagesPerSplit = parseInt(document.getElementById('pages-per-split').value);
                 if (pagesPerSplit < 1) {
                     showError('Pages per split must be at least 1');
                     return;
@@ -308,125 +704,75 @@
                 splitConfig.pages_per_split = pagesPerSplit;
             }
             
-            pdfSplitTool.isProcessing = true;
             showProcessingStatus();
             hideError();
             
             try {
-                // Try backend first
-                const success = await tryBackendSplit(splitConfig);
-                if (!success) {
-                    // Fallback to client-side
-                    showToast('Backend unavailable, using client-side processing...', 'info');
-                    await clientSideSplit(splitConfig);
-                }
+                // Use client-side split directly
+                await clientSideSplit(splitConfig);
                 
             } catch (error) {
-                console.error('Split error:', error);
                 showError(`Split failed: ${error.message}`);
             } finally {
-                pdfSplitTool.isProcessing = false;
                 hideProcessingStatus();
             }
         }
         
-        async function tryBackendSplit(config) {
-            try {
-                const formData = new FormData();
-                formData.append('file', pdfSplitTool.currentFile);
-                formData.append('type', config.type);
-                
-                if (config.ranges) {
-                    formData.append('ranges', config.ranges);
-                } else if (config.pages_per_split) {
-                    formData.append('pages_per_split', config.pages_per_split);
-                }
-                
-                const response = await fetch(`${BACKEND_CONFIG.baseUrl}${BACKEND_CONFIG.endpoints.split}`, {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                if (response.ok) {
-                    const blob = await response.blob();
-                    const filename = response.headers.get('content-disposition')?.match(/filename="(.+)"/)?.[1] || 'split_files.zip';
-                    
-                    pdfSplitTool.splitResults = { blob, filename, backend: true };
-                    showResults(response.headers);
-                    showToast('PDF split completed successfully!', 'success');
-                    return true;
-                } else {
-                    console.warn('Backend returned error:', response.status);
-                }
-                
-            } catch (error) {
-                console.warn('Backend split failed:', error);
-            }
-            return false;
-        }
-        
         async function clientSideSplit(config) {
-            try {
-                const arrayBuffer = await pdfSplitTool.currentFile.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-                
-                if (typeof window.jspdf === 'undefined' || !window.jspdf.jsPDF) {
-                    throw new Error('jsPDF library not loaded');
+            showToast('Using client-side processing...', 'info');
+            
+            const arrayBuffer = await currentFile.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+            const { jsPDF } = window.jspdf;
+            
+            let filesToZip = [];
+            
+            if (config.type === 'individual') {
+                // Split into individual pages
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const blob = await createSinglePagePDF(pdf, pageNum, jsPDF);
+                    filesToZip.push({
+                        name: `page_${pageNum}.pdf`,
+                        blob: blob
+                    });
                 }
-                
-                const { jsPDF } = window.jspdf;
-                let filesToZip = [];
-                
-                if (config.type === 'individual') {
-                    // Split into individual pages
-                    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-                        const blob = await createSinglePagePDF(pdf, pageNum, jsPDF);
-                        filesToZip.push({
-                            name: `page_${pageNum}.pdf`,
-                            blob: blob
-                        });
-                    }
-                } else if (config.type === 'range') {
-                    // Parse ranges and create files
-                    const ranges = parsePageRanges(config.ranges, pdf.numPages);
-                    for (let i = 0; i < ranges.length; i++) {
-                        const [start, end] = ranges[i];
-                        const blob = await createRangePDF(pdf, start, end, jsPDF);
-                        const filename = start === end ? `page_${start}.pdf` : `pages_${start}-${end}.pdf`;
-                        filesToZip.push({ name: filename, blob: blob });
-                    }
-                } else if (config.type === 'bulk') {
-                    // Split into chunks
-                    const pagesPerChunk = config.pages_per_split;
-                    for (let start = 1; start <= pdf.numPages; start += pagesPerChunk) {
-                        const end = Math.min(start + pagesPerChunk - 1, pdf.numPages);
-                        const blob = await createRangePDF(pdf, start, end, jsPDF);
-                        const filename = start === end ? `page_${start}.pdf` : `pages_${start}-${end}.pdf`;
-                        filesToZip.push({ name: filename, blob: blob });
-                    }
+            } else if (config.type === 'range') {
+                // Parse ranges and create files
+                const ranges = config.parsedRanges || parsePageRanges(config.ranges, pdf.numPages);
+                if (!ranges.length) {
+                    throw new Error('No valid page ranges to process.');
                 }
-                
-                // Create ZIP file
-                if (typeof JSZip === 'undefined') {
-                    throw new Error('JSZip library not loaded');
+                for (let i = 0; i < ranges.length; i++) {
+                    const [start, end] = ranges[i];
+                    const blob = await createRangePDF(pdf, start, end, jsPDF);
+                    const filename = start === end ? `page_${start}.pdf` : `pages_${start}-${end}.pdf`;
+                    filesToZip.push({ name: filename, blob: blob });
                 }
-                
-                const zip = new JSZip();
-                filesToZip.forEach(file => {
-                    zip.file(file.name, file.blob);
-                });
-                
-                const zipBlob = await zip.generateAsync({ type: 'blob' });
-                const filename = pdfSplitTool.currentFile.name.replace('.pdf', '_split.zip');
-                
-                pdfSplitTool.splitResults = { blob: zipBlob, filename, client: true };
-                showResults();
-                showToast(`Successfully split into ${filesToZip.length} files!`, 'success');
-                
-            } catch (error) {
-                console.error('Client-side split error:', error);
-                throw error;
+            } else if (config.type === 'bulk') {
+                // Split into chunks
+                const pagesPerChunk = config.pages_per_split;
+                for (let start = 1; start <= pdf.numPages; start += pagesPerChunk) {
+                    const end = Math.min(start + pagesPerChunk - 1, pdf.numPages);
+                    const blob = await createRangePDF(pdf, start, end, jsPDF);
+                    const filename = start === end ? `page_${start}.pdf` : `pages_${start}-${end}.pdf`;
+                    filesToZip.push({ name: filename, blob: blob });
+                }
             }
+            
+            // Create ZIP file
+            const JSZip = window.JSZip;
+            const zip = new JSZip();
+            
+            filesToZip.forEach(file => {
+                zip.file(file.name, file.blob);
+            });
+            
+            const zipBlob = await zip.generateAsync({ type: 'blob' });
+            const filename = currentFile.name.replace('.pdf', '_split.zip');
+            
+            splitResults = { blob: zipBlob, filename, client: true };
+            showResults();
+            showToast(`Successfully split into ${filesToZip.length} files!`, 'success');
         }
         
         async function createSinglePagePDF(pdf, pageNum, jsPDF) {
@@ -502,11 +848,47 @@
             return ranges;
         }
         
+        // Enhanced validator returns both valid and invalid entries so user gets feedback
+        function validatePageRanges(rangeString, totalPages) {
+            const validRanges = [];
+            const invalidEntries = [];
+            if (!rangeString) return { validRanges, invalidEntries: ['<empty>'] };
+            const rawParts = rangeString.split(',').map(p => p.trim()).filter(p => p.length);
+            const seen = new Set();
+            for (const part of rawParts) {
+                if (part.includes('-')) {
+                    const [rawStart, rawEnd] = part.split('-');
+                    const start = parseInt(rawStart.trim(), 10);
+                    const end = parseInt(rawEnd.trim(), 10);
+                    const numeric = Number.isInteger(start) && Number.isInteger(end);
+                    if (!numeric || start < 1 || end < 1 || start > end || end > totalPages) {
+                        invalidEntries.push(part);
+                        continue;
+                    }
+                    const key = `${start}-${end}`;
+                    if (!seen.has(key)) {
+                        validRanges.push([start, end]);
+                        seen.add(key);
+                    }
+                } else {
+                    const page = parseInt(part, 10);
+                    if (!Number.isInteger(page) || page < 1 || page > totalPages) {
+                        invalidEntries.push(part);
+                        continue;
+                    }
+                    const key = `${page}-${page}`;
+                    if (!seen.has(key)) {
+                        validRanges.push([page, page]);
+                        seen.add(key);
+                    }
+                }
+            }
+            return { validRanges, invalidEntries };
+        }
+        
         function showResults(headers = null) {
             const resultsDiv = document.getElementById('results');
             const resultsInfo = document.getElementById('results-info');
-            
-            if (!resultsDiv || !resultsInfo) return;
             
             let info = 'PDF split completed successfully!';
             if (headers) {
@@ -522,93 +904,87 @@
         }
         
         function downloadResults() {
-            if (!pdfSplitTool.splitResults) {
-                showError('No split results available for download');
-                return;
-            }
+            if (!splitResults) return;
             
-            try {
-                const url = URL.createObjectURL(pdfSplitTool.splitResults.blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = pdfSplitTool.splitResults.filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-                showToast('Download started', 'success');
-            } catch (error) {
-                console.error('Download error:', error);
-                showError('Failed to download files');
-            }
+            const url = URL.createObjectURL(splitResults.blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = splitResults.filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
         }
         
         function resetTool() {
-            pdfSplitTool.currentFile = null;
-            pdfSplitTool.totalPages = 0;
-            pdfSplitTool.splitResults = null;
-            pdfSplitTool.isProcessing = false;
+            currentFile = null;
+            totalPages = 0;
+            splitResults = null;
             
-            const elements = {
-                'split-options': true,
-                'results': true,
-                'file-input': 'value',
-                'page-ranges': 'value',
-                'pages-per-split': 'value'
-            };
-            
-            Object.keys(elements).forEach(id => {
-                const el = document.getElementById(id);
-                if (el) {
-                    if (elements[id] === true) {
-                        el.classList.add('hidden');
-                    } else if (elements[id] === 'value') {
-                        el.value = id === 'pages-per-split' ? '1' : '';
-                    }
-                }
-            });
-            
-            // Reset radio button
-            const individualRadio = document.querySelector('input[name="split-type"][value="individual"]');
-            if (individualRadio) {
-                individualRadio.checked = true;
-                updateSplitOptions();
+            document.getElementById('split-options').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+            document.getElementById('file-input').value = '';
+            document.getElementById('page-ranges').value = '';
+            document.getElementById('pages-per-split').value = '1';
+            const infoEl = document.getElementById('total-pages-info');
+            if (infoEl) {
+                infoEl.textContent = '';
+                infoEl.classList.add('hidden');
             }
+            const hintEl = document.getElementById('range-validation-hint');
+            if (hintEl) hintEl.textContent = '';
             
             hideError();
         }
         
         function showProcessingStatus() {
-            const el = document.getElementById('processing-status');
-            if (el) el.classList.remove('hidden');
+            document.getElementById('processing-status').classList.remove('hidden');
+        }
+        
+        // Live validation for page ranges input
+        function setupLiveRangeValidation() {
+            const input = document.getElementById('page-ranges');
+            const hint = document.getElementById('range-validation-hint');
+            if (!input || !hint) return;
+            input.removeEventListener('input', handleRangeInput);
+            input.addEventListener('input', handleRangeInput);
+        }
+        
+        function handleRangeInput(e) {
+            const value = e.target.value.trim();
+            const hint = document.getElementById('range-validation-hint');
+            if (!value) {
+                hint.textContent = '';
+                return;
+            }
+            const { validRanges, invalidEntries } = validatePageRanges(value, totalPages);
+            if (invalidEntries.length && !validRanges.length) {
+                hint.textContent = `All entries invalid (PDF has ${totalPages} pages)`;
+                hint.className = 'mt-2 text-xs text-red-600 dark:text-red-400';
+            } else if (invalidEntries.length) {
+                hint.textContent = `Valid: ${validRanges.map(r=>r[0]===r[1]?r[0]:r.join('-')).join(', ')} | Invalid: ${invalidEntries.join(', ')}`;
+                hint.className = 'mt-2 text-xs text-amber-600 dark:text-amber-400';
+            } else {
+                hint.textContent = `Valid ranges: ${validRanges.map(r=>r[0]===r[1]?r[0]:r.join('-')).join(', ')} (${validRanges.reduce((a,r)=>a+(r[1]-r[0]+1),0)} page(s))`;
+                hint.className = 'mt-2 text-xs text-green-600 dark:text-green-400';
+            }
         }
         
         function hideProcessingStatus() {
-            const el = document.getElementById('processing-status');
-            if (el) el.classList.add('hidden');
+            document.getElementById('processing-status').classList.add('hidden');
         }
         
         function showError(message) {
-            const errorEl = document.getElementById('error-message');
-            const displayEl = document.getElementById('error-display');
-            
-            if (errorEl) errorEl.textContent = message;
-            if (displayEl) displayEl.classList.remove('hidden');
+            document.getElementById('error-message').textContent = message;
+            document.getElementById('error-display').classList.remove('hidden');
         }
         
         function hideError() {
-            const el = document.getElementById('error-display');
-            if (el) el.classList.add('hidden');
-        }
-        
-        function showToast(message, type = 'info', duration = 3000) {
-            if (typeof window.showToast === 'function') {
-                window.showToast(message, type, duration);
-            } else {
-                console.log(`Toast (${type}): ${message}`);
-            }
+            document.getElementById('error-display').classList.add('hidden');
         }
     </script>
+    
+    <!-- Load JSZip for client-side ZIP creation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 </body>
 </html>

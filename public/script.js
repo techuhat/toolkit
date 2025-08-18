@@ -10,168 +10,140 @@
 // currentFiles, processedFiles, currentTool, currentSlideIndex, imageDataUrls
 
 // ================================================================================
-// [Start] API CONFIGURATION
+// [Start] PDF.JS WORKER INITIALIZATION
 // ================================================================================
 
-// API Configuration for Backend Integration
-const API_CONFIG = {
-    // Azure App Service Production URL (consistent with backend-config.js)
-    BASE_URL: 'https://imagetool-h4dmewahfmg4bkej.eastasia-01.azurewebsites.net',
-    ENDPOINTS: {
-        HEALTH: '/health',
-        CAPABILITIES: '/capabilities',
-        PDF_TO_DOCX: '/pdf-to-docx',
-        DOCX_TO_PDF: '/docx-to-pdf',
-        COMPRESS_PDF: '/compress-pdf',
-        COMPRESS_IMAGE: '/compress-image'
+// Detect if current page actually includes or needs PDF.js (to avoid noisy retries on pages like homepage)
+const __PAGE_NEEDS_PDF__ = !!document.querySelector('script[src*="pdf.min.js"], script[data-needs-pdf], link[data-needs-pdf]');
+
+// Initialize PDF.js worker only when required
+function initializePDFWorker() {
+    if (!__PAGE_NEEDS_PDF__) return 'skip';
+    if (typeof pdfjsLib !== 'undefined') {
+        // Worker path should be relative to the location of pdf.min.js; try common variants
+        const probablePaths = [
+            './js/pdf.worker.min.js', // tools pages (relative path when inside public root)
+            '../../public/js/pdf.worker.min.js', // nested pages fallback
+            'public/js/pdf.worker.min.js' // homepage fallback
+        ];
+        for (const p of probablePaths) {
+            try {
+                pdfjsLib.GlobalWorkerOptions.workerSrc = p;
+                break;
+            } catch(_) { /* ignore */ }
+        }
+        console.log('✅ PDF.js worker initialized:', pdfjsLib.GlobalWorkerOptions.workerSrc);
+        return true;
+    } else {
+        console.log('⏳ PDF.js library not yet loaded, will retry...');
+        return false;
+    }
+}
+
+function ensurePDFWorker() {
+    if (!__PAGE_NEEDS_PDF__) return true; // nothing to do
+    if (typeof pdfjsLib !== 'undefined' && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = './js/pdf.worker.min.js';
+        console.log('✅ PDF.js worker configured:', pdfjsLib.GlobalWorkerOptions.workerSrc);
+        return true;
+    } else if (typeof pdfjsLib !== 'undefined') {
+        return true;
+    }
+    return false;
+}
+
+let pdfWorkerInitialized = false;
+if (__PAGE_NEEDS_PDF__) {
+    if (initializePDFWorker() === true) {
+        pdfWorkerInitialized = true;
+    }
+    if (!pdfWorkerInitialized) {
+        const pdfWorkerInitRetries = 5;
+        let pdfWorkerInitAttempts = 0;
+        const pdfWorkerInitInterval = setInterval(() => {
+            pdfWorkerInitAttempts++;
+            if (initializePDFWorker() === true) {
+                pdfWorkerInitialized = true;
+                clearInterval(pdfWorkerInitInterval);
+                console.log('✅ PDF.js worker initialized after', pdfWorkerInitAttempts, 'attempts');
+            } else if (pdfWorkerInitAttempts >= pdfWorkerInitRetries) {
+                clearInterval(pdfWorkerInitInterval);
+                console.warn('⚠️ PDF.js worker not available after retries (page may not need it).');
+            }
+        }, 500);
+    }
+} else {
+    // Silent skip on pages that don't load pdf.min.js
+    // console.log('ℹ️ Skipping PDF.js worker setup: page does not include pdf.min.js');
+}
+
+// ================================================================================
+// [End] PDF.JS WORKER INITIALIZATION
+// ================================================================================
+
+// ================================================================================
+// [Start] CLIENT-SIDE CONFIGURATION
+// ================================================================================
+
+// Client-side only configuration - no backend dependencies
+const CLIENT_CONFIG = {
+    // Default settings for image processing
+    IMAGE_QUALITY: 0.9,
+    MAX_FILE_SIZE: 100 * 1024 * 1024, // 100MB
+    SUPPORTED_IMAGE_FORMATS: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+    SUPPORTED_PDF_FORMATS: ['application/pdf']
+};
+
+// ================================================================================
+// [End] CLIENT-SIDE CONFIGURATION
+// ================================================================================
+
+// ================================================================================
+// [Start] UTILITY HELPER FUNCTIONS
+// ================================================================================
+
+// Utility Helper Functions for Client-side Processing
+const UtilityHelper = {
+    // Format file size for display
+    formatFileSize(bytes) {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    },
+
+    // Validate file type
+    isValidImageFile(file) {
+        return CLIENT_CONFIG.SUPPORTED_IMAGE_FORMATS.includes(file.type);
+    },
+
+    // Validate PDF file
+    isValidPdfFile(file) {
+        return CLIENT_CONFIG.SUPPORTED_PDF_FORMATS.includes(file.type);
+    },
+
+    // Check file size
+    isValidFileSize(file) {
+        return file.size <= CLIENT_CONFIG.MAX_FILE_SIZE;
+    },
+
+    // Create download link
+    downloadFile(blob, filename) {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 };
 
 // ================================================================================
-// [End] API CONFIGURATION
-// ================================================================================
-
-// ================================================================================
-// [Start] API HELPER FUNCTIONS
-// ================================================================================
-
-// API Helper Functions for Backend Integration
-const APIHelper = {
-    // Test API connection
-    async testConnection() {
-        try {
-            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.HEALTH}`);
-            const data = await response.json();
-            console.log('API Connection Test:', data);
-            return data.status === 'healthy';
-        } catch (error) {
-            console.error('API Connection Failed:', error);
-            return false;
-        }
-    },
-
-    // Compress image using backend
-    async compressImage(file, options = {}) {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-            
-            // Add compression options
-            if (options.quality) formData.append('quality', options.quality);
-            if (options.max_width) formData.append('max_width', options.max_width);
-            if (options.max_height) formData.append('max_height', options.max_height);
-            if (options.format) formData.append('format', options.format);
-
-            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.COMPRESS_IMAGE}`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const blob = await response.blob();
-            const filename = response.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'compressed.jpg';
-            
-            return {
-                blob,
-                filename,
-                originalSize: response.headers.get('X-Original-Size'),
-                compressedSize: response.headers.get('X-Compressed-Size'),
-                compressionRatio: response.headers.get('X-Compression-Ratio')
-            };
-        } catch (error) {
-            console.error('Image compression failed:', error);
-            throw error;
-        }
-    },
-
-    // Convert PDF to DOCX
-    async convertPdfToDocx(file) {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.PDF_TO_DOCX}`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const blob = await response.blob();
-            const filename = response.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'converted.docx';
-            
-            return { blob, filename };
-        } catch (error) {
-            console.error('PDF to DOCX conversion failed:', error);
-            throw error;
-        }
-    },
-
-    // Convert DOCX to PDF
-    async convertDocxToPdf(file) {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-
-            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.DOCX_TO_PDF}`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const blob = await response.blob();
-            const filename = response.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'converted.pdf';
-            
-            return { blob, filename };
-        } catch (error) {
-            console.error('DOCX to PDF conversion failed:', error);
-            throw error;
-        }
-    },
-
-    // Compress PDF
-    async compressPdf(file, quality = 4) {
-        try {
-            const formData = new FormData();
-            formData.append('file', file);
-            formData.append('quality', quality);
-
-            const response = await fetch(`${API_CONFIG.BASE_URL}${API_CONFIG.ENDPOINTS.COMPRESS_PDF}`, {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const blob = await response.blob();
-            const filename = response.headers.get('Content-Disposition')?.match(/filename="(.+)"/)?.[1] || 'compressed.pdf';
-            
-            return {
-                blob,
-                filename,
-                originalSize: response.headers.get('X-Original-Size'),
-                compressedSize: response.headers.get('X-Compressed-Size'),
-                compressionRatio: response.headers.get('X-Compression-Ratio')
-            };
-        } catch (error) {
-            console.error('PDF compression failed:', error);
-            throw error;
-        }
-    }
-};
-
-// ================================================================================
-// [End] API HELPER FUNCTIONS
+// [End] UTILITY HELPER FUNCTIONS
 // ================================================================================
 
 // ================================================================================
@@ -807,6 +779,39 @@ function validateFileTypes(files) {
 }
 
 async function updateFileList(files) {
+    // Early PDF validation: remove corrupt/placeholder PDFs before UI build
+    if (files && files.length) {
+        const validatedFiles = [];
+        for (const file of files) {
+            if (file.type === 'application/pdf') {
+                // Reject extremely small PDFs (cannot be valid)
+                if (file.size < 10) {
+                    console.warn('Skipping tiny PDF (likely invalid):', file.name, file.size);
+                    showToast && showToast(`⚠️ Skipped invalid PDF: ${file.name}`, 'warning', 3000);
+                    continue;
+                }
+                try {
+                    // Read first 5 bytes for header check
+                    const headerBuf = await file.slice(0, 5).arrayBuffer();
+                    const header = new TextDecoder().decode(new Uint8Array(headerBuf));
+                    if (!header.startsWith('%PDF')) {
+                        console.warn('Skipping file with bad PDF header:', file.name, header);
+                        showToast && showToast(`⚠️ Skipped non-PDF file: ${file.name}`, 'warning', 3000);
+                        continue;
+                    }
+                } catch (err) {
+                    console.warn('Error validating PDF header, skipping file:', file.name, err);
+                    showToast && showToast(`⚠️ Skipped unreadable PDF: ${file.name}`, 'warning', 3000);
+                    continue;
+                }
+            }
+            validatedFiles.push(file);
+        }
+        if (validatedFiles.length !== files.length) {
+            console.log(`PDF validation removed ${files.length - validatedFiles.length} invalid file(s).`);
+        }
+        files = validatedFiles;
+    }
     currentFiles = files;
     const filePreview = document.getElementById('file-preview');
     const fileList = document.getElementById('file-list');
@@ -1329,6 +1334,14 @@ document.addEventListener('DOMContentLoaded', function() {
             console.warn('Script.js: Theme toggle element not found');
         }
     }, 200);
+    
+    // Ensure PDF.js worker is configured immediately after theme setup
+    ensurePDFWorker();
+    
+    // Delayed check for PDF.js initialization (in case libraries load asynchronously)
+    setTimeout(() => {
+        ensurePDFWorker();
+    }, 1000);
     
     // Initialize global drag and drop functionality
     if (typeof setupGlobalDragDrop === 'function') {
@@ -2006,9 +2019,10 @@ function setupImageToPdf() {
 
             updateProgress(20, 'Processing images...');
             
+            let imagesAdded = 0;
             for (let i = 0; i < imageFiles.length; i++) {
                 const file = imageFiles[i];
-                updateProgress(20 + (i + 1) / imageFiles.length * 60, `Adding ${file.name} to PDF...`);
+                updateProgress(20 + (i + 1) / imageFiles.length * 60, `Adding images to PDF... (${i + 1}/${imageFiles.length})`);
                 
                 // Convert image to JPEG data URL for better PDF compatibility
                 const jpegDataUrl = await new Promise((resolve, reject) => {
@@ -2026,18 +2040,25 @@ function setupImageToPdf() {
                         
                         resolve(canvas.toDataURL('image/jpeg', 0.95));
                     };
-                    img.onerror = () => reject(new Error('Failed to load image'));
+                    img.onerror = () => reject(new Error(`Failed to load image: ${file.name}`));
                     img.src = URL.createObjectURL(file);
                 });
 
                 // Calculate aspect ratio and fit image with proper margin handling
-                const img = new Image();
-                await new Promise((resolve) => {
-                    img.onload = resolve;
-                    img.src = jpegDataUrl;
+                const sizingImg = new Image();
+                await new Promise((resolve, reject) => {
+                    sizingImg.onload = resolve;
+                    sizingImg.onerror = () => reject(new Error(`Image data is corrupted: ${file.name}`));
+                    sizingImg.src = jpegDataUrl;
                 });
 
-                const aspectRatio = img.width / img.height;
+                if (sizingImg.width === 0 || sizingImg.height === 0) {
+                    console.warn(`Skipping image with zero dimensions: ${file.name}`);
+                    showToast(`⚠️ Skipping invalid image: ${file.name}`, 'warning', 3000);
+                    continue;
+                }
+
+                const aspectRatio = sizingImg.width / sizingImg.height;
                 let finalWidth = imgWidth;
                 let finalHeight = imgWidth / aspectRatio;
 
@@ -2057,6 +2078,11 @@ function setupImageToPdf() {
 
                 // Add image with proper positioning
                 pdf.addImage(jpegDataUrl, 'JPEG', x, y, finalWidth, finalHeight);
+                imagesAdded++;
+            }
+
+            if (imagesAdded === 0) {
+                throw new Error("No valid images could be added to the PDF.");
             }
 
             updateProgress(90, 'Finalizing PDF...');
@@ -2108,6 +2134,15 @@ function setupImageToPdf() {
             processBtn.disabled = false;
         }
     };
+    
+    // Setup clear button for Image to PDF
+    const clearBtn = document.getElementById('clear-btn');
+    if (clearBtn) {
+        clearBtn.onclick = function() {
+            clearAllFiles();
+        };
+        console.log('Clear button setup completed for Image to PDF');
+    }
 }
 
 // ================================================================================
@@ -2144,59 +2179,18 @@ function setupPdfToImages() {
         }
 
         showProcessingStartToast('pdf-to-images');
-
-        // Page selection dialog
-        const pageSelectionModal = document.createElement('div');
-        pageSelectionModal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
-        pageSelectionModal.innerHTML = `
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-lg max-w-md w-full mx-4">
-                <h3 class="text-lg font-bold mb-4 text-gray-900 dark:text-white">Select Pages to Extract</h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Extraction Option:</label>
-                        <select id="page-option" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option value="all">All Pages</option>
-                            <option value="range">Page Range</option>
-                            <option value="specific">Specific Pages</option>
-                        </select>
-                    </div>
-                    <div id="page-inputs" class="hidden">
-                        <label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Pages (e.g., 1-5 or 1,3,5):</label>
-                        <input type="text" id="page-numbers" placeholder="1-5 or 1,3,5" class="w-full p-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <p class="text-xs text-gray-500 mt-1">Range: 1-5, Specific: 1,3,5</p>
-                    </div>
-                </div>
-                <div class="flex gap-3 mt-6">
-                    <button id="confirm-extract" class="flex-1 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Extract</button>
-                    <button id="cancel-extract" class="flex-1 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancel</button>
-                </div>
-            </div>
-        `;
         
-        document.body.appendChild(pageSelectionModal);
+        // Get page extraction options from the HTML form
+        const pageRangeSelect = document.getElementById('page-range');
+        const customPagesInput = document.getElementById('custom-pages');
         
-        const pageOption = document.getElementById('page-option');
-        const pageInputs = document.getElementById('page-inputs');
-        const pageNumbers = document.getElementById('page-numbers');
+        const pageOption = pageRangeSelect?.value || 'all';
+        const pageInput = customPagesInput?.value || '';
         
-        pageOption.addEventListener('change', function() {
-            if (this.value === 'all') {
-                pageInputs.classList.add('hidden');
-            } else {
-                pageInputs.classList.remove('hidden');
-                pageNumbers.placeholder = this.value === 'range' ? '1-5' : '1,3,5';
-            }
-        });
+        console.log(`🔧 PDF extraction settings: pageOption="${pageOption}", pageInput="${pageInput}"`);
+        console.log(`🔧 Found ${pdfFiles.length} PDF files to process:`, pdfFiles.map(f => f.name));
         
-        document.getElementById('cancel-extract').onclick = () => {
-            document.body.removeChild(pageSelectionModal);
-            processBtn.disabled = false;
-        };
-        
-        document.getElementById('confirm-extract').onclick = async () => {
-            document.body.removeChild(pageSelectionModal);
-            await extractPagesFromPDF(pdfFiles, pageOption.value, pageNumbers.value);
-        };
+        await extractPagesFromPDF(pdfFiles, pageOption, pageInput);
     };
     
     async function extractPagesFromPDF(pdfFiles, pageOption, pageInput) {
@@ -2206,8 +2200,11 @@ function setupPdfToImages() {
         if (resultsList) resultsList.innerHTML = '';
 
         try {
-            // Configure PDF.js
+            // Configure PDF.js with enhanced settings
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            
+            // Set PDF.js configuration for better compatibility
+            pdfjsLib.GlobalWorkerOptions.verbosity = pdfjsLib.VerbosityLevel.ERRORS; // Reduce console noise
             
             const formatSelect = document.getElementById('pdf-extract-format');
             const qualitySlider = document.getElementById('pdf-extract-quality');
@@ -2218,114 +2215,242 @@ function setupPdfToImages() {
             const dpi = parseInt(dpiSelect?.value) || 150;
             const scale = dpi / 72; // Convert DPI to scale factor
 
-            updateProgress(10, 'Reading PDF...');
+            updateProgress(10, 'Reading PDF files...');
 
             for (let fileIndex = 0; fileIndex < pdfFiles.length; fileIndex++) {
                 const file = pdfFiles[fileIndex];
+                console.log(`🔄 Starting loop iteration ${fileIndex + 1}/${pdfFiles.length} for file: ${file.name}`);
                 
-                // Read PDF file
-                const arrayBuffer = await file.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                try {
+                    // Read PDF file with error handling for each file
+                    updateProgress(15 + fileIndex * 5, `Reading PDF files... (${fileIndex + 1}/${pdfFiles.length})`);
+                    
+                    console.log(`🔍 Starting PDF file validation for: ${file.name} (${file.size} bytes)`);
+                    
+                    // Basic file validation
+                    if (file.size === 0) {
+                        console.log(`❌ File ${file.name} is empty`);
+                        showToast(`❌ ${file.name} is empty`, 'error', 3000);
+                        continue;
+                    }
+                    
+                    if (file.size > 100 * 1024 * 1024) { // 100MB limit
+                        console.log(`❌ File ${file.name} is too large: ${file.size} bytes`);
+                        showToast(`❌ ${file.name} is too large (max 100MB)`, 'error', 3000);
+                        continue;
+                    }
+                    
+                    console.log(`🔍 Reading array buffer for: ${file.name}`);
+                    const arrayBuffer = await file.arrayBuffer();
+                    console.log(`✅ Array buffer read successfully: ${arrayBuffer.byteLength} bytes`);
+                    
+                    // Add PDF validation - Check for PDF header
+                    const uint8Array = new Uint8Array(arrayBuffer);
+                    const pdfHeader = String.fromCharCode(...uint8Array.slice(0, 4));
+                    console.log(`🔍 PDF header check for ${file.name}: "${pdfHeader}"`);
+                    if (pdfHeader !== '%PDF') {
+                        console.log(`❌ Invalid PDF header for ${file.name}: "${pdfHeader}"`);
+                        showToast(`❌ ${file.name} is not a valid PDF file`, 'error', 3000);
+                        continue;
+                    }
+                    
+                    console.log(`🔍 Creating PDF.js loading task for: ${file.name}`);
+                    const loadingTask = pdfjsLib.getDocument({ 
+                        data: arrayBuffer,
+                        verbosity: 0, // Reduce PDF.js console output
+                        isOffscreenCanvasSupported: false, // Better compatibility
+                        standardFontDataUrl: null // Prevent font loading issues
+                    });
+                    
+                    console.log(`🔍 Waiting for PDF.js promise for: ${file.name}`);
+                    const pdf = await loadingTask.promise;
+                    console.log(`✅ PDF loaded successfully: ${file.name}, Pages: ${pdf.numPages}`);
+                    console.log(`✅ PDF loaded successfully: ${file.name}, Pages: ${pdf.numPages}`);
+                    
+                    // Validate PDF structure
+                    if (!pdf || pdf.numPages === 0) {
+                        console.log(`❌ PDF validation failed for ${file.name}: pdf=${!!pdf}, numPages=${pdf?.numPages}`);
+                        showToast(`❌ ${file.name} has no readable pages`, 'error', 3000);
+                        continue;
+                    }
                 
-                // Determine which pages to extract
-                let pagesToExtract = [];
-                if (pageOption === 'all') {
-                    pagesToExtract = Array.from({length: pdf.numPages}, (_, i) => i + 1);
-                } else if (pageOption === 'range' && pageInput) {
-                    const rangeParts = pageInput.split('-');
-                    if (rangeParts.length === 2) {
-                        const start = parseInt(rangeParts[0]);
-                        const end = parseInt(rangeParts[1]);
-                        if (start > 0 && end <= pdf.numPages && start <= end) {
-                            pagesToExtract = Array.from({length: end - start + 1}, (_, i) => start + i);
+                    console.log(`📄 Processing ${file.name}: ${pdf.numPages} pages total, pageOption: "${pageOption}"`);
+                    
+                    // Determine which pages to extract
+                    let pagesToExtract = [];
+                    console.log(`🔍 Determining pages to extract with pageOption: "${pageOption}"`);
+                    if (pageOption === 'all') {
+                        pagesToExtract = Array.from({length: pdf.numPages}, (_, i) => i + 1);
+                        console.log(`📄 Extracting ALL pages: [${pagesToExtract.join(', ')}]`);
+                    } else if (pageOption === 'first') {
+                        pagesToExtract = [1];
+                        console.log(`📄 Extracting FIRST page only: [${pagesToExtract.join(', ')}]`);
+                    } else if (pageOption === 'custom' && pageInput) {
+                        console.log(`📄 Using CUSTOM page selection: "${pageInput}"`);
+                        // Handle custom page ranges and specific pages
+                        if (pageInput.includes('-')) {
+                            // Range format like "1-5"
+                            const rangeParts = pageInput.split('-');
+                            if (rangeParts.length === 2) {
+                                const start = parseInt(rangeParts[0]);
+                                const end = parseInt(rangeParts[1]);
+                                if (start > 0 && end <= pdf.numPages && start <= end) {
+                                    pagesToExtract = Array.from({length: end - start + 1}, (_, i) => start + i);
+                                }
+                            }
+                        } else if (pageInput.includes(',')) {
+                            // Specific pages format like "1,3,5"
+                            const specificPages = pageInput.split(',').map(p => parseInt(p.trim()));
+                            pagesToExtract = specificPages.filter(p => p > 0 && p <= pdf.numPages);
+                        } else {
+                            // Single page
+                            const singlePage = parseInt(pageInput);
+                            if (singlePage > 0 && singlePage <= pdf.numPages) {
+                                pagesToExtract = [singlePage];
+                            }
                         }
                     }
-                } else if (pageOption === 'specific' && pageInput) {
-                    const specificPages = pageInput.split(',').map(p => parseInt(p.trim()));
-                    pagesToExtract = specificPages.filter(p => p > 0 && p <= pdf.numPages);
+                    
+                    console.log(`🔍 Pages to extract determined: [${pagesToExtract.join(', ')}] (${pagesToExtract.length} pages)`);
+                    
+                    if (pagesToExtract.length === 0) {
+                        console.log(`❌ No valid pages selected for ${file.name} - continuing to next file`);
+                        showToast(`❌ No valid pages selected for ${file.name}`, 'warning', 3000);
+                        continue;
+                    }
+                    
+                    console.log(`📄 Processing PDF: ${file.name}, Pages to extract: ${pagesToExtract.length}`);
+                    updateProgress(20 + fileIndex * 60, `Processing PDFs... (${fileIndex + 1}/${pdfFiles.length})`);
+                    
+                    // Extract selected pages with individual error handling
+                    console.log(`🔍 Starting page extraction loop for ${file.name}...`);
+                    for (let i = 0; i < pagesToExtract.length; i++) {
+                        const pageNum = pagesToExtract[i];
+                        try {
+                            console.log(`📄 Extracting page ${pageNum} from ${file.name} (${i + 1}/${pagesToExtract.length})`);
+                            const progress = 20 + fileIndex * 60 + (i / pagesToExtract.length) * 50;
+                            updateProgress(progress, `Extracting pages... (${Math.round((fileIndex + (i / pagesToExtract.length)) / pdfFiles.length * 100)}%)`);
+                            
+                            const page = await pdf.getPage(pageNum);
+                            const viewport = page.getViewport({ scale });
+                            
+                            // Create canvas
+                            const canvas = document.createElement('canvas');
+                            const context = canvas.getContext('2d');
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+                            
+                            // Render page to canvas
+                            await page.render({ canvasContext: context, viewport }).promise;
+                            
+                            // Convert canvas to blob with timeout
+                            const blob = await new Promise((resolve, reject) => {
+                                const timeout = setTimeout(() => {
+                                    reject(new Error('Blob conversion timeout'));
+                                }, 30000); // 30 second timeout
+                                
+                                canvas.toBlob((result) => {
+                                    clearTimeout(timeout);
+                                    resolve(result);
+                                }, `image/${outputFormat}`, quality / 100);
+                            });
+                            
+                            if (blob && blob.size > 0) {
+                                const filename = `${file.name.replace('.pdf', '')}_page${pageNum}.${outputFormat}`;
+                                
+                                processedFiles.push({
+                                    blob,
+                                    name: filename,
+                                    originalSize: file.size,
+                                    newSize: blob.size
+                                });
+                                
+                                console.log(`✅ Successfully extracted: ${filename} (${blob.size} bytes)`);
+                            } else {
+                                console.warn(`Failed to convert page ${pageNum} from ${file.name} to blob`);
+                            }
+                            
+                            // Cleanup canvas and context
+                            context.clearRect(0, 0, canvas.width, canvas.height);
+                            canvas.width = 0;
+                            canvas.height = 0;
+                            
+                            // Cleanup page object
+                            page.cleanup && page.cleanup();
+                            
+                        } catch (pageError) {
+                            console.error(`Error processing page ${pageNum} from ${file.name}:`, pageError);
+                            showToast(`❌ Failed to extract page ${pageNum} from ${file.name}: ${pageError.message}`, 'warning', 2000);
+                        }
+                    }
+                    
+                    // Cleanup PDF document and free memory
+                    if (pdf && pdf.cleanup) {
+                        pdf.cleanup();
+                    }
+                    if (pdf && pdf.destroy) {
+                        pdf.destroy();
+                    }
+                    
+                    // Add result item for this PDF
+                    if (resultsList) {
+                        const item = document.createElement('div');
+                        item.className = 'flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2';
+                        item.innerHTML = `
+                            <span>📄 ${file.name}</span>
+                            <span>${pagesToExtract.length} pages processed (${outputFormat.toUpperCase()}, ${dpi} DPI)</span>
+                        `;
+                        resultsList.appendChild(item);
+                    }
+                    
+                } catch (fileError) {
+                    console.error(`❌ Error processing PDF file ${file.name}:`, fileError);
+                    showToast(`❌ Failed to process ${file.name}: ${fileError.message}`, 'error', 4000);
+                    continue; // Continue with next file instead of failing completely
                 }
                 
-                if (pagesToExtract.length === 0) {
-                    showToast('❌ No valid pages selected', 'error', 3000);
-                    return;
-                }
+                console.log(`🔄 Completed processing file ${fileIndex + 1}/${pdfFiles.length}: ${file.name}`);
                 
-                updateProgress(20 + fileIndex * 60, `Processing ${file.name} (${pagesToExtract.length} pages)...`);
-                
-                // Extract selected pages
-                for (let i = 0; i < pagesToExtract.length; i++) {
-                    const pageNum = pagesToExtract[i];
-                    updateProgress(20 + fileIndex * 60 + (i / pagesToExtract.length) * 50, 
-                        `Extracting page ${pageNum} from ${file.name}...`);
-                    
-                    const page = await pdf.getPage(pageNum);
-                    const viewport = page.getViewport({ scale });
-                    
-                    // Create canvas
-                    const canvas = document.createElement('canvas');
-                    const context = canvas.getContext('2d');
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-                    
-                    // Render page to canvas
-                    await page.render({ canvasContext: context, viewport }).promise;
-                    
-                    // Convert canvas to blob
-                    const blob = await new Promise(resolve => {
-                        canvas.toBlob(resolve, `image/${outputFormat}`, quality / 100);
-                    });
-                    
-                    const filename = `${file.name.replace('.pdf', '')}_page${pageNum}.${outputFormat}`;
-                    
-                    processedFiles.push({
-                        blob,
-                        name: filename,
-                        originalSize: file.size,
-                        newSize: blob.size
-                    });
-                }
-                
-                // Add result item for this PDF
-                if (resultsList) {
-                    const item = document.createElement('div');
-                    item.className = 'flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded mb-2';
-                    item.innerHTML = `
-                        <span>📄 ${file.name}</span>
-                        <span>${pagesToExtract.length} pages extracted (${outputFormat.toUpperCase()}, ${dpi} DPI)</span>
-                    `;
-                    resultsList.appendChild(item);
+                // Add a small delay between files to prevent resource conflicts
+                if (fileIndex < pdfFiles.length - 1) {
+                    console.log(`⏳ Adding delay before processing next file...`);
+                    await new Promise(resolve => setTimeout(resolve, 100));
                 }
             }
             
-            updateProgress(100, 'Images extracted successfully!');
+            console.log(`🏁 Loop completed! Processed all ${pdfFiles.length} PDF files.`);
+            
+            console.log(`📊 Total processed files: ${processedFiles.length} images from ${pdfFiles.length} PDFs`);
+            updateProgress(100, 'PDF processing completed!');
             
             showProgress(false);
-            const resultsDiv = document.getElementById('results');
-            const downloadBtn = document.getElementById('download-btn');
-            resultsDiv.classList.remove('hidden');
-            downloadBtn.classList.remove('hidden');
-            downloadBtn.disabled = false;
             
-            // Setup download functionality with ZIP option
-            downloadBtn.onclick = async function() {
-                if (processedFiles.length > 3) {
-                    // Create ZIP for multiple files
-                    const zip = new JSZip();
-                    processedFiles.forEach(file => {
-                        zip.file(file.name, file.blob);
-                    });
-                    
-                    showToast('📦 Creating ZIP archive...', 'info', 2000);
-                    const zipBlob = await zip.generateAsync({type: 'blob'});
-                    downloadFile(zipBlob, `extracted_images_${Date.now()}.zip`);
-                    showToast('✅ ZIP download started!', 'success', 2000);
-                } else {
-                    downloadAllFiles(processedFiles);
-                    showToast('✅ Extracted images download started!', 'success', 2000);
+            // Check if any images were successfully processed
+            if (processedFiles.length > 0) {
+                const resultsDiv = document.getElementById('results');
+                const downloadButtons = document.getElementById('download-buttons');
+                resultsDiv.classList.remove('hidden');
+                
+                // Show new download buttons instead of old single button
+                if (downloadButtons) {
+                    downloadButtons.classList.remove('hidden');
                 }
-            };
+                
+                // Also show results grid with individual download buttons
+                displayPdfImageResults();
+                
+                const totalFiles = pdfFiles.length;
+                const successfulExtractions = processedFiles.length;
+                
+                if (totalFiles === 1) {
+                    showToast(`✅ Successfully extracted ${successfulExtractions} images!`, 'success', 3000);
+                } else {
+                    showToast(`✅ Extracted ${successfulExtractions} images from ${totalFiles} PDF files!`, 'success', 3000);
+                }
+            } else {
+                showToast('❌ No images could be extracted from the PDF files', 'error', 4000);
+            }
             
-            showToast(`✅ Successfully extracted ${processedFiles.length} images!`, 'success', 3000);
         } catch (error) {
             showProgress(false);
             showToast('❌ PDF extraction failed: ' + error.message, 'error', 3000);
@@ -2333,6 +2458,60 @@ function setupPdfToImages() {
         } finally {
             processBtn.disabled = false;
         }
+    }
+}
+
+// Display PDF extraction results with individual download buttons
+function displayPdfImageResults() {
+    const resultsGrid = document.getElementById('results-grid');
+    if (!resultsGrid) return;
+    
+    resultsGrid.innerHTML = '';
+    
+    processedFiles.forEach((file, index) => {
+        const resultItem = document.createElement('div');
+        resultItem.className = 'bg-white dark:bg-gray-800 rounded-lg p-4 shadow-md border border-gray-200 dark:border-gray-700';
+        
+        // Create image preview
+        const img = document.createElement('img');
+        img.className = 'w-full h-32 object-cover rounded-md mb-3';
+        img.src = URL.createObjectURL(file.blob);
+        img.alt = file.name;
+        
+        // File info
+        const fileName = document.createElement('div');
+        fileName.className = 'font-medium text-sm text-gray-900 dark:text-white mb-1 truncate';
+        fileName.textContent = file.name;
+        
+        const fileSize = document.createElement('div');
+        fileSize.className = 'text-xs text-gray-500 dark:text-gray-400 mb-3';
+        fileSize.textContent = formatFileSize(file.newSize);
+        
+        // Individual download button
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'w-full btn-base btn-primary btn-sm';
+        downloadBtn.onclick = () => downloadSingleImage(index);
+        downloadBtn.innerHTML = `
+            <svg class="w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+            </svg>
+            Download
+        `;
+        
+        resultItem.appendChild(img);
+        resultItem.appendChild(fileName);
+        resultItem.appendChild(fileSize);
+        resultItem.appendChild(downloadBtn);
+        resultsGrid.appendChild(resultItem);
+    });
+}
+
+// Download single extracted image
+function downloadSingleImage(index) {
+    if (processedFiles[index]) {
+        const file = processedFiles[index];
+        downloadFile(file.blob, file.name);
+        showToast(`Downloaded ${file.name}`, 'success');
     }
 }
 
@@ -2475,7 +2654,7 @@ function setupImageResizer() {
         try {
             for (let i = 0; i < imageFiles.length; i++) {
                 const file = imageFiles[i];
-                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Resizing ${file.name}...`);
+                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Resizing images... (${i + 1}/${imageFiles.length})`);
                 
                 // Actually resize the image
                 const resizedBlob = await resizeImageFile(file, width, height, maintainAspectCheckbox?.checked);
@@ -2577,7 +2756,7 @@ function setupFormatConverter() {
         try {
             for (let i = 0; i < imageFiles.length; i++) {
                 const file = imageFiles[i];
-                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Converting ${file.name}...`);
+                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Converting format... (${i + 1}/${imageFiles.length})`);
                 
                 // Actually convert the image format
                 const convertedBlob = await convertImageFormat(file, outputFormat, quality);
@@ -2694,7 +2873,7 @@ function setupBatchProcessor() {
         try {
             for (let i = 0; i < imageFiles.length; i++) {
                 const file = imageFiles[i];
-                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Processing ${file.name}...`);
+                updateProgress(Math.round(((i + 1) / imageFiles.length) * 100), `Processing images... (${i + 1}/${imageFiles.length})`);
                 
                 let processedFile = file;
                 
@@ -3873,6 +4052,79 @@ function getToolContent(toolName) {
         </div>
     `;
 }
+
+// Global functions for PDF to Images tool
+window.downloadAllImagesIndividual = function() {
+    console.log(`🔽 downloadAllImagesIndividual called with ${processedFiles.length} processed files:`, processedFiles.map(f => f.name));
+    
+    if (!processedFiles || processedFiles.length === 0) {
+        showToast('No images to download', 'error');
+        return;
+    }
+    
+    processedFiles.forEach((file, index) => {
+        const link = document.createElement('a');
+        link.href = file.blob;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        console.log(`🔽 Downloaded individual image ${index + 1}/${processedFiles.length}: ${file.name}`);
+        
+        // Small delay between downloads to prevent browser blocking
+        setTimeout(() => {}, index * 100);
+    });
+    
+    showToast(`Downloaded ${processedFiles.length} images individually`, 'success');
+};
+
+window.downloadAllImagesZip = async function() {
+    console.log(`🔽 downloadAllImagesZip called with ${processedFiles.length} processed files:`, processedFiles.map(f => f.name));
+    
+    if (!processedFiles || processedFiles.length === 0) {
+        showToast('No images to download', 'error');
+        return;
+    }
+    
+    try {
+        showProgress(true, 'Creating ZIP archive...');
+        
+        const zip = new JSZip();
+        
+        for (let i = 0; i < processedFiles.length; i++) {
+            const file = processedFiles[i];
+            updateProgress(Math.round(((i + 1) / processedFiles.length) * 100), `Adding to ZIP... (${i + 1}/${processedFiles.length})`);
+            
+            // Convert blob URL to actual blob data
+            const response = await fetch(file.blob);
+            const arrayBuffer = await response.arrayBuffer();
+            
+            zip.file(file.name, arrayBuffer);
+            console.log(`🔽 Added to ZIP: ${file.name}`);
+        }
+        
+        updateProgress(100, 'Generating ZIP file...');
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(zipBlob);
+        link.download = 'extracted-images.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+        
+        hideProgress();
+        showToast(`Downloaded ${processedFiles.length} images as ZIP`, 'success');
+        console.log(`🔽 ZIP download completed with ${processedFiles.length} files`);
+        
+    } catch (error) {
+        console.error('❌ Error creating ZIP:', error);
+        showToast('Error creating ZIP file: ' + error.message, 'error');
+        hideProgress();
+    }
+};
 
 // ================================================================================
 // [End] IMAGEPDF TOOLKIT - MAIN JAVASCRIPT FILE

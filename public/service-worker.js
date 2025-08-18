@@ -3,7 +3,7 @@
  * Smart caching with development mode support
  */
 
-const CACHE_VERSION = 'v2.6';
+const CACHE_VERSION = 'v2.7';
 const CACHE_NAME = `imagepdf-toolkit-${CACHE_VERSION}`;
 const STATIC_CACHE = `imagepdf-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `imagepdf-dynamic-${CACHE_VERSION}`;
@@ -17,49 +17,42 @@ const isDevelopment = location.hostname === 'localhost' ||
 
 console.log('Service Worker: Development mode detected:', isDevelopment);
 
-// Files to cache immediately
+// Get the base path for the current service worker
+const getBasePath = () => {
+    const swPath = self.location.pathname;
+    return swPath.substring(0, swPath.lastIndexOf('/')) || './';
+};
+
+const basePath = getBasePath();
+
+// Files to cache immediately - using dynamic base path resolution
 const STATIC_FILES = [
-    '/',
-    '/index.html',
-    '/styles.min.css',
-    '/tailwind-complete.css',
-    '/css/all.min.css',
-    '/css/premium-buttons.css',
-    '/js/jspdf.min.js',
-    '/js/pdf.min.js',
-    '/js/pdf-config.js',
-    '/js/pdf.worker.min.js',
-    '/js/qrcode.min.js',
-    '/js/library-loader.js',
-    '/tools/pdf-to-doc.html',
-    '/tools/qr-generator.html',
-    '/tools/image-compressor.html',
-    '/tools/image-resizer.html',
-    '/tools/format-converter.html',
-    '/tools/batch-processor.html',
-    '/tools/image-to-pdf.html',
-    '/tools/pdf-to-images.html',
-    '/script.js',
-    '/manifest.json',
-    '/assets/svg-icons/pdf-icon.svg',
-    '/assets/svg-icons/image-icon.svg',
-    '/assets/svg-icons/qr-icon.svg',
-    '/assets/svg-icons/compress-icon.svg',
-    '/assets/svg-icons/color-icon.svg',
-    '/assets/svg-icons/text-icon.svg',
-    '/assets/svg-icons/batch-icon.svg'
+    basePath + '/',
+    basePath + '/index.html',
+    basePath + '/styles.min.css',
+    basePath + '/tailwind-complete.css',
+    basePath + '/css/all.min.css', 
+    basePath + '/css/premium-buttons.css',
+    basePath + '/js/jspdf.min.js',
+    basePath + '/js/pdf.min.js',
+    basePath + '/js/pdf-config.js',
+    basePath + '/js/pdf.worker.min.js',
+    basePath + '/js/qrcode.min.js',
+    basePath + '/js/library-loader.js',
+    basePath + '/script.js',
+    basePath + '/manifest.json',
+    basePath + '/assets/svg-icons/qr-icon.svg'
 ];
 
 // Critical JavaScript libraries that need special handling
 const CRITICAL_JS_FILES = [
-    '/js/jspdf.min.js',
-    '/js/pdf.min.js',
-    '/js/pdf-config.js',
-    '/js/pdf.worker.min.js',
-    '/js/qrcode.min.js',
-    '/js/lib/qrcode.min.js',
-    '/js/library-loader.js',
-    '/script.js'
+    basePath + '/js/jspdf.min.js',
+    basePath + '/js/pdf.min.js',
+    basePath + '/js/pdf-config.js',
+    basePath + '/js/pdf.worker.min.js',
+    basePath + '/js/qrcode.min.js',
+    basePath + '/js/library-loader.js',
+    basePath + '/script.js'
 ];
 
 // Install event - cache static files
@@ -73,17 +66,28 @@ self.addEventListener('install', event => {
                     console.log('Service Worker: Caching static files');
                     // Cache files individually to avoid complete failure
                     return Promise.allSettled(
-                        STATIC_FILES.map(url => {
-                            return cache.add(url).catch(error => {
-                                console.warn(`Service Worker: Failed to cache ${url}:`, error);
-                                return null; // Continue with other files
-                            });
+                        STATIC_FILES.map(async (url) => {
+                            try {
+                                // First check if the file exists
+                                const response = await fetch(url);
+                                if (response.ok) {
+                                    await cache.put(url, response.clone());
+                                    console.log(`Service Worker: Cached ${url}`);
+                                    return { success: true, url };
+                                } else {
+                                    console.warn(`Service Worker: Skipped ${url} (${response.status})`);
+                                    return { success: false, url, status: response.status };
+                                }
+                            } catch (error) {
+                                console.warn(`Service Worker: Failed to cache ${url}:`, error.message);
+                                return { success: false, url, error: error.message };
+                            }
                         })
                     );
                 })
                 .then((results) => {
-                    const successful = results.filter(result => result.status === 'fulfilled').length;
-                    const failed = results.filter(result => result.status === 'rejected').length;
+                    const successful = results.filter(result => result.status === 'fulfilled' && result.value.success).length;
+                    const failed = results.filter(result => result.status === 'rejected' || !result.value.success).length;
                     console.log(`Service Worker: Cached ${successful} files, ${failed} failed`);
                 }),
             
@@ -117,7 +121,7 @@ async function warmCriticalFiles() {
                 console.warn(`Service Worker: Failed to fetch critical file: ${filePath} (${response.status})`);
             }
         } catch (error) {
-            console.warn(`Service Worker: Error caching critical file ${filePath}:`, error);
+            console.warn(`Service Worker: Error caching critical file ${filePath}:`, error.message);
         }
     }
 }
@@ -349,8 +353,8 @@ self.addEventListener('push', event => {
     
     const options = {
         body: event.data ? event.data.text() : 'New update available!',
-        icon: '/assets/svg-icons/pdf-icon.svg',
-        badge: '/assets/svg-icons/pdf-icon.svg',
+        icon: '/assets/svg-icons/qr-icon.svg',
+        badge: '/assets/svg-icons/qr-icon.svg',
         vibrate: [100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
@@ -360,12 +364,12 @@ self.addEventListener('push', event => {
             {
                 action: 'explore',
                 title: 'Open Toolkit',
-                icon: '/assets/svg-icons/pdf-icon.svg'
+                icon: '/assets/svg-icons/qr-icon.svg'
             },
             {
                 action: 'close',
                 title: 'Close',
-                icon: '/assets/svg-icons/pdf-icon.svg'
+                icon: '/assets/svg-icons/qr-icon.svg'
             }
         ]
     };

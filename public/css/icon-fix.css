@@ -1,4 +1,38 @@
 /* Icon Size Consistency Fix - Fixes large icons after file organization */
+/* Font Awesome Fallback - Prevents 404 errors for missing webfonts */
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+    src: local("Font Awesome 6 Free Solid"), local("FontAwesome6FreeSolid");
+    unicode-range: U+0000-00FF;
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Free";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Font Awesome 6 Free Regular"), local("FontAwesome6FreeRegular");
+    unicode-range: U+0000-00FF;
+}
+
+@font-face {
+    font-family: "Font Awesome 6 Brands";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local("Font Awesome 6 Brands"), local("FontAwesome6Brands");
+    unicode-range: U+0000-00FF;
+}
+
+/* Fallback to generic icons when Font Awesome fails */
+.fas::before, .fab::before, .far::before {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* Tool card icons should all be consistent size */
 .tool-card .w-12.h-12 svg,

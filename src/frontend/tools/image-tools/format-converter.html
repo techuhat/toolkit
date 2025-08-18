@@ -19,18 +19,18 @@
     <meta property="og:title" content="Format Converter - Convert Images Online">
     <meta property="og:description" content="Convert images between formats (JPG, PNG, WebP, AVIF, BMP) with quality control.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://techuhat.github.io/toolkit/tools/format-converter.html">
-    <meta property="og:image" content="../images/og.png">
+    <meta property="og:url" content="https://imagetoolkit.tech/src/frontend/tools/image-tools/format-converter.html">
+    <meta property="og:image" content="../../../../images/og.png">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Format Converter - Convert Images Online">
     <meta name="twitter:description" content="Convert images between formats (JPG, PNG, WebP, AVIF, BMP) with quality control.">
-    <meta name="twitter:image" content="../images/og.png">
+    <meta name="twitter:image" content="../../../../images/og.png">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#9333EA">
-    <link rel="canonical" href="https://techuhat.github.io/toolkit/tools/format-converter.html">
+    <link rel="canonical" href="https://imagetoolkit.tech/src/frontend/tools/image-tools/format-converter.html">
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -39,7 +39,7 @@
         "@type": "WebApplication",
         "name": "Image Compressor",
         "description": "Reduce image file size while maintaining quality. Free online image compressor with advanced compression algorithms.",
-        "url": "https://techuhat.github.io/toolkit/tools/image-compressor.html",
+    "url": "https://imagetoolkit.tech/src/frontend/tools/image-tools/format-converter.html",
         "applicationCategory": "ImageOptimizer",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -64,11 +64,11 @@
     <link rel="manifest" href="../../../../public/manifest.json">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../../../public/styles.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/all.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=2.3.1">
+    <link rel="preload" href="../../../../public/styles.min.css?v=20250817" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../public/styles.min.css?v=20250817"></noscript>
+    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=20250817">
     
     <!-- Theme initialization script - runs immediately -->
     <script>
@@ -206,12 +206,15 @@
         }
         
         .file-drop-zone {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(109, 40, 217, 0.1));
+            border: 2px dashed var(--primary-color);
             transition: all 0.3s ease;
         }
-        
+
         .file-drop-zone.drag-over {
-            border-color: #3b82f6 !important;
-            background-color: rgba(59, 130, 246, 0.1);
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(109, 40, 217, 0.2));
+            border-color: var(--primary-hover) !important;
+            transform: scale(1.02);
         }
         
         .compression-preview {
@@ -477,22 +480,28 @@
         <!-- Tool Interface -->
         <section class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 mb-8">
             <div class="mb-8">
-                <!-- File Upload Area -->
-                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
-                    <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-8 text-center hover:border-blue-400 transition-colors" id="drop-zone">
-                        <i class="fas fa-image text-4xl text-gray-400 mb-4"></i>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">
-                            Upload Images for Format Conversion
+                <!-- File Upload Zone (consistent style) -->
+                <div class="file-drop-zone rounded-xl p-8 text-center mb-6" id="drop-zone">
+                    <div class="max-w-md mx-auto">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-100 to-violet-100 dark:from-purple-900 dark:to-violet-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg class="w-10 h-10 text-purple-600 dark:text-purple-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                            Drop images here
                         </h3>
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">
-                            Drag and drop multiple images here, or click to browse
+                        <p class="text-gray-600 dark:text-gray-400 mb-4">
+                            or click to browse files
                         </p>
                         <input type="file" id="file-input" multiple accept="image/*" class="hidden">
-                        <button onclick="document.getElementById('file-input').click()" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
-                            <i class="fas fa-upload mr-2"></i>
+                        <button onclick="document.getElementById('file-input').click()" class="btn-base btn-secondary btn-lg">
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5-7l-3 3.72L9 13l-3 4h12l-4-5z"/>
+                            </svg>
                             Choose Images
                         </button>
-                        <p class="text-sm text-gray-400 mt-2">
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-4">
                             Supports JPG, PNG, WebP, AVIF, BMP formats
                         </p>
                     </div>
@@ -549,12 +558,21 @@
                         </svg>
                         Convert Images
                     </button>
-                    <button id="download-btn" class="btn-base btn-success btn-lg hidden" disabled>
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                        Download All
-                    </button>
+                    <!-- Download buttons container -->
+                    <div id="downloadButtons" class="hidden space-x-4">
+                        <button id="downloadIndividualBtn" class="btn-base btn-success btn-lg" disabled>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            Download Individual
+                        </button>
+                        <button id="downloadZipBtn" class="btn-base btn-primary btn-lg" disabled>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h10v14z"/>
+                            </svg>
+                            Download ZIP
+                        </button>
+                    </div>
                 </div>
                 
                 <!-- Results -->
@@ -662,8 +680,9 @@
                         <li><a href="image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
                         <li><a href="format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
                         <li><a href="../utility-tools/batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
-                        <li><a href="../pdf-tools/pdf-to-doc.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to DOC</a></li>
-                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Code Generator</a></li>
+                        <li><a href="../pdf-tools/pdf-merge.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Merge</a></li>
+                        <li><a href="../pdf-tools/pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>
+                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Generator</a></li>
                     </ul>
                 </div>
                 
@@ -699,7 +718,7 @@
     <!-- Core toolkit script -->
     <script src="../../../../public/script.js?v=2.3.1"></script>
     <!-- JSZip for multi-file ZIP downloads -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-J3UBbF7l10QmV5uF+Z0aW5E1H3q2u2k8p2U4kq9Q3Z4TtC6oJXw3qY0VYv3r6G6s2x9rN0xgYxZ0Q3r2wKp2eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // Global variables for file handling
         let currentFiles = [];
@@ -764,13 +783,16 @@
         function showResults() {
             const results = document.getElementById('results');
             const resultsList = document.getElementById('results-list');
-            const downloadBtn = document.getElementById('download-btn');
+            const downloadButtons = document.getElementById('downloadButtons');
             
-            // Show the main download button
-            if (downloadBtn) {
-                downloadBtn.classList.remove('hidden');
-                downloadBtn.disabled = false;
-                console.log('Main download button shown in showResults');
+            // Show the download buttons
+            if (downloadButtons) {
+                downloadButtons.classList.remove('hidden');
+                const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+                const downloadZipBtn = document.getElementById('downloadZipBtn');
+                if (downloadIndividualBtn) downloadIndividualBtn.disabled = false;
+                if (downloadZipBtn) downloadZipBtn.disabled = false;
+                console.log('Download buttons shown in showResults');
             }
             
             if (results && resultsList) {
@@ -947,10 +969,14 @@
                 showToast(`✅ Successfully converted ${processedFiles.length} images to ${outputFormat.toUpperCase()}!`, 'success', 3000);
                 displayResults();
                 
-                // Show download button
-                if (downloadBtn) {
-                    downloadBtn.classList.remove('hidden');
-                    downloadBtn.disabled = false;
+                // Show download buttons
+                const downloadButtons = document.getElementById('downloadButtons');
+                if (downloadButtons) {
+                    downloadButtons.classList.remove('hidden');
+                    const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+                    const downloadZipBtn = document.getElementById('downloadZipBtn');
+                    if (downloadIndividualBtn) downloadIndividualBtn.disabled = false;
+                    if (downloadZipBtn) downloadZipBtn.disabled = false;
                 }
                 
             } catch (error) {
@@ -1241,9 +1267,15 @@
             }
 
             // Setup download functionality
-            const downloadBtn = document.getElementById('download-btn');
-            if (downloadBtn) {
-                downloadBtn.addEventListener('click', downloadProcessedFiles);
+            const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+            const downloadZipBtn = document.getElementById('downloadZipBtn');
+            
+            if (downloadIndividualBtn) {
+                downloadIndividualBtn.addEventListener('click', downloadProcessedFiles);
+            }
+            
+            if (downloadZipBtn) {
+                downloadZipBtn.addEventListener('click', downloadAllAsZip);
             }
         }
 
@@ -1251,6 +1283,45 @@
         
         // Unified toast system is used
         
+        // Download all converted files as ZIP
+        async function downloadAllAsZip() {
+            if (processedFiles.length === 0) {
+                showToast('❌ No converted files to download', 'warning', 2000);
+                return;
+            }
+            
+            if (!window.JSZip) {
+                showToast('❌ ZIP functionality not available', 'error', 2000);
+                return;
+            }
+            
+            try {
+                const zip = new JSZip();
+                
+                // Add all files to ZIP
+                processedFiles.forEach(file => {
+                    zip.file(file.name, file);
+                });
+                
+                // Generate ZIP file
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                
+                // Download ZIP file
+                const url = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'converted_images.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast(`📥 Downloaded ${processedFiles.length} converted images as ZIP`, 'success', 3000);
+            } catch (error) {
+                console.error('ZIP download failed:', error);
+                showToast('❌ Failed to create ZIP file', 'error', 2000);
+            }
+        }
 
     </script>
 </body>

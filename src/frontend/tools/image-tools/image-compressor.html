@@ -19,18 +19,18 @@
     <meta property="og:title" content="Image Compressor - Compress Images Online">
     <meta property="og:description" content="Reduce image file size while maintaining quality. Free online image compressor with advanced compression algorithms.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://techuhat.github.io/toolkit/tools/image-compressor.html">
-    <meta property="og:image" content="../images/og.png">
+    <meta property="og:url" content="https://imagetoolkit.tech/src/frontend/tools/image-tools/image-compressor.html">
+    <meta property="og:image" content="../../../../images/og.png">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Image Compressor - Compress Images Online">
     <meta name="twitter:description" content="Reduce image file size while maintaining quality. Free online image compressor with advanced compression algorithms.">
-    <meta name="twitter:image" content="../images/og.png">
+    <meta name="twitter:image" content="../../../../images/og.png">
     
     <!-- Additional SEO Meta Tags -->
     <meta name="theme-color" content="#7C3AED">
-    <link rel="canonical" href="https://techuhat.github.io/toolkit/tools/image-compressor.html">
+    <link rel="canonical" href="https://imagetoolkit.tech/src/frontend/tools/image-tools/image-compressor.html">
     
     <!-- Schema.org Structured Data -->
     <script type="application/ld+json">
@@ -39,7 +39,7 @@
         "@type": "WebApplication",
         "name": "Image Compressor",
         "description": "Reduce image file size while maintaining quality. Free online image compressor with advanced compression algorithms.",
-        "url": "https://techuhat.github.io/toolkit/tools/image-compressor.html",
+    "url": "https://imagetoolkit.tech/src/frontend/tools/image-tools/image-compressor.html",
         "applicationCategory": "ImageOptimizer",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -64,11 +64,11 @@
     <link rel="manifest" href="../../../../public/manifest.json">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="../../../../public/styles.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/all.min.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=2.3.1">
-    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=2.3.1">
+    <link rel="preload" href="../../../../public/styles.min.css?v=20250817" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../../../../public/styles.min.css?v=20250817"></noscript>
+    <link rel="stylesheet" href="../../../../public/tailwind-complete.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/premium-buttons.css?v=20250817">
+    <link rel="stylesheet" href="../../../../public/css/icon-fix.css?v=20250817">
     
     <!-- Theme initialization script - runs immediately -->
     <script>
@@ -549,12 +549,21 @@
                         </svg>
                         Compress Images
                     </button>
-                    <button id="download-btn" class="btn-base btn-success btn-lg hidden" disabled>
-                        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
-                        </svg>
-                        Download All
-                    </button>
+                    <!-- Download buttons container -->
+                    <div id="downloadButtons" class="hidden space-x-4">
+                        <button id="downloadIndividualBtn" class="btn-base btn-success btn-lg" disabled>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
+                            </svg>
+                            Download Individual
+                        </button>
+                        <button id="downloadZipBtn" class="btn-base btn-primary btn-lg" disabled>
+                            <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-1 16H9V7h10v14z"/>
+                            </svg>
+                            Download ZIP
+                        </button>
+                    </div>
                 </div>
                 
                 <!-- Results -->
@@ -656,13 +665,14 @@
                     <h4 class="font-semibold mb-4">Tools</h4>
                     <ul class="space-y-2 text-gray-400">
                         <li><a href="image-to-pdf.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image to PDF</a></li>
-                        <li><a href="pdf-to-images.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to Images</a></li>
+                        <li><a href="../pdf-tools/pdf-to-images.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to Images</a></li>
                         <li><a href="image-compressor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Compressor</a></li>
                         <li><a href="image-resizer.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Image Resizer</a></li>
                         <li><a href="format-converter.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Format Converter</a></li>
-                        <li><a href="batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
-                        <li><a href="pdf-to-doc.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF to DOC</a></li>
-                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Code Generator</a></li>
+                        <li><a href="../utility-tools/batch-processor.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">Batch Processor</a></li>
+                        <li><a href="../pdf-tools/pdf-merge.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Merge</a></li>
+                        <li><a href="../pdf-tools/pdf-split.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">PDF Split</a></li>
+                        <li><a href="../utility-tools/qr-generator.html" class="hover:text-white transition-colors cursor-pointer hover:translate-x-1 transform duration-200 inline-block">QR Generator</a></li>
                     </ul>
                 </div>
                 
@@ -698,7 +708,7 @@
     <!-- Core toolkit script -->
     <script src="../../../../public/script.js?v=2.3.1"></script>
     <!-- JSZip for multi-file ZIP downloads -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-J3UBbF7l10QmV5uF+Z0aW5E1H3q2u2k8p2U4kq9Q3Z4TtC6oJXw3qY0VYv3r6G6s2x9rN0xgYxZ0Q3r2wKp2eg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" integrity="sha512-XMVd28F1oH/O71fzwBnV7HucLxVwtxf26XV8P4wPk26EDxuGZ91N8bsOttmnomcCD3CS5ZMRL50H0GgOHvegtg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         // Global variables for file handling
         let currentFiles = [];
@@ -763,13 +773,16 @@
         function showResults() {
             const results = document.getElementById('results');
             const resultsList = document.getElementById('results-list');
-            const downloadBtn = document.getElementById('download-btn');
+            const downloadButtons = document.getElementById('downloadButtons');
             
-            // Show the main download button
-            if (downloadBtn) {
-                downloadBtn.classList.remove('hidden');
-                downloadBtn.disabled = false;
-                console.log('Main download button shown in showResults');
+            // Show the download buttons
+            if (downloadButtons) {
+                downloadButtons.classList.remove('hidden');
+                const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+                const downloadZipBtn = document.getElementById('downloadZipBtn');
+                if (downloadIndividualBtn) downloadIndividualBtn.disabled = false;
+                if (downloadZipBtn) downloadZipBtn.disabled = false;
+                console.log('Download buttons shown in showResults');
             }
             
             if (results && resultsList) {
@@ -946,10 +959,14 @@
                 showToast(`✅ Successfully compressed ${processedFiles.length} images!`, 'success', 3000);
                 displayResults();
                 
-                // Show download button
-                if (downloadBtn) {
-                    downloadBtn.classList.remove('hidden');
-                    downloadBtn.disabled = false;
+                // Show download buttons
+                const downloadButtons = document.getElementById('downloadButtons');
+                if (downloadButtons) {
+                    downloadButtons.classList.remove('hidden');
+                    const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+                    const downloadZipBtn = document.getElementById('downloadZipBtn');
+                    if (downloadIndividualBtn) downloadIndividualBtn.disabled = false;
+                    if (downloadZipBtn) downloadZipBtn.disabled = false;
                 }
                 
             } catch (error) {
@@ -1175,10 +1192,16 @@
                 });
             }
 
-            // Initialize download all button
-            const downloadAllBtn = document.getElementById('download-btn');
-            if (downloadAllBtn) {
-                downloadAllBtn.addEventListener('click', downloadAllFiles);
+            // Initialize download buttons
+            const downloadIndividualBtn = document.getElementById('downloadIndividualBtn');
+            const downloadZipBtn = document.getElementById('downloadZipBtn');
+            
+            if (downloadIndividualBtn) {
+                downloadIndividualBtn.addEventListener('click', downloadAllFiles);
+            }
+            
+            if (downloadZipBtn) {
+                downloadZipBtn.addEventListener('click', downloadAllAsZip);
             }
 
             // Setup quality slider
@@ -1195,6 +1218,45 @@
         
         // Unified toast system is used
         
+        // Download all compressed files as ZIP
+        async function downloadAllAsZip() {
+            if (processedFiles.length === 0) {
+                showToast('❌ No compressed files to download', 'warning', 2000);
+                return;
+            }
+            
+            if (!window.JSZip) {
+                showToast('❌ ZIP functionality not available', 'error', 2000);
+                return;
+            }
+            
+            try {
+                const zip = new JSZip();
+                
+                // Add all files to ZIP
+                processedFiles.forEach(file => {
+                    zip.file(file.name, file);
+                });
+                
+                // Generate ZIP file
+                const zipBlob = await zip.generateAsync({ type: 'blob' });
+                
+                // Download ZIP file
+                const url = URL.createObjectURL(zipBlob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'compressed_images.zip';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showToast(`📥 Downloaded ${processedFiles.length} compressed images as ZIP`, 'success', 3000);
+            } catch (error) {
+                console.error('ZIP download failed:', error);
+                showToast('❌ Failed to create ZIP file', 'error', 2000);
+            }
+        }
 
     </script>
 </body>

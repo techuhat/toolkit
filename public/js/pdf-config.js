@@ -9,7 +9,7 @@ window.PDFConfig = {
         // CDN version for production reliability
         cdnWorkerSrc: 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js',
         // Local worker path for development
-        localWorkerSrc: '/js/pdf.worker.min.js',
+        localWorkerSrc: './js/pdf.worker.min.js',
         // Fallback worker for offline scenarios
         fallbackWorkerSrc: './js/pdf.worker.min.js'
     },

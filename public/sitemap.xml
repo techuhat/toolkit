@@ -1,42 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Pages -->
+  <url>
+    <loc>https://imagetoolkit.tech/</loc>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://imagetoolkit.tech/index.html</loc>
+    <priority>0.90</priority>
+  </url>
+  <url>
+    <loc>https://imagetoolkit.tech/about.html</loc>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://imagetoolkit.tech/privacy.html</loc>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://imagetoolkit.tech/terms.html</loc>
+    <priority>0.70</priority>
+  </url>
+  <url>
+    <loc>https://imagetoolkit.tech/contact.html</loc>
+    <priority>0.70</priority>
+  </url>
 
+  <!-- Tool Pages -->
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/image-tools/image-to-pdf.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/pdf-tools/pdf-to-images.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/image-tools/image-compressor.html</loc>
+    <priority>0.78</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/image-tools/image-resizer.html</loc>
+    <priority>0.78</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/image-tools/format-converter.html</loc>
+    <priority>0.75</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/utility-tools/batch-processor.html</loc>
+    <priority>0.74</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/utility-tools/qr-generator.html</loc>
+    <priority>0.74</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/pdf-tools/pdf-merge.html</loc>
+    <priority>0.80</priority>
+  </url>
+  <url>
+  <loc>https://imagetoolkit.tech/src/frontend/tools/pdf-tools/pdf-split.html</loc>
+    <priority>0.80</priority>
+  </url>
 
-<url>
-  <loc>https://imagetoolkit.tech/</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>1.00</priority>
-</url>
-<url>
-  <loc>https://imagetoolkit.tech/about.html</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://imagetoolkit.tech/privacy.html</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://imagetoolkit.tech/terms.html</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://imagetoolkit.tech/contact.html</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://imagetoolkit.tech/index.html</loc>
-  <lastmod>2025-07-28T13:27:41+00:00</lastmod>
-  <priority>0.64</priority>
-</url>
-
-
+  <!-- Lastmod intentionally omitted for dynamic maintenance simplicity; add if you automate updates -->
 </urlset>

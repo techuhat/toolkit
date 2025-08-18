@@ -1,0 +1,26 @@
+/* Placeholder Purged Tailwind Build
+ * TODO: Replace with generated output of a Tailwind JIT/purge run.
+ * Safelist (dynamic classes referenced via JS):
+ * dark, dark:*, hover:*, focus:*, active:*, md:*, lg:*, xl:*, bg-*, text-*, border-*, rounded-*, shadow-*, flex, grid, hidden, block, inline-block,
+ * w-*, h-*, p-*, m-*, max-w-*, min-h-*, transition, transform, scale-*, translate-*, opacity-*, cursor-pointer.
+ */
+html{line-height:1.5;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;background:#f8fafc;color:#1a202c;}
+.dark body{background:#0f1419;color:#f1f5f9;}
+.container{width:100%;margin-left:auto;margin-right:auto;padding-left:1rem;padding-right:1rem;}
+@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}
+.flex{display:flex}.grid{display:grid}.hidden{display:none}.block{display:block}
+.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}
+.text-center{text-align:center}
+.text-xl{font-size:1.25rem;line-height:1.75rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.font-bold{font-weight:700}.font-semibold{font-weight:600}
+.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.m-0{margin:0}.mt-4{margin-top:1rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}
+.rounded{border-radius:.25rem}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}
+.shadow{box-shadow:0 1px 2px 0 rgba(0,0,0,0.05)}.shadow-lg{box-shadow:0 10px 15px -3px rgba(0,0,0,0.1),0 4px 6px -2px rgba(0,0,0,0.05)}
+.transition{transition:all .2s ease}.transform{transform:translateZ(0)}
+.bg-white{background:#fff}.dark .bg-white{background:#1f2937}
+.text-white{color:#fff}.text-gray-400{color:#9ca3af}.text-gray-600{color:#4b5563}.dark .text-gray-400{color:#9ca3af}
+.bg-blue-600{background:#2563eb}.hover\:bg-blue-700:hover{background:#1d4ed8}
+.btn-professional{position:relative;overflow:hidden}
+.btn-professional:before{content:"";position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s ease}
+.btn-professional:hover:before{left:100%}
+/* Minimal utilities only — extend after real purge build */
