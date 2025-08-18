@@ -1,0 +1,26 @@
+/* Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) */
+@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:400;font-display:block;src:url("../webfonts/fa-regular-400.woff2") format("woff2")}
+@font-face{font-family:"Font Awesome 6 Free";font-style:normal;font-weight:900;font-display:block;src:url("../webfonts/fa-solid-900.woff2") format("woff2")}
+@font-face{font-family:"Font Awesome 6 Brands";font-style:normal;font-weight:400;font-display:block;src:url("../webfonts/fa-brands-400.woff2") format("woff2")}
+
+.fa,.fab,.fad,.fal,.far,.fas{-moz-osx-font-smoothing:grayscale;-webkit-font-smoothing:antialiased;display:inline-block;font-style:normal;font-variant:normal;text-rendering:auto;line-height:1}
+.fa{font-family:"Font Awesome 6 Free"}
+.fas{font-family:"Font Awesome 6 Free";font-weight:900}
+.far{font-family:"Font Awesome 6 Free";font-weight:400}
+.fab{font-family:"Font Awesome 6 Brands";font-weight:400}
+
+/* Specific Icons */
+.fa-image::before{content:"\f03e"}
+.fa-file::before{content:"\f15b"}
+.fa-file-pdf::before{content:"\f1c1"}
+.fa-tools::before{content:"\f7d9"}
+.fa-cog::before{content:"\f013"}
+.fa-moon::before{content:"\f186"}
+.fa-sun::before{content:"\f185"}
+.fa-compress::before{content:"\f066"}
+.fa-search-plus::before{content:"\f00e"}
+.fa-upload::before{content:"\f093"}
+.fa-download::before{content:"\f019"}
+.fa-times::before{content:"\f00d"}
+.fa-check::before{content:"\f00c"}
+.fa-spinner::before{content:"\f110"}
