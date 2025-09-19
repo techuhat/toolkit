@@ -308,6 +308,34 @@
     }
   }
 
+  // Normalize internal links so site works at root and under /toolkit/
+  function normalizeInternalLinks() {
+    try {
+      const { scopeBase } = computePrefixes();
+      const domain = 'imagetoolkit.tech';
+      const anchors = Array.from(document.querySelectorAll('a[href]'));
+      anchors.forEach(a => {
+        const href = a.getAttribute('href') || '';
+        // Skip in-page, javascript, mailto, tel
+        if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
+
+        // Absolute to custom domain → make scoped relative
+        if (href.startsWith('https://'+domain+'/') || href.startsWith('http://'+domain+'/')) {
+          const path = href.replace(/^https?:\/\/[^/]+\//, '');
+          a.setAttribute('href', scopeBase + path);
+          return;
+        }
+
+        // Root-absolute → prefix with scopeBase
+        if (href.startsWith('/')) {
+          a.setAttribute('href', scopeBase + href.replace(/^\//, ''));
+          return;
+        }
+        // Otherwise: relative links are fine
+      });
+    } catch (_) {}
+  }
+
   function getCookiePrefs() {
     try {
       const raw = localStorage.getItem('itk_cookie_prefs');
@@ -467,6 +495,7 @@
     try { ensureHeaderConsistency(); } catch (e) {}
     try { ensureFooterConsistency(); } catch (e) {}
     try { fixPrivacyFAQ(); } catch (e) {}
+    try { normalizeInternalLinks(); } catch (e) {}
     // Ensure manifest and PWA bootstrap are present site-wide
     try {
       const hasManifest = !!document.querySelector('link[rel="manifest"]');
