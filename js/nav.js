@@ -78,10 +78,8 @@
         pagesPrefix = insideCount > 0 ? '../'.repeat(insideCount) : '';
       }
 
-      // Absolute base for subpath deployments: only '/' (root) or '/toolkit/' (GH Pages)
-      const scopeBase = (() => {
-        return parts[0] === 'toolkit' ? '/toolkit/' : '/';
-      })();
+      // Custom domain deployment: always use root
+      const scopeBase = '/';
 
       return { inPages, rootPrefix, pagesPrefix, scopeBase };
     } catch (e) {
@@ -315,15 +313,23 @@
       const locPath = (location.pathname || '/').replace(/\\+/g, '/');
       const inPages = /(^|\/)pages\//.test(locPath);
       const domain = 'imagetoolkit.tech';
+      const ghPagesHost = 'techuhat.github.io';
       const anchors = Array.from(document.querySelectorAll('a[href]'));
       anchors.forEach(a => {
         const href = a.getAttribute('href') || '';
         // Skip in-page, javascript, mailto, tel
         if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
 
-        // Absolute to custom domain → make scoped relative
+        // Absolute to custom domain → normalize to root-relative
         if (href.startsWith('https://'+domain+'/') || href.startsWith('http://'+domain+'/')) {
           const path = href.replace(/^https?:\/\/[^/]+\//, '');
+          a.setAttribute('href', scopeBase + path);
+          return;
+        }
+
+        // Absolute to GitHub Pages path → normalize to root-relative
+        if (href.startsWith('https://'+ghPagesHost+'/toolkit/') || href.startsWith('http://'+ghPagesHost+'/toolkit/')) {
+          const path = href.replace(/^https?:\/\/[^/]+\/toolkit\//, '');
           a.setAttribute('href', scopeBase + path);
           return;
         }

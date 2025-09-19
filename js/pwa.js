@@ -2,11 +2,8 @@
 (function(){
   if ('serviceWorker' in navigator) {
     function getBaseScope() {
-      // Robust base detection: support custom domain at root ('/')
-      // and GitHub Pages under '/toolkit/'. Never treat '/pages/' as a base.
-      const path = (location.pathname || '/').replace(/\\+/g, '/');
-      const first = path.split('/').filter(Boolean)[0] || '';
-      return first === 'toolkit' ? '/toolkit/' : '/';
+      // Custom domain is served at root, fix scope to '/'
+      return '/';
     }
     window.addEventListener('load', () => {
       const scope = getBaseScope();

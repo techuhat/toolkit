@@ -1,5 +1,5 @@
 /* ImageToolkit Pro Service Worker */
-const CACHE_VERSION = 'itp-v1-2025-09-19d';
+const CACHE_VERSION = 'itp-v1-2025-09-19e';
 // Compute base from current SW scope, so it works under root or /toolkit
 const SCOPE_BASE = new URL('./', self.registration.scope).pathname.replace(/\/+/g, '/');
 const APP_SHELL = [
