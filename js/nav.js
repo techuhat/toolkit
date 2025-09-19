@@ -78,14 +78,9 @@
         pagesPrefix = insideCount > 0 ? '../'.repeat(insideCount) : '';
       }
 
-      // Absolute base for subpath deployments (e.g., "/toolkit/")
+      // Absolute base for subpath deployments: only '/' (root) or '/toolkit/' (GH Pages)
       const scopeBase = (() => {
-        if (parts.length === 0) return '/';
-        const first = parts[0];
-        // If first segment is a file, we're at root
-        if (/\.[a-z0-9]+$/i.test(first)) return '/';
-        // Otherwise, assume first segment is the repo base (e.g., toolkit)
-        return `/${first}/`;
+        return parts[0] === 'toolkit' ? '/toolkit/' : '/';
       })();
 
       return { inPages, rootPrefix, pagesPrefix, scopeBase };

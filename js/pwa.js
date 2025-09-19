@@ -2,11 +2,11 @@
 (function(){
   if ('serviceWorker' in navigator) {
     function getBaseScope() {
-      const parts = (location.pathname || '/').split('/').filter(Boolean);
-      // If first segment looks like a file (e.g., index.html), use root scope
-      if (parts.length < 2 || /\.[a-z0-9]+$/i.test(parts[0])) return '/';
-      // Otherwise, treat first segment as base, e.g., /toolkit/
-      return `/${parts[0]}/`;
+      // Robust base detection: support custom domain at root ('/')
+      // and GitHub Pages under '/toolkit/'. Never treat '/pages/' as a base.
+      const path = (location.pathname || '/').replace(/\\+/g, '/');
+      const first = path.split('/').filter(Boolean)[0] || '';
+      return first === 'toolkit' ? '/toolkit/' : '/';
     }
     window.addEventListener('load', () => {
       const scope = getBaseScope();
