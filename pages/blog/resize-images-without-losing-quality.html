@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resize Images Without Losing Quality - ImageToolkit Pro</title>
+  <meta name="description" content="Resizing images the right way — sharpness, dimensions, aur formats ka perfect balance for web, social, and print." />
+  <meta name="robots" content="index,follow" />
+  <link rel="stylesheet" href="../../css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
+  <link rel="apple-touch-icon" href="../../public/favicon-64.svg" />
+  <link rel="canonical" href="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Resize Images Without Losing Quality" />
+  <meta property="og:description" content="Dimensions, formats, and sharpening tricks that keep visuals crisp without bloat." />
+  <meta property="og:url" content="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
+  <meta property="og:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Resize Images Without Losing Quality" />
+  <meta name="twitter:description" content="Clear steps for creators to keep images sharp at any size." />
+  <meta name="twitter:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"BlogPosting",
+    "headline":"Resize Images Without Losing Quality",
+    "datePublished":"2025-09-18",
+    "dateModified":"2025-09-18",
+    "author":{"@type":"Organization","name":"ImageToolkit Pro"},
+    "publisher":{"@type":"Organization","name":"ImageToolkit Pro"}
+  }</script>
+</head>
+<body class="bg-background text-text-primary font-inter antialiased">
+  <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded" href="#main">Skip to content</a>
+  <header></header>
+  <main id="main" class="py-16">
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-invert">
+      <h1 class="text-4xl font-bold">Resize Images Without Losing Quality</h1>
+      <p class="text-text-secondary text-lg">Resizing ka matlab sirf dimensions change karna nahi — ye ek balance exercise hai. Humein sharpness maintain karni hoti hai, file size optimize rakhna hota hai, aur platform requirements meet karni hoti hain.</p>
+
+      <h2 class="mt-8 text-2xl font-semibold">Platform-specific dimensions</h2>
+      <ul>
+        <li>Website content: 1200–1600px width</li>
+        <li>Hero banners: 1920–2560px width</li>
+        <li>Thumbnails: 320–640px width</li>
+        <li>Social: IG square 1080px, story 1080×1920, LinkedIn 1200×627</li>
+      </ul>
+
+      <h2 class="mt-8 text-2xl font-semibold">Aspect ratio and cropping</h2>
+      <p>Resize karte waqt aspect ratio lock rehna chahiye, warna stretching/pillarboxing issues aate hain. Social ke liye alag aspect variants maintain karna best hota hai (1:1, 4:5, 16:9). Critical content ko safe areas me rakhein taaki auto‑crops me information cut na ho.</p>
+
+      <h2 class="mt-8 text-2xl font-semibold">Sharpness ka real trick</h2>
+      <p>Downscaling ke baad mild sharpening lagana most cases me results ko crisp bana deta hai. Over‑sharpen mat kijiye — halos aayenge. Mild radius, low amount, bas enough to restore micro‑contrast.</p>
+
+      <h3>Recommended sequence</h3>
+      <ol class="list-decimal pl-6">
+        <li>Color/profile fix (sRGB)</li>
+        <li>Resize to target dimensions</li>
+        <li>Mild sharpen (preview 100%)</li>
+        <li>Export format choose (WebP/AVIF/PNG)</li>
+      </ol>
+
+      <h2 class="mt-8 text-2xl font-semibold">Upscaling: when and how</h2>
+      <p>Agar source chhota hai aur aapko larger output chahiye, standard resize pixelation laa sakta hai. Is case me AI upscaling consider karein, specially logos/photos jaha detail recover karna zaroori hai. Still, brand‑critical assets me manual retouch prefer karein.</p>
+
+      <h2 class="mt-8 text-2xl font-semibold">Responsive delivery basics</h2>
+      <p>Server pe ek hi badi image rakhne ke bajay multiple widths serve karein. <code>srcset</code> + <code>sizes</code> se browser best match pick karta hai, bandwidth bachta hai.</p>
+      <pre><code>&lt;img src="img-1600.webp"
+  srcset="img-480.webp 480w, img-800.webp 800w, img-1200.webp 1200w, img-1600.webp 1600w"
+  sizes="(max-width: 640px) 95vw, (max-width: 1024px) 80vw, 1200px"
+  width="1600" height="1067" alt="Sample" loading="lazy" decoding="async" /&gt;
+      </code></pre>
+
+      <h2 class="mt-8 text-2xl font-semibold">In ImageToolkit Pro</h2>
+      <ol class="list-decimal pl-6">
+        <li>Open <a class="text-primary" href="../resize-images.html">Resize Images</a>.</li>
+        <li>Set target width/height; aspect ratio lock on rakhein.</li>
+        <li>Enable optional sharpen; preview at 100%.</li>
+        <li>Export as WebP/AVIF for web, PNG for UI assets.</li>
+      </ol>
+
+      <h2 class="mt-8 text-2xl font-semibold">Presets you can reuse</h2>
+      <ul class="list-disc pl-6">
+        <li>Blog images: 1600px wide, AVIF Q50, mild sharpen</li>
+        <li>Thumbnails: 480px wide, WebP Q75, hard cap 120 KB</li>
+        <li>Hero: 1920px (plus optional 2560px), WebP Q80</li>
+        <li>UI screenshots: 1x + 2x PNG lossless, strip metadata</li>
+      </ul>
+
+      <h2 class="mt-8 text-2xl font-semibold">Common mistakes</h2>
+      <ul>
+        <li>Upscaling without AI — pixelation. Prefer AI upscaling when needed.</li>
+        <li>Wrong color space — sRGB for web, CMYK only for print workflows.</li>
+        <li>Meta sizes missing — CLS increases; always include width/height.</li>
+      </ul>
+
+      <h2 class="mt-8 text-2xl font-semibold">Case studies</h2>
+      <h3 class="text-xl font-semibold">Portfolio grid</h3>
+      <p>4800px sources ko 1600px me downscale + light sharpen: total bytes −68%, visual crispness maintained; LCP −0.7s.</p>
+      <h3 class="text-xl font-semibold">Support article screenshots</h3>
+      <p>PNG lossless 1x/2x exports; text readability preserved, CLS zero due to explicit dimensions.</p>
+
+      <h2 class="mt-8 text-2xl font-semibold">FAQs</h2>
+      <h3 class="text-xl font-semibold">Best export format?</h3>
+      <p>Web ke liye WebP/AVIF; UI assets ke liye PNG; photos print ke liye high‑quality JPEG/TIFF.</p>
+      <h3 class="text-xl font-semibold">Kya har resize ke baad sharpen karna chahiye?</h3>
+      <p>Mild sharpening helpful hoti hai, but preview at 100% to avoid halos.</p>
+      <h3 class="text-xl font-semibold">Retina support kaise?</h3>
+      <p>Content images ke liye <code>srcset</code> width descriptors ka use karein. Strict pixel‑perfect UIs me 1x/2x assets maintain karein.</p>
+
+      <h2 class="mt-8 text-2xl font-semibold">Wrap‑up</h2>
+      <p>Right dimensions + light sharpening + smart formats = crisp results at smaller sizes. That’s the recipe.</p>
+    </article>
+  </main>
+  <footer></footer>
+  <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Blog","item":"https://imagetoolkit.tech/pages/blog/"},
+      {"@type":"ListItem","position":2,"name":"Resize Images Without Losing Quality","item":"https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html"}
+    ]
+  }</script>
+  <script src="../../js/nav.js" defer></script>
+<script id="dhws-dataInjector" src="../../public/dhws-data-injector.js"></script>
+</body>
+</html>

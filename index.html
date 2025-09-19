@@ -1,0 +1,523 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ImageToolkit Pro - Professional Image & PDF Processing</title>
+    <meta name="description" content="Privacy-first image & PDF suite. No data collected, 0ms server latency. Everything runs in your browser — compress, convert, split/merge, and more." />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" type="image/svg+xml" href="public/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="public/favicon.ico" />
+    <link rel="apple-touch-icon" href="public/apple-touch-icon-180.png" />
+    <link rel="manifest" href="public/manifest.json" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<script type="module" src="https://static.rocket.new/rocket-web.js?_cfg=https%3A%2F%2Fimagetoolk2871back.builtwithrocket.new&_be=https%3A%2F%2Fapplication.rocket.new&_v=0.1.8"></script>
+    <link rel="canonical" href="https://imagetoolkit.tech/index.html" />
+    <meta property="og:site_name" content="ImageToolkit Pro" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ImageToolkit Pro - Professional Image & PDF Processing" />
+    <meta property="og:description" content="Privacy-first image & PDF suite. No data collected, 0ms server latency. Everything runs in your browser — compress, convert, split/merge, and more." />
+    <meta property="og:url" content="https://imagetoolkit.tech/index.html" />
+    <meta property="og:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ImageToolkit Pro - Professional Image & PDF Processing" />
+    <meta name="twitter:description" content="Privacy-first image & PDF suite. No data collected, 0ms server latency. Everything runs in your browser — compress, convert, split/merge, and more." />
+    <meta name="twitter:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+    <meta name="theme-color" content="#0ea5e9" />
+</head>
+<body class="bg-background text-text-primary font-inter antialiased">
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gradient">ImageToolkit Pro</h1>
+                        <p class="text-xs text-text-secondary">Professional Processing</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+            <a href="index.html" class="text-primary font-medium">Home</a>
+            <a href="pages/image_processing_hub.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Image Tools</a>
+                    <div class="relative group has-dropdown">
+                        <button class="text-text-secondary hover:text-primary transition-colors duration-300" aria-haspopup="true" aria-expanded="false">PDF Tools</button>
+                        <div class="dropdown-menu absolute hidden bg-surface border border-border rounded-lg mt-2 shadow-lg right-0 w-48 z-20">
+                <a href="pages/pdf_merge.html" class="block px-4 py-2 text-sm hover:bg-background-light">Merge PDFs</a>
+                <a href="pages/pdf_split.html" class="block px-4 py-2 text-sm hover:bg-background-light">Split PDF</a>
+                                        </div>
+                    </div>
+            <a href="pages/qr_code_studio.html" class="text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+            <a href="pages/batch_processing_center.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
+            <a href="pages/privacy-policy.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-surface transition-colors duration-300" id="mobile-menu-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-surface rounded-lg mt-2">
+            <a href="index.html" class="block px-3 py-2 text-primary font-medium">Home</a>
+            <a href="pages/image_processing_hub.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Image Tools</a>
+                    <div class="px-3 py-2">
+                        <div class="text-text-secondary mb-2">PDF Tools</div>
+                        <div class="grid grid-cols-1 gap-1">
+                <a href="pages/pdf_merge.html" class="block px-3 py-2 rounded hover:bg-surface">Merge PDFs</a>
+                <a href="pages/pdf_split.html" class="block px-3 py-2 rounded hover:bg-surface">Split PDF</a>
+                                        </div>
+                    </div>
+            <a href="pages/qr_code_studio.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+            <a href="pages/batch_processing_center.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
+            <a href="pages/privacy-policy.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Enhanced Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Dynamic Background Pattern -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle at 25% 25%, #00a8ff 0%, transparent 50%), radial-gradient(circle at 75% 75%, #2ed573 0%, transparent 50%);"></div>
+            <div class="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse-slow"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse-slow"></div>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <!-- Main Heading with Enhanced Typography -->
+            <div class="mb-12">
+                <div class="inline-flex items-center space-x-2 bg-surface/50 backdrop-blur-sm rounded-full px-4 py-2 border border-border mb-6">
+                    <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                    <span class="text-text-secondary text-sm">Professional-grade processing</span>
+                    <button id="install-app-btn" class="hidden ml-3 btn-secondary px-3 py-1 text-sm">Install App</button>
+                </div>
+                
+                <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+                    <span class="text-gradient block">Transform files</span>
+                    <span class="text-white block">with precision</span>
+                </h1>
+                <p class="text-xl md:text-2xl text-text-secondary max-w-4xl mx-auto mb-8 leading-relaxed">
+                    Your files stay on your device. No data collection. 0ms server latency — everything runs in your browser.</p>
+                
+                <!-- Action Buttons + Cookies -->
+                <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                    <a href="pages/image_processing_hub.html" class="btn-primary px-8 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                        <svg class="w-6 h-6 inline-block mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Start Processing
+                    </a>
+                    <a href="#features" class="btn-secondary px-8 py-4 text-lg font-semibold hover:shadow-lg transition-all duration-300">
+                        <svg class="w-6 h-6 inline-block mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                        </svg>
+                        Explore Features
+                    </a>
+                                    </div>
+            </div>
+
+            <!-- Live Processing Principles (numbers removed) -->
+            <div class="mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                    <!-- No data collected -->
+                    <a href="pages/privacy-policy.html#zero-data-collection" class="inline-flex items-center justify-center bg-surface/50 backdrop-blur-sm rounded-full px-6 py-3 border border-border hover:bg-surface/80 transition-colors duration-300" title="Learn about zero data collection">
+                        <div class="flex items-center gap-4">
+                            <span class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center" aria-hidden="true">
+                                <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6l7 4v2a9 9 0 11-14 0V10l7-4z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4"/>
+                                </svg>
+                            </span>
+                            <div class="text-lg md:text-xl font-semibold text-primary">No data collected</div>
+                        </div>
+                    </a>
+
+                    <!-- 0ms server latency -->
+                    <a href="pages/privacy-policy.html#local-processing" class="inline-flex items-center justify-center bg-surface/50 backdrop-blur-sm rounded-full px-6 py-3 border border-border hover:bg-surface/80 transition-colors duration-300" title="See how local processing works">
+                        <div class="flex items-center gap-4">
+                            <span class="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center" aria-hidden="true">
+                                <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                                </svg>
+                            </span>
+                            <div class="text-lg md:text-xl font-semibold text-accent">0ms server latency</div>
+                        </div>
+                    </a>
+
+                    <!-- Privacy-first users -->
+                    <a href="pages/privacy-policy.html#your-rights" class="inline-flex items-center justify-center bg-surface/50 backdrop-blur-sm rounded-full px-6 py-3 border border-border hover:bg-surface/80 transition-colors duration-300" title="Understand your privacy rights">
+                        <div class="flex items-center gap-4">
+                            <span class="w-12 h-12 rounded-lg bg-warning/10 flex items-center justify-center" aria-hidden="true">
+                                <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14a4 4 0 100-8 4 4 0 000 8z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 20v-1a6 6 0 0112 0v1"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V9a4 4 0 118 0v2"/>
+                                </svg>
+                            </span>
+                            <div class="text-lg md:text-xl font-semibold text-warning">Privacy-first users</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enhanced Tool Grid -->
+    <section class="py-24 bg-background-light" id="features">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Professional Tool Suite</h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Comprehensive processing tools designed for professionals, optimized for performance and quality
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Smart Image Compressor -->
+                <a href="pages/compress-images.html" aria-label="Open Smart Compressor tool" class="card hover:shadow-xl hover:border-primary/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg flex items-center justify-center group-hover:from-primary/40 group-hover:to-primary/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Smart Compressor</h3>
+                            <p class="text-text-secondary text-sm">AI-powered optimization</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Reduce file sizes by up to 80% while maintaining exceptional visual quality using advanced compression algorithms.</p>
+                    <div class="flex items-center text-primary text-sm font-medium">
+                        <span>Compress Images</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- PDF Merge -->
+                <a href="pages/pdf_merge.html" aria-label="Open Merge PDFs" class="card hover:shadow-xl hover:border-accent/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-accent/20 to-accent/40 rounded-lg flex items-center justify-center group-hover:from-accent/40 group-hover:to-accent/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Merge PDFs</h3>
+                            <p class="text-text-secondary text-sm">Combine documents</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Combine multiple PDFs into a single file preserving page order and quality.</p>
+                    <div class="flex items-center text-accent text-sm font-medium">
+                        <span>Open Merger</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- PDF Split -->
+                <a href="pages/pdf_split.html" aria-label="Open Split PDF" class="card hover:shadow-xl hover:border-primary/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg flex items-center justify-center group-hover:from-primary/40 group-hover:to-primary/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Split PDF</h3>
+                            <p class="text-text-secondary text-sm">Extract pages</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Split into single pages or extract specific page ranges easily.</p>
+                    <div class="flex items-center text-primary text-sm font-medium">
+                        <span>Open Splitter</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                
+                <!-- Dynamic QR Studio -->
+                <a href="pages/qr_code_studio.html" aria-label="Open QR Studio" class="card hover:shadow-xl hover:border-warning/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-warning/20 to-warning/40 rounded-lg flex items-center justify-center group-hover:from-warning/40 group-hover:to-warning/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">QR Studio</h3>
+                            <p class="text-text-secondary text-sm">Custom code generation</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Generate customizable QR codes with branding, analytics, and batch processing for professional use cases.</p>
+                    <div class="flex items-center text-warning text-sm font-medium">
+                        <span>Create QR Codes</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Precision Resizer -->
+                <a href="pages/resize-images.html" aria-label="Open Precision Resizer" class="card hover:shadow-xl hover:border-primary/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg flex items-center justify-center group-hover:from-primary/40 group-hover:to-primary/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Precision Resizer</h3>
+                            <p class="text-text-secondary text-sm">Perfect dimensions</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Resize images to exact specifications while maintaining quality with intelligent scaling algorithms.</p>
+                    <div class="flex items-center text-primary text-sm font-medium">
+                        <span>Resize Images</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Format Converter Pro -->
+                <a href="pages/convert-images.html" aria-label="Open Format Converter" class="card hover:shadow-xl hover:border-accent/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-accent/20 to-accent/40 rounded-lg flex items-center justify-center group-hover:from-accent/40 group-hover:to-accent/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Format Converter</h3>
+                            <p class="text-text-secondary text-sm">Next-gen formats</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Convert between all modern image formats including WebP, AVIF, and optimize for specific platforms.</p>
+                    <div class="flex items-center text-accent text-sm font-medium">
+                        <span>Convert Formats</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+
+                <!-- Enterprise Batch Processor -->
+                <a href="pages/batch_processing_center.html" aria-label="Open Batch Processor" class="card hover:shadow-xl hover:border-warning/50 transition-all duration-300 group transform hover:scale-105 block">
+                    <div class="flex items-center space-x-4 mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-warning/20 to-warning/40 rounded-lg flex items-center justify-center group-hover:from-warning/40 group-hover:to-warning/60 transition-colors duration-300">
+                            <svg class="w-6 h-6 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">Batch Processor</h3>
+                            <p class="text-text-secondary text-sm">Enterprise scale</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 leading-relaxed">Process thousands of files simultaneously with intelligent queue management and progress tracking.</p>
+                    <div class="flex items-center text-warning text-sm font-medium">
+                        <span>Batch Process</span>
+                        <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    
+
+    <!-- Enhanced Feature Highlights -->
+    <section class="py-24 bg-background-light">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4">Why Choose ImageToolkit Pro?</h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Built for professionals who demand excellence in every aspect of their workflow
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Privacy-First Architecture -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-primary/40 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:from-primary/40 group-hover:to-primary/60 transition-colors duration-300">
+                        <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Privacy-First Architecture</h3>
+                    <p class="text-text-secondary leading-relaxed">All processing happens locally in your browser. Zero data collection, complete file privacy, and enterprise-grade security.</p>
+                </div>
+
+                <!-- Zero Installation -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-accent/20 to-accent/40 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:from-accent/40 group-hover:to-accent/60 transition-colors duration-300">
+                        <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Instant Access</h3>
+                    <p class="text-text-secondary leading-relaxed">No downloads, installations, or updates. Access professional tools instantly from any modern browser on any device.</p>
+                </div>
+
+                <!-- Professional Quality -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-warning/20 to-warning/40 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:from-warning/40 group-hover:to-warning/60 transition-colors duration-300">
+                        <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-4">Professional Quality</h3>
+                    <p class="text-text-secondary leading-relaxed">Advanced algorithms deliver studio-quality results. Perfect for designers, developers, and content creators.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Enhanced Footer -->
+    <footer class="bg-surface border-t border-border py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Brand -->
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gradient">ImageToolkit Pro</h3>
+                            <p class="text-sm text-text-secondary">Professional Processing Suite</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 max-w-md leading-relaxed">
+                        Transform your digital workflow with professional-grade processing tools. Built for creators, optimized for performance, designed for privacy.
+                    </p>
+                </div>
+
+                <!-- Quick Access -->
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="pages/image_processing_hub.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Image Processing</a></li>
+                        <li><a href="pages/pdf_merge.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Merge PDFs</a></li>
+                        <li><a href="pages/pdf_split.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Split PDF</a></li>
+                                                <li><a href="pages/qr_code_studio.html" class="text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a></li>
+                        <li><a href="pages/batch_processing_center.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Batch Processing</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="pages/privacy-policy.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy Policy</a></li>
+                        <li><a href="pages/terms.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Terms & Conditions</a></li>
+                        <li><a href="pages/disclaimer.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Disclaimer</a></li>
+                        <li><a href="pages/cookies.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Cookie Policy</a></li>
+                        <li><a href="pages/about.html" class="text-text-secondary hover:text-primary transition-colors duration-300">About Us</a></li>
+                        <li><a href="pages/contact.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-text-secondary text-sm">
+                    © 2025 ImageToolkit Pro. All Rights Reserved. Built with privacy and performance in mind.
+                </p>
+                <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                    <a href="#" class="text-text-secondary hover:text-primary transition-colors duration-300" aria-label="Twitter">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-text-secondary hover:text-primary transition-colors duration-300" aria-label="GitHub">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="text-text-secondary hover:text-primary transition-colors duration-300" aria-label="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced JavaScript -->
+
+    <script src="js/nav.js"></script>
+    <script src="js/toast.js"></script>
+    <script src="js/pwa.js"></script>
+    <script>
+    // Counters removed: no animation needed
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            // No live activity feed on home page
+        });
+
+        // Add enhanced animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .animate-fade-in {
+                animation: fadeIn 0.6s ease-out forwards;
+                opacity: 0;
+            }
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-pulse-slow {
+                animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+            }
+        `;
+        document.head.appendChild(style);
+            </script>
+<script id="dhws-dataInjector" src="public/dhws-data-injector.js"></script>
+</body>
+</html>
+
+
+

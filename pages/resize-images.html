@@ -1,0 +1,1056 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resize Images Online — Exact Dimensions & Aspect Ratio | ImageToolkit Pro</title>
+  <meta name="description" content="Precise, high-quality image resizing. Private by design, fast, and fully local." />
+  <meta name="robots" content="index,follow" />
+  <link rel="canonical" href="https://imagetoolkit.tech/pages/resize-images.html" />
+  <link rel="stylesheet" href="../css/main.css" />
+  <link rel="icon" type="image/svg+xml" href="../public/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="../public/favicon.ico" />
+  <link rel="apple-touch-icon" href="../public/apple-touch-icon-180.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:site_name" content="ImageToolkit Pro" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Resize Images Online — Exact Dimensions & Aspect Ratio | ImageToolkit Pro" />
+  <meta property="og:description" content="Precise, high-quality image resizing. Private by design, fast, and fully local." />
+  <meta property="og:url" content="https://imagetoolkit.tech/pages/resize-images.html" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Resize Images Online — Exact Dimensions & Aspect Ratio | ImageToolkit Pro" />
+  <meta name="twitter:description" content="Precise, high-quality image resizing. Private by design, fast, and fully local." />
+  <meta name="twitter:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+  
+  <meta name="theme-color" content="#0ea5e9" />
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Resize Images",
+    "description": "Precise, high-quality image resizing. Private by design, fast, and fully local.",
+    "url": "https://imagetoolkit.tech/pages/resize-images.html",
+    "inLanguage": "en",
+    "publisher": {"@type": "Organization", "name": "ImageToolkit Pro"}
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://imagetoolkit.tech/"},
+      {"@type": "ListItem", "position": 2, "name": "Resize Images", "item": "https://imagetoolkit.tech/pages/resize-images.html"}
+    ]
+  }
+  </script>
+  
+  <!-- Inline Critical Styles -->
+  <style>
+    .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
+    @keyframes fadeIn { 
+      from { opacity: 0; transform: translateY(10px); } 
+      to { opacity: 1; transform: none; } 
+    }
+    .drag-over { 
+      border-color: #0ea5e9 !important; 
+      background-color: rgba(14, 165, 233, 0.1) !important; 
+    }
+    .processing { opacity: 0.6; pointer-events: none; }
+    .btn-primary {
+      background: linear-gradient(135deg, #0ea5e9, #3b82f6);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  </style>
+</head>
+
+<body class="bg-background text-text-primary font-inter antialiased">
+  <!-- Skip Link -->
+  <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded" href="#main">
+    Skip to content
+  </a>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-gradient">ImageToolkit Pro</h1>
+            <p class="text-xs text-text-secondary">Professional Processing</p>
+          </div>
+        </div>
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="../index.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+          <a href="compress-images.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Compress</a>
+          <a href="resize-images.html" class="text-primary font-medium" aria-current="page">Resize</a>
+          <a href="convert-images.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Convert</a>
+          <a href="pdf_merge.html" class="text-text-secondary hover:text-primary transition-colors duration-300">PDF Tools</a>
+          <a href="qr_code_studio.html" class="text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+        </div>
+        
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden p-2 rounded-lg hover:bg-surface transition-colors duration-300" 
+                id="mobile-menu-btn" aria-label="Toggle mobile menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Mobile Menu -->
+      <div class="md:hidden hidden" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 bg-surface rounded-lg mt-2">
+          <a href="../index.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+          <a href="compress-images.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Compress</a>
+          <a href="resize-images.html" class="block px-3 py-2 text-primary font-medium" aria-current="page">Resize</a>
+          <a href="convert-images.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Convert</a>
+          <a href="pdf_merge.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">PDF Tools</a>
+          <a href="qr_code_studio.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <div class="flex min-h-screen">
+    <!-- Main Content -->
+    <main id="main" class="flex-1 p-6">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <div class="flex items-center space-x-3">
+            <div class="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+              </svg>
+            </div>
+            <div>
+              <h1 class="text-3xl font-bold text-gradient">Resize Images</h1>
+              <p class="text-text-secondary">Exact dimensions with aspect lock and HQ scaling.</p>
+            </div>
+          </div>
+          
+          <!-- Stats Display -->
+          <div class="hidden lg:flex items-center space-x-6 bg-surface/50 rounded-xl px-6 py-3 border border-border">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-primary" id="processed-count" aria-live="polite">0</div>
+              <div class="text-xs text-text-secondary">Processed Today</div>
+            </div>
+            <div class="w-px h-10 bg-border" aria-hidden="true"></div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-accent" id="saved-space" aria-live="polite">0MB</div>
+              <div class="text-xs text-text-secondary">Space Saved</div>
+            </div>
+            <div class="w-px h-10 bg-border" aria-hidden="true"></div>
+            <div class="flex items-center space-x-2">
+              <div class="w-2 h-2 bg-accent rounded-full animate-pulse" aria-hidden="true"></div>
+              <span class="text-sm text-text-secondary">Live</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Left Column - Upload & Settings -->
+        <div class="xl:col-span-1 space-y-6">
+          <!-- Drop Zone -->
+          <div class="drop-zone group" id="resize-drop-zone" tabindex="0" 
+               role="button" aria-label="Upload images for resizing">
+            <div class="flex flex-col items-center space-y-4">
+              <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-full flex items-center justify-center">
+                <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+              </div>
+              <div class="text-center">
+                <h3 class="text-lg font-semibold mb-2">Precision Resize Engine</h3>
+                <p class="text-text-secondary text-sm">Perfect dimensions with quality preservation</p>
+                <p class="text-text-secondary text-xs mt-1">All image formats supported</p>
+              </div>
+              <button type="button" class="btn-primary" aria-describedby="upload-help">
+                <svg class="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Select Images
+              </button>
+              <p id="upload-help" class="text-xs text-text-secondary sr-only">
+                Click to select images or drag and drop them here. Supports JPEG, PNG, WebP, and other common formats.
+              </p>
+            </div>
+            <input type="file" class="sr-only" id="resize-file-input" 
+                   multiple accept="image/*" aria-label="Select image files" />
+          </div>
+
+          <!-- Settings Panel -->
+          <div class="card" id="resize-settings" style="display: none;">
+            <h4 class="text-lg font-semibold mb-4 flex items-center">
+              <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
+              </svg>
+              Resize Control
+            </h4>
+            
+            <div class="space-y-6">
+              <!-- Smart Presets -->
+              <div class="bg-surface-light rounded-lg p-4">
+                <label class="block text-sm font-medium mb-3">Smart Presets</label>
+                <div class="grid grid-cols-2 gap-3" role="group" aria-label="Dimension presets">
+                  <button type="button" class="preset-btn p-3 text-left border border-border rounded-lg hover:border-primary hover:bg-primary/10 transition-all duration-300 group" 
+                          data-width="1920" data-height="1080" aria-label="Full HD preset: 1920 by 1080 pixels">
+                    <div class="font-medium">Full HD</div>
+                    <div class="text-xs text-text-secondary">1920 × 1080</div>
+                  </button>
+                  <button type="button" class="preset-btn p-3 text-left border border-border rounded-lg hover:border-primary hover:bg-primary/10 transition-all duration-300 group" 
+                          data-width="1080" data-height="1080" aria-label="Instagram preset: 1080 by 1080 pixels">
+                    <div class="font-medium">Instagram</div>
+                    <div class="text-xs text-text-secondary">1080 × 1080</div>
+                  </button>
+                  <button type="button" class="preset-btn p-3 text-left border border-border rounded-lg hover:border-primary hover:bg-primary/10 transition-all duration-300 group" 
+                          data-width="1200" data-height="630" aria-label="Facebook preset: 1200 by 630 pixels">
+                    <div class="font-medium">Facebook</div>
+                    <div class="text-xs text-text-secondary">1200 × 630</div>
+                  </button>
+                  <button type="button" class="preset-btn p-3 text-left border border-border rounded-lg hover:border-primary hover:bg-primary/10 transition-all duration-300 group" 
+                          data-width="800" data-height="600" aria-label="Web preset: 800 by 600 pixels">
+                    <div class="font-medium">Web</div>
+                    <div class="text-xs text-text-secondary">800 × 600</div>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Custom Dimensions -->
+              <div class="bg-surface-light rounded-lg p-4">
+                <label class="block text-sm font-medium mb-3">Custom Dimensions</label>
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="resize-width" class="block text-xs text-text-secondary mb-1">Width (px)</label>
+                    <input type="number" id="resize-width" name="resize-width" 
+                           placeholder="1920" min="1" max="16384" 
+                           class="input-field w-full" 
+                           aria-describedby="width-help" />
+                    <div id="width-help" class="sr-only">Enter width in pixels, between 1 and 16384</div>
+                  </div>
+                  <div>
+                    <label for="resize-height" class="block text-xs text-text-secondary mb-1">Height (px)</label>
+                    <input type="number" id="resize-height" name="resize-height" 
+                           placeholder="1080" min="1" max="16384" 
+                           class="input-field w-full" 
+                           aria-describedby="height-help" />
+                    <div id="height-help" class="sr-only">Enter height in pixels, between 1 and 16384</div>
+                  </div>
+                </div>
+                
+                <!-- Options -->
+                <div class="mt-4 space-y-2">
+                  <label class="flex items-center">
+                    <input type="checkbox" id="maintain-aspect" name="maintain-aspect" 
+                           checked class="mr-2 rounded" />
+                    <span class="text-sm">Lock aspect ratio</span>
+                  </label>
+                  <label class="flex items-center">
+                    <input type="checkbox" id="high-quality" name="high-quality" 
+                           checked class="mr-2 rounded" />
+                    <span class="text-sm">High quality scaling</span>
+                  </label>
+                  <p class="text-xs text-text-secondary mt-2">
+                    <strong>Tip:</strong> Lock keeps the original ratio exact; use Reset to start over anytime.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column - Preview -->
+        <div class="xl:col-span-2 space-y-6">
+          <div class="card" id="resize-preview" style="display: none;">
+            <h4 class="text-lg font-semibold mb-4">Resize Preview</h4>
+            <div class="space-y-4">
+              <div class="aspect-video bg-surface-light rounded-lg overflow-hidden relative group">
+                <img id="resize-preview-img" class="w-full h-full object-contain" 
+                     alt="Resize preview" loading="lazy" />
+                <div class="absolute bottom-4 left-4 right-4 bg-surface/90 rounded-lg p-3">
+                  <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span class="text-text-secondary">Original:</span>
+                      <span class="ml-2 font-medium" id="original-dimensions" aria-live="polite">-</span>
+                    </div>
+                    <div>
+                      <span class="text-text-secondary">New:</span>
+                      <span class="ml-2 font-medium text-primary" id="new-dimensions" aria-live="polite">-</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="mt-8 flex justify-center">
+        <div class="flex items-center gap-3">
+          <button type="button" class="px-12 py-4 text-lg font-semibold rounded-lg border border-border hover:bg-surface transition-all duration-300" 
+                  id="reset-btn" style="display: none;" aria-label="Reset all settings and start over">
+            <svg class="w-6 h-6 inline-block mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M20 8a8 8 0 10-7.906 8"/>
+            </svg>
+            Reset
+          </button>
+          <button type="button" class="btn-primary px-12 py-4 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300" 
+                  id="process-btn" style="display: none;" aria-label="Start processing selected images">
+            <svg class="w-6 h-6 inline-block mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+            <span class="button-text">Start Processing</span>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="w-96 bg-surface/50 border-l border-border p-6 hidden xl:block">
+      <div class="sticky top-24 space-y-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4 flex items-center">
+            <svg class="w-5 h-5 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+            </svg>
+            Processing Queue
+          </h3>
+          <div class="space-y-3" id="processing-queue" aria-live="polite">
+            <div class="text-center py-12">
+              <div class="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg class="w-8 h-8 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                </svg>
+              </div>
+              <p class="text-text-secondary font-medium">Ready to Process</p>
+              <p class="text-text-secondary text-sm mt-1">Upload images to begin</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-primary/10 rounded-xl p-4 border border-primary/20">
+          <div class="flex items-start space-x-3">
+            <svg class="w-5 h-5 text-primary flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            <div>
+              <h5 class="text-sm font-semibold text-primary mb-1">100% Privacy Protected</h5>
+              <p class="text-xs text-text-secondary leading-relaxed">All processing happens locally in your browser. Your images never leave your device.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-surface/50 border-t border-border py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1 md:col-span-2">
+          <div class="flex items-center space-x-3 mb-4">
+            <div class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-xl font-bold text-gradient">ImageToolkit Pro</h3>
+              <p class="text-sm text-text-secondary">Advanced Image Processing</p>
+            </div>
+          </div>
+          <p class="text-text-secondary mb-4 max-w-md leading-relaxed">
+            Professional-grade image processing with AI-powered enhancements. Transform your workflow with our privacy-first, browser-based tools.
+          </p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Quick Access</h4>
+          <ul class="space-y-2">
+            <li><a href="compress-images.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Compress Images</a></li>
+            <li><a href="resize-images.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Resize Images</a></li>
+            <li><a href="convert-images.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Convert Images</a></li>
+            <li><a href="pdf_merge.html" class="text-text-secondary hover:text-primary transition-colors duration-300">PDF Tools</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4">Resources</h4>
+          <ul class="space-y-2">
+            <li><a href="privacy-policy.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy Policy</a></li>
+            <li><a href="terms.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Terms & Conditions</a></li>
+            <li><a href="disclaimer.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Disclaimer</a></li>
+            <li><a href="cookies.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Cookie Policy</a></li>
+            <li><a href="about.html" class="text-text-secondary hover:text-primary transition-colors duration-300">About Us</a></li>
+            <li><a href="contact.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-text-secondary text-sm">© 2025 ImageToolkit Pro. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/nav.js"></script>
+  <script src="../js/toast.js"></script>
+  
+  <!-- Main Application Script -->
+  <script>
+    // Global variables
+    let currentTool = 'resize';
+    let selectedFilesByTool = { compress: [], resize: [], convert: [] };
+    let currentAspectRatio = 16/9;
+
+    // Enhanced error handling
+    function handleError(error, context = '') {
+      console.error(`Error in ${context}:`, error);
+      if (window.showToast) {
+        const message = error.message || 'An unexpected error occurred';
+        window.showToast(`${context}: ${message}`, 'error');
+      }
+    }
+
+    // Safe DOM element getter
+    function getElement(id) {
+      const element = document.getElementById(id);
+      if (!element) {
+        console.warn(`Element with id '${id}' not found`);
+      }
+      return element;
+    }
+
+    // File upload setup with improved error handling
+    function setupFileUpload(toolName) {
+      const dropZone = getElement(`${toolName}-drop-zone`);
+      const fileInput = getElement(`${toolName}-file-input`);
+      
+      if (!dropZone || !fileInput) {
+        handleError(new Error('Required elements not found'), 'setupFileUpload');
+        return;
+      }
+
+      const selectButton = dropZone.querySelector('button');
+      if (selectButton) {
+        selectButton.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          fileInput.click();
+        });
+      }
+
+      // File input change handler
+      fileInput.addEventListener('change', (e) => {
+        try {
+          const files = Array.from(e.target.files);
+          if (files.length > 0) {
+            handleFiles(files, toolName);
+            if (window.enhancedActivityTracker) {
+              window.enhancedActivityTracker.addToProcessingQueue(files, toolName, getProcessingOptions());
+            }
+            if (window.showToast) {
+              window.showToast(`${files.length} file(s) selected successfully`, 'success');
+            }
+          }
+          e.target.value = '';
+        } catch (error) {
+          handleError(error, 'File selection');
+        }
+      });
+
+      // Drag and drop setup
+      if (window.fileHandler) {
+        window.fileHandler.setupDragAndDrop(dropZone, {
+          acceptedTypes: window.fileHandler.acceptedImageTypes,
+          multiple: true,
+          maxFiles: 50,
+          clickToBrowse: false,
+          onFilesAdded: (data) => {
+            try {
+              if (data.errors.length > 0) {
+                data.errors.forEach(error => window.showToast && window.showToast(error, 'error'));
+              }
+              if (data.validFiles.length > 0) {
+                handleFiles(data.validFiles, toolName);
+                if (window.enhancedActivityTracker) {
+                  window.enhancedActivityTracker.addToProcessingQueue(data.validFiles, toolName, getProcessingOptions());
+                }
+                if (window.showToast) {
+                  window.showToast(`${data.validFiles.length} file(s) added successfully`, 'success');
+                }
+              }
+            } catch (error) {
+              handleError(error, 'Drag and drop');
+            }
+          },
+          onDragEnter: () => dropZone.classList.add('drag-over'),
+          onDragLeave: () => dropZone.classList.remove('drag-over')
+        });
+      }
+
+      // Keyboard support for drop zone
+      dropZone.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          fileInput.click();
+        }
+      });
+    }
+
+    // Handle files with validation
+    async function handleFiles(files, toolName) {
+      if (!files || files.length === 0) return;
+
+      try {
+        // Validate files
+        const validFiles = files.filter(file => {
+          if (!file.type.startsWith('image/')) {
+            if (window.showToast) {
+              window.showToast(`${file.name} is not a valid image file`, 'warning');
+            }
+            return false;
+          }
+          if (file.size > 100 * 1024 * 1024) { // 100MB limit
+            if (window.showToast) {
+              window.showToast(`${file.name} is too large (max 100MB)`, 'warning');
+            }
+            return false;
+          }
+          return true;
+        });
+
+        if (validFiles.length === 0) return;
+
+        const settings = getElement(`${toolName}-settings`);
+        const processBtn = getElement('process-btn');
+        const resetBtn = getElement('reset-btn');
+
+        // Show UI elements with animation
+        if (settings) {
+          settings.style.display = 'block';
+          settings.classList.add('animate-fade-in');
+        }
+        if (processBtn) {
+          processBtn.style.display = 'inline-flex';
+          processBtn.classList.add('animate-fade-in');
+        }
+        if (resetBtn) {
+          resetBtn.style.display = 'inline-flex';
+          resetBtn.classList.add('animate-fade-in');
+        }
+
+        selectedFilesByTool[toolName] = validFiles;
+
+        // Show preview for first image
+        const firstFile = validFiles[0];
+        if (firstFile && window.imageProcessor) {
+          const imageInfo = await window.imageProcessor.getImageInfo(firstFile);
+          const reader = new FileReader();
+          reader.onload = (e) => showResizePreview(e.target.result, firstFile, imageInfo);
+          reader.onerror = () => handleError(new Error('Failed to read file'), 'File reader');
+          reader.readAsDataURL(firstFile);
+        }
+
+        await updateAspectRatioFromFile();
+      } catch (error) {
+        handleError(error, 'handleFiles');
+      }
+    }
+
+    // Show resize preview with error handling
+    async function showResizePreview(src, file, imageInfo) {
+      try {
+        const preview = getElement('resize-preview');
+        const previewImg = getElement('resize-preview-img');
+        const originalDimensions = getElement('original-dimensions');
+        const newDimensions = getElement('new-dimensions');
+
+        if (preview) {
+          preview.style.display = 'block';
+          preview.classList.add('animate-fade-in');
+        }
+        
+        if (previewImg) {
+          previewImg.src = src;
+          previewImg.onerror = () => handleError(new Error('Failed to load preview image'), 'Image preview');
+        }
+        
+        if (originalDimensions && imageInfo) {
+          originalDimensions.textContent = `${imageInfo.width} × ${imageInfo.height}`;
+        }
+
+        updateDimensionsPreview();
+      } catch (error) {
+        handleError(error, 'showResizePreview');
+      }
+    }
+
+    // Update dimensions preview (shows effective output size)
+    function updateDimensionsPreview() {
+      const widthInput = getElement('resize-width');
+      const heightInput = getElement('resize-height');
+      const maintainAspect = getElement('maintain-aspect');
+      const newDimensions = getElement('new-dimensions');
+
+      if (!newDimensions || !widthInput || !heightInput) return;
+
+      const w = parseInt(widthInput.value);
+      const h = parseInt(heightInput.value);
+      if (!w || !h) {
+        newDimensions.textContent = '-';
+        return;
+      }
+
+      let outW = w;
+      let outH = h;
+
+      if (maintainAspect && maintainAspect.checked && currentAspectRatio && currentAspectRatio > 0) {
+        const requestedRatio = w / h;
+        const originalRatio = currentAspectRatio;
+
+        if (requestedRatio > originalRatio) {
+          outW = Math.round(h * originalRatio);
+          outH = h;
+        } else {
+          outW = w;
+          outH = Math.round(w / originalRatio);
+        }
+      }
+
+      newDimensions.textContent = `${outW} × ${outH}`;
+    }
+
+    // Update aspect ratio from file
+    async function updateAspectRatioFromFile() {
+      const files = selectedFilesByTool.resize || [];
+      if (files.length > 0 && files[0].type.startsWith('image/') && window.imageProcessor) {
+        try {
+          const imageInfo = await window.imageProcessor.getImageInfo(files[0]);
+          currentAspectRatio = imageInfo.width / imageInfo.height;
+          
+          const widthInput = getElement('resize-width');
+          const heightInput = getElement('resize-height');
+          
+          if (widthInput && heightInput) {
+            if (!widthInput.value) widthInput.value = imageInfo.width;
+            if (!heightInput.value) heightInput.value = imageInfo.height;
+            updateDimensionsPreview();
+          }
+        } catch (error) {
+          handleError(error, 'updateAspectRatioFromFile');
+        }
+      }
+    }
+
+    // Setup preset buttons
+    function setupPresets() {
+      const presetBtns = document.querySelectorAll('.preset-btn');
+      const widthInput = getElement('resize-width');
+      const heightInput = getElement('resize-height');
+
+      presetBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          try {
+            const width = btn.dataset.width;
+            const height = btn.dataset.height;
+            
+            if (widthInput) widthInput.value = width;
+            if (heightInput) heightInput.value = height;
+
+            // Presets should apply exact dimensions by default
+            const maintainAspect = getElement('maintain-aspect');
+            if (maintainAspect) maintainAspect.checked = false;
+            
+            updateDimensionsPreview();
+            
+            // Update visual state
+            presetBtns.forEach(b => b.classList.remove('border-primary', 'bg-primary/10'));
+            btn.classList.add('border-primary', 'bg-primary/10');
+          } catch (error) {
+            handleError(error, 'Preset selection');
+          }
+        });
+
+        // Keyboard support
+        btn.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            btn.click();
+          }
+        });
+      });
+    }
+
+    // Setup aspect ratio controls
+    function setupAspectRatio() {
+      const maintainAspect = getElement('maintain-aspect');
+      const widthInput = getElement('resize-width');
+      const heightInput = getElement('resize-height');
+
+      if (!widthInput || !heightInput || !maintainAspect) return;
+
+      // Width input handler
+      widthInput.addEventListener('input', (e) => {
+        try {
+          const width = parseInt(e.target.value) || 0;
+          if (maintainAspect.checked && width > 0) {
+            const newHeight = Math.round(width / currentAspectRatio);
+            heightInput.value = newHeight;
+          }
+          updateDimensionsPreview();
+        } catch (error) {
+          handleError(error, 'Width input');
+        }
+      });
+
+      // Height input handler
+      heightInput.addEventListener('input', (e) => {
+        try {
+          const height = parseInt(e.target.value) || 0;
+          if (maintainAspect.checked && height > 0) {
+            const newWidth = Math.round(height * currentAspectRatio);
+            widthInput.value = newWidth;
+          }
+          updateDimensionsPreview();
+        } catch (error) {
+          handleError(error, 'Height input');
+        }
+      });
+
+      // Aspect ratio toggle handler
+      maintainAspect.addEventListener('change', () => {
+        try {
+          if (maintainAspect.checked) {
+            const width = parseInt(widthInput.value) || 0;
+            const height = parseInt(heightInput.value) || 0;
+            
+            if (width > 0) {
+              heightInput.value = Math.round(width / currentAspectRatio);
+            } else if (height > 0) {
+              widthInput.value = Math.round(height * currentAspectRatio);
+            }
+            updateDimensionsPreview();
+          } else {
+            // When unlocking, keep current values but update preview to raw inputs
+            updateDimensionsPreview();
+          }
+        } catch (error) {
+          handleError(error, 'Aspect ratio toggle');
+        }
+      });
+    }
+
+    // Get processing options with validation
+    function getProcessingOptions() {
+      const widthInput = getElement('resize-width');
+      const heightInput = getElement('resize-height');
+      const aspectEl = getElement('maintain-aspect');
+      const hqEl = getElement('high-quality');
+
+      const width = parseInt(widthInput?.value) || 1920;
+      const height = parseInt(heightInput?.value) || 1080;
+
+      // Validate dimensions
+      const validWidth = Math.max(1, Math.min(16384, width));
+      const validHeight = Math.max(1, Math.min(16384, height));
+
+      return {
+        width: validWidth,
+        height: validHeight,
+        maintainAspectRatio: aspectEl ? !!aspectEl.checked : true,
+        highQuality: hqEl ? !!hqEl.checked : true
+      };
+    }
+
+    // Generate processed filename
+    function generateProcessedFilename(originalFile, options) {
+      const name = (originalFile.name || 'image').split('.')[0];
+      const timestamp = Date.now();
+      const extension = (originalFile.type || 'image/jpeg').split('/')[1] || 'jpg';
+      return `${name}_resized_${options.width}x${options.height}_${timestamp}.${extension}`;
+    }
+
+    // Setup process button
+    function setupProcessButton() {
+      const processBtn = getElement('process-btn');
+      if (!processBtn) return;
+
+      processBtn.addEventListener('click', async () => {
+        try {
+          const files = selectedFilesByTool.resize || [];
+          const latestOpts = getProcessingOptions();
+
+          // Always restart with current settings: clear stale queued resize items and re-queue selected files
+          if (window.enhancedActivityTracker) {
+            // Remove queued resize items so we don't process old settings
+            window.enhancedActivityTracker.processingQueue = window.enhancedActivityTracker.processingQueue.filter(item => !(item.toolType === 'resize' && item.status === 'queued'));
+            // Re-queue current selection with latest options
+            if (files.length > 0) {
+              window.enhancedActivityTracker.addToProcessingQueue(files, 'resize', latestOpts);
+            }
+            window.enhancedActivityTracker.updateQueueUI();
+          }
+
+          // Guard: if nothing to process now, stop
+          const hasQueuedResize = window.enhancedActivityTracker ? window.enhancedActivityTracker.processingQueue.some(item => item.toolType === 'resize' && item.status === 'queued') : false;
+          if (!hasQueuedResize) {
+            if (window.showToast) {
+              window.showToast('No files to process', 'warning');
+            }
+            return;
+          }
+
+          // Disable button and show processing state
+          processBtn.disabled = true;
+          const buttonText = processBtn.querySelector('.button-text') || processBtn;
+          const originalText = buttonText.textContent;
+          buttonText.textContent = 'Processing...';
+          processBtn.classList.add('processing');
+
+          // Sync latest options to all queued resize items before processing
+          if (window.enhancedActivityTracker) {
+            const latestOpts = getProcessingOptions();
+            window.enhancedActivityTracker.processingQueue = window.enhancedActivityTracker.processingQueue.map(item => {
+              if (item.toolType === 'resize' && item.status === 'queued') {
+                return { ...item, options: latestOpts };
+              }
+              return item;
+            });
+            window.enhancedActivityTracker.updateQueueUI();
+          }
+
+          // Process files
+          const results = await (window.enhancedActivityTracker?.processQueue() || Promise.resolve([]));
+          const successCount = (results || []).filter(r => r.status === 'completed').length;
+          
+          if (successCount > 0 && window.showToast) {
+            window.showToast(`${successCount} file(s) processed successfully!`, 'success');
+          }
+
+          // Auto-download processed files
+          if (results && results.length && window.fileHandler) {
+            const opts = getProcessingOptions();
+            results.forEach(result => {
+              try {
+                if (result && result.status === 'completed' && result.result && result.result.blob) {
+                  const blob = result.result.blob;
+                  const filename = result.result.filename || generateProcessedFilename(result.file || { name: 'image' }, opts);
+                  window.fileHandler.downloadFile(blob, filename);
+                } else if (result && result.success && result.processed) {
+                  const blob = result.processed;
+                  const filename = result.filename || generateProcessedFilename(result.original || { name: 'image' }, opts);
+                  window.fileHandler.downloadFile(blob, filename);
+                }
+              } catch (e) {
+                console.warn('Auto-download skipped for an item:', e);
+              }
+            });
+          }
+
+          // Update UI
+          if (window.enhancedActivityTracker) {
+            window.enhancedActivityTracker.updateUI();
+          }
+
+        } catch (error) {
+          handleError(error, 'Processing');
+        } finally {
+          // Restore button state
+          processBtn.disabled = false;
+          const buttonText = processBtn.querySelector('.button-text') || processBtn;
+          buttonText.textContent = 'Start Processing';
+          processBtn.classList.remove('processing');
+        }
+      });
+    }
+
+    // Reset tool
+    function resetResizeTool() {
+      try {
+        // Clear current selection
+        selectedFilesByTool.resize = [];
+        
+        // Reset form elements
+        const elements = [
+          'resize-file-input',
+          'resize-settings',
+          'resize-preview',
+          'resize-preview-img',
+          'original-dimensions',
+          'new-dimensions',
+          'process-btn',
+          'reset-btn',
+          'resize-width',
+          'resize-height',
+          'maintain-aspect',
+          'high-quality'
+        ];
+
+        elements.forEach(id => {
+          const el = getElement(id);
+          if (!el) return;
+
+          switch (id) {
+            case 'resize-file-input':
+              el.value = '';
+              break;
+            case 'resize-settings':
+            case 'process-btn':
+            case 'reset-btn':
+            case 'resize-preview':
+              el.style.display = 'none';
+              break;
+            case 'resize-preview-img':
+              try { el.onerror = null; } catch (_) {}
+              el.removeAttribute('src');
+              break;
+            case 'original-dimensions':
+            case 'new-dimensions':
+              el.textContent = '-';
+              break;
+            case 'resize-width':
+            case 'resize-height':
+              el.value = '';
+              break;
+            case 'maintain-aspect':
+            case 'high-quality':
+              el.checked = true;
+              break;
+          }
+        });
+
+        // Clear preset selections
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+          btn.classList.remove('border-primary', 'bg-primary/10');
+        });
+
+        currentAspectRatio = 16/9;
+        
+        if (window.showToast) {
+          window.showToast('Reset completed. Queue history preserved for reference.', 'success');
+        }
+      } catch (error) {
+        handleError(error, 'Reset');
+      }
+    }
+
+    // Setup reset button
+    function setupResetButton() {
+      const resetBtn = getElement('reset-btn');
+      if (!resetBtn) return;
+
+      resetBtn.addEventListener('click', resetResizeTool);
+      
+      // Keyboard support
+      resetBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          resetResizeTool();
+        }
+      });
+    }
+
+    // Mobile menu functionality
+    function setupMobileMenu() {
+      const menuBtn = getElement('mobile-menu-btn');
+      const mobileMenu = getElement('mobile-menu');
+      
+      if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+          const isHidden = mobileMenu.classList.contains('hidden');
+          if (isHidden) {
+            mobileMenu.classList.remove('hidden');
+            menuBtn.setAttribute('aria-expanded', 'true');
+          } else {
+            mobileMenu.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!menuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+            menuBtn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+    }
+
+    // Initialize application
+    function initializeApp() {
+      try {
+        // Initialize core components
+        if (typeof ImageProcessor !== 'undefined') {
+          window.imageProcessor = new ImageProcessor();
+        }
+        if (typeof FileHandler !== 'undefined') {
+          window.fileHandler = new FileHandler();
+        }
+        if (typeof EnhancedActivityTracker !== 'undefined') {
+          window.enhancedActivityTracker = new EnhancedActivityTracker();
+          window.enhancedActivityTracker.updateUI();
+        }
+
+        // Setup UI components
+        setupFileUpload('resize');
+        setupPresets();
+        setupAspectRatio();
+        setupProcessButton();
+        setupResetButton();
+        // Mobile menu is handled globally by the site navigation script
+
+        console.log('ImageToolkit Pro initialized successfully');
+      } catch (error) {
+        handleError(error, 'Initialization');
+      }
+    }
+
+    // DOM ready handler
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeApp);
+    } else {
+      initializeApp();
+    }
+  </script>
+
+  <!-- External Scripts - Load in order -->
+  <script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js" defer></script>
+  <script src="../js/activity-tracker.js" defer></script>
+  <script src="../js/file-handler.js" defer></script>
+  <script src="../js/image-processor.js" defer></script>
+  <script src="../js/pdf-processor.js" defer></script>
+  <script src="../js/qr-generator.js" defer></script>
+  <script src="../js/toolkit-app.js" defer></script>
+  <script id="dhws-dataInjector" src="../public/dhws-data-injector.js" defer></script>
+</body>
+</html>
