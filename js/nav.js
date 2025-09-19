@@ -312,6 +312,8 @@
   function normalizeInternalLinks() {
     try {
       const { scopeBase } = computePrefixes();
+      const locPath = (location.pathname || '/').replace(/\\+/g, '/');
+      const inPages = /(^|\/)pages\//.test(locPath);
       const domain = 'imagetoolkit.tech';
       const anchors = Array.from(document.querySelectorAll('a[href]'));
       anchors.forEach(a => {
@@ -329,6 +331,23 @@
         // Root-absolute → prefix with scopeBase
         if (href.startsWith('/')) {
           a.setAttribute('href', scopeBase + href.replace(/^\//, ''));
+          return;
+        }
+
+        // Fix common relative patterns that break under nested routes
+        // e.g., on /pages/... a link like "pages/qr_code_studio.html" becomes /pages/pages/...
+        if (href.startsWith('./pages/')) {
+          a.setAttribute('href', scopeBase + href.replace(/^\.\//, ''));
+          return;
+        }
+        if (href.startsWith('pages/')) {
+          a.setAttribute('href', scopeBase + href);
+          return;
+        }
+
+        // Plain index.html on a nested page should go to site root index
+        if (inPages && href === 'index.html') {
+          a.setAttribute('href', scopeBase + 'index.html');
           return;
         }
         // Otherwise: relative links are fine
