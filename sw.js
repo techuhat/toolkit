@@ -1,5 +1,5 @@
 /* ImageToolkit Pro Service Worker */
-const CACHE_VERSION = 'itp-v1-2025-09-19e';
+const CACHE_VERSION = 'itp-v1-2025-09-20a';
 // Compute base from current SW scope, so it works under root or /toolkit
 const SCOPE_BASE = new URL('./', self.registration.scope).pathname.replace(/\/+/g, '/');
 const APP_SHELL = [
@@ -61,15 +61,25 @@ self.addEventListener('fetch', (event) => {
 
   // Network-first for HTML navigations, fallback to offline page
   if (isHTMLRequest(request)) {
+    // Normalize known bad entry paths that can occur in standalone launch
+    let navUrl = new URL(request.url);
+    if (navUrl.pathname.endsWith('/public/index.html')) {
+      navUrl = new URL(navUrl.origin + navUrl.pathname.replace(/\/public\/index\.html$/, '/'));
+    }
+    if (navUrl.pathname.endsWith('/index.html')) {
+      // prefer root path to avoid duplicate cache entries
+      navUrl.pathname = navUrl.pathname.replace(/index\.html$/, '');
+    }
+
     event.respondWith(
-      fetch(request).then(resp => {
+      fetch(navUrl, { redirect: 'follow' }).then(resp => {
         const copy = resp.clone();
         // Update cache in background
-        caches.open(CACHE_VERSION).then(cache => cache.put(request, copy)).catch(()=>{});
+        caches.open(CACHE_VERSION).then(cache => cache.put(navUrl, copy)).catch(()=>{});
         return resp;
       }).catch(async () => {
         const cache = await caches.open(CACHE_VERSION);
-  return (await cache.match(request)) || cache.match(SCOPE_BASE + 'offline.html');
+        return (await cache.match(navUrl)) || cache.match(SCOPE_BASE + 'offline.html');
       })
     );
     return;
