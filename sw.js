@@ -1,5 +1,5 @@
 /* ImageToolkit Pro Service Worker */
-const CACHE_VERSION = 'itp-v1-2025-09-20a';
+const CACHE_VERSION = 'itp-v1-2025-09-20b';
 // Compute base from current SW scope, so it works under root or /toolkit
 const SCOPE_BASE = new URL('./', self.registration.scope).pathname.replace(/\/+/g, '/');
 const APP_SHELL = [
@@ -59,7 +59,7 @@ function isHTMLRequest(req) {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // Network-first for HTML navigations, fallback to offline page
+  // Network-first for HTML navigations, fallback to cached home/offline on error or non-OK
   if (isHTMLRequest(request)) {
     // Normalize known bad entry paths that can occur in standalone launch
     let navUrl = new URL(request.url);
@@ -71,17 +71,26 @@ self.addEventListener('fetch', (event) => {
       navUrl.pathname = navUrl.pathname.replace(/index\.html$/, '');
     }
 
-    event.respondWith(
-      fetch(navUrl, { redirect: 'follow' }).then(resp => {
-        const copy = resp.clone();
-        // Update cache in background
-        caches.open(CACHE_VERSION).then(cache => cache.put(navUrl, copy)).catch(()=>{});
-        return resp;
-      }).catch(async () => {
+    event.respondWith((async () => {
+      try {
+        const resp = await fetch(navUrl, { redirect: 'follow' });
+        if (resp && resp.ok) {
+          caches.open(CACHE_VERSION).then(cache => cache.put(navUrl, resp.clone())).catch(()=>{});
+          return resp;
+        }
+        // Non-OK (e.g., 404/500): try cached index, then offline
         const cache = await caches.open(CACHE_VERSION);
-        return (await cache.match(navUrl)) || cache.match(SCOPE_BASE + 'offline.html');
-      })
-    );
+        return (await cache.match(SCOPE_BASE + 'index.html'))
+            || (await cache.match(navUrl))
+            || (await cache.match(SCOPE_BASE + 'offline.html'))
+            || resp; // last resort return resp
+      } catch (e) {
+        const cache = await caches.open(CACHE_VERSION);
+        return (await cache.match(SCOPE_BASE + 'index.html'))
+            || (await cache.match(navUrl))
+            || cache.match(SCOPE_BASE + 'offline.html');
+      }
+    })());
     return;
   }
 
