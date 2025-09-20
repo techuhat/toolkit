@@ -1,5 +1,5 @@
 /* ImageToolkit Pro Service Worker */
-const CACHE_VERSION = 'itp-v1-2025-09-20b';
+const CACHE_VERSION = 'itp-v1-2025-09-20c';
 // Compute base from current SW scope, so it works under root or /toolkit
 const SCOPE_BASE = new URL('./', self.registration.scope).pathname.replace(/\/+/g, '/');
 const APP_SHELL = [
@@ -12,9 +12,21 @@ const APP_SHELL = [
   'pages/compress-images.html',
   'pages/resize-images.html',
   'pages/convert-images.html',
+  'pages/pdf_convert.html',
+  'pages/batch_processing_center.html',
+  // Common info pages
+  'pages/about.html',
+  'pages/privacy-policy.html',
+  'pages/terms.html',
+  'pages/disclaimer.html',
+  'pages/cookies.html',
+  'pages/contact.html',
+  'pages/blog/index.html',
   'css/main.css',
   'js/nav.js',
   'js/toast.js',
+  'js/pwa.js',
+  'js/activity-tracker.js',
   'js/file-handler.js',
   'js/image-processor.js',
   'js/pdf-processor.js',
@@ -26,6 +38,7 @@ const APP_SHELL = [
   'public/icon-512.png',
   'public/manifest.json',
   'public/apple-touch-icon-180.png',
+  'public/dhws-data-injector.js',
   'offline.html'
 ].map(p => SCOPE_BASE + p);
 
@@ -118,6 +131,48 @@ self.addEventListener('fetch', (event) => {
         return resp;
       }).catch(() => null);
       return cached || networkPromise || Response.error();
+    })());
+    return;
+  }
+
+  // Google Fonts: cache-first for font files, SWR for stylesheets
+  if (request.url.startsWith('https://fonts.gstatic.com/')) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_VERSION);
+      const cached = await cache.match(request);
+      if (cached) return cached;
+      try {
+        const resp = await fetch(request, { mode: 'no-cors' });
+        cache.put(request, resp.clone());
+        return resp;
+      } catch {
+        return cached || Response.error();
+      }
+    })());
+    return;
+  }
+  if (request.url.startsWith('https://fonts.googleapis.com/')) {
+    event.respondWith((async () => {
+      const cache = await caches.open(CACHE_VERSION);
+      const cached = await cache.match(request);
+      const network = fetch(request).then(resp => {
+        cache.put(request, resp.clone());
+        return resp;
+      }).catch(() => null);
+      return cached || network || new Response('', { status: 204 });
+    })());
+    return;
+  }
+
+  // Static Rocket script: try network, fallback to a no-op module offline
+  if (request.url.startsWith('https://static.rocket.new/')) {
+    event.respondWith((async () => {
+      try {
+        return await fetch(request);
+      } catch {
+        // Provide a tiny no-op module to avoid runtime errors offline
+        return new Response('export default {};', { headers: { 'Content-Type': 'application/javascript' } });
+      }
     })());
     return;
   }
