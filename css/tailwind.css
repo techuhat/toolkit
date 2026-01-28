@@ -120,11 +120,11 @@ body {
 }
 
 .card {
-  @apply bg-surface rounded-xl p-6 shadow-md border border-border;
+  @apply bg-surface/30 backdrop-blur-md rounded-xl p-6 shadow-md border border-border/50;
 }
 
 .card-elevated {
-  @apply bg-surface rounded-xl p-6 shadow-lg border border-border;
+  @apply bg-surface/40 backdrop-blur-lg rounded-xl p-6 shadow-lg border border-border/60;
 }
 
 .input-field {
