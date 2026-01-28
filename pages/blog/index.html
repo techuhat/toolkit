@@ -6,7 +6,7 @@
   <title>Blog - ImageToolkit Pro</title>
   <meta name="description" content="Trending guides on image compression, PDF workflows, QR strategies, and privacy-first client-side processing. Simple, practical, and up-to-date for creators." />
   <meta name="robots" content="index,follow" />
-  <link rel="stylesheet" href="../../css/main.css" />
+  <link rel="stylesheet" href="../../css/main.css?v=2.0" />
   <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
   <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
   <link rel="apple-touch-icon" href="../../public/apple-touch-icon-180.png" />
@@ -31,10 +31,17 @@
   }</script>
 </head>
 <body class="bg-background text-text-primary font-inter antialiased">
+  <!-- Background Pattern -->
+  <div class="fixed inset-0 -z-10" style="background: linear-gradient(135deg, #1a1a1a 0%, #262626 50%, #1a1a1a 100%);"></div>
+  <div class="fixed inset-0 -z-10" style="background-image: 
+    radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(34, 211, 238, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(46, 213, 115, 0.08) 0%, transparent 50%);"></div>
+  
   <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded" href="#main">Skip to content</a>
-  <header></header>
+  <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border"></header>
 
-  <main id="main" class="py-16">
+  <main id="main" class="py-16 relative">
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-10">
         <div class="inline-flex items-center space-x-2 bg-surface/50 rounded-full px-4 py-2 border border-border">
@@ -75,11 +82,8 @@
       <div class="post-cards grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
         <!-- 🌟 Featured: QR Codes That Convert -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/qr-codes-that-convert.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="qr-codes-that-convert.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🎯</span>
             </div>
@@ -93,11 +97,8 @@
         </article>
 
         <!-- 🌟 Featured: PDF Merge Workflows -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/pdf-merge-workflows-for-creators.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="pdf-merge-workflows-for-creators.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">📄</span>
             </div>
@@ -111,11 +112,8 @@
         </article>
 
         <!-- 🌟 Featured: Faster Workflows with Presets -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/faster-workflows-with-presets.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="faster-workflows-with-presets.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">⚡</span>
             </div>
@@ -129,11 +127,8 @@
         </article>
 
         <!-- 🌟 Featured: Image Conversion Best Practices -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/image-conversion-best-practices.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="image-conversion-best-practices.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🔄</span>
             </div>
@@ -147,11 +142,8 @@
         </article>
 
         <!-- 🌟 Featured: How to Avoid Over-Compression -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/how-to-avoid-over-compression.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="how-to-avoid-over-compression.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">💎</span>
             </div>
@@ -165,11 +157,8 @@
         </article>
 
         <!-- 🌟 Featured: Resize Images Without Losing Quality -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/resize-images-without-losing-quality.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="resize-images-without-losing-quality.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">📐</span>
             </div>
@@ -183,11 +172,8 @@
         </article>
 
         <!-- 🌟 Featured: Local Processing vs Cloud -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/local-processing-vs-cloud.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="local-processing-vs-cloud.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">☁️</span>
             </div>
@@ -201,11 +187,8 @@
         </article>
 
         <!-- 🌟 Featured: Efficient File Naming for Batches -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/efficient-file-naming-for-batches.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="efficient-file-naming-for-batches.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">📝</span>
             </div>
@@ -219,11 +202,8 @@
         </article>
 
         <!-- 🌟 Featured: Memory-Friendly Image Processing -->
-        <article class="card-elevated group hover:scale-105 transition-all duration-300 relative overflow-hidden">
-          <div class="absolute top-3 right-3 z-10">
-            <span class="px-2 py-1 rounded-full text-[10px] font-semibold bg-gradient-to-r from-accent/90 to-primary/90 text-white border border-white/20 shadow-lg">✨ SEO Pro</span>
-          </div>
-          <a href="../blog/memory-friendly-image-processing.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="memory-friendly-image-processing.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🧠</span>
             </div>
@@ -237,8 +217,8 @@
         </article>
 
         <!-- Regular Cards (Other Posts) -->
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/ultimate-image-compression-guide-2025.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="ultimate-image-compression-guide-2025.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🚀</span>
             </div>
@@ -251,8 +231,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/webp-vs-avif-2025.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="webp-vs-avif-2025.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">⚖️</span>
             </div>
@@ -265,8 +245,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/smart-pdf-splitting-techniques.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="smart-pdf-splitting-techniques.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">✂️</span>
             </div>
@@ -279,8 +259,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/brand-consistent-qr-codes.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="brand-consistent-qr-codes.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🎨</span>
             </div>
@@ -293,8 +273,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/optimize-images-for-seo-2025.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="optimize-images-for-seo-2025.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">📊</span>
             </div>
@@ -307,8 +287,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/pdf-to-image-pro-tips.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="pdf-to-image-pro-tips.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🖼️</span>
             </div>
@@ -321,8 +301,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/batch-processing-power-hacks.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="batch-processing-power-hacks.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">⚡</span>
             </div>
@@ -335,8 +315,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/social-media-image-sizes-2025.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="social-media-image-sizes-2025.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">📱</span>
             </div>
@@ -349,8 +329,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/choosing-right-dpi-for-exports.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="choosing-right-dpi-for-exports.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🖨️</span>
             </div>
@@ -363,8 +343,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/ai-upscaling-when-to-use.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="ai-upscaling-when-to-use.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🤖</span>
             </div>
@@ -377,8 +357,8 @@
           </a>
         </article>
 
-        <article class="card group hover:scale-102 transition-all duration-300">
-          <a href="../blog/privacy-first-client-side-processing.html" class="block p-5">
+        <article class="group hover:scale-105 transition-all duration-300 relative overflow-hidden rounded-xl border-2" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.1);">
+          <a href="privacy-first-client-side-processing.html" class="block p-5">
             <div class="flex items-start justify-between mb-3">
               <span class="text-3xl">🔒</span>
             </div>
@@ -395,8 +375,9 @@
     </section>
   </main>
 
-  <footer></footer>
-  <script src="../../js/nav.js" defer></script>
+  <footer class="bg-surface border-t border-border py-12"></footer>
+  <script src="../../js/nav.js?v=2.0" defer></script>
 <script id="dhws-dataInjector" src="../../public/dhws-data-injector.js"></script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-blackb(function () {
+(function () {
   function initNav() {
     if (window.__NAV_INIT_DONE) return;
 
