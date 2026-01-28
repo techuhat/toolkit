@@ -1,128 +1,499 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Resize Images Without Losing Quality - ImageToolkit Pro</title>
-  <meta name="description" content="Resizing images the right way — sharpness, dimensions, aur formats ka perfect balance for web, social, and print." />
-  <meta name="robots" content="index,follow" />
-  <link rel="stylesheet" href="../../css/main.css" />
-  <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
-  <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
-  <link rel="apple-touch-icon" href="../../public/favicon-64.svg" />
-  <link rel="canonical" href="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
-  <meta property="og:type" content="article" />
-  <meta property="og:title" content="Resize Images Without Losing Quality" />
-  <meta property="og:description" content="Dimensions, formats, and sharpening tricks that keep visuals crisp without bloat." />
-  <meta property="og:url" content="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
-  <meta property="og:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Resize Images Without Losing Quality" />
-  <meta name="twitter:description" content="Clear steps for creators to keep images sharp at any size." />
-  <meta name="twitter:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
-  <meta name="theme-color" content="#0ea5e9" />
-  <script type="application/ld+json">{
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Resize Images Without Losing Quality - ImageToolkit Pro</title>
+    <meta name="description"
+        content="Resizing images the right way — sharpness, dimensions, aur formats ka perfect balance for web, social, and print." />
+    <meta name="robots" content="index,follow" />
+    <link rel="stylesheet" href="../../css/main.css" />
+    <link rel="icon" type="image/svg+xml" href="../../public/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="../../public/favicon.ico" />
+    <link rel="apple-touch-icon" href="../../public/favicon-64.svg" />
+    <link rel="canonical" href="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Resize Images Without Losing Quality" />
+    <meta property="og:description"
+        content="Dimensions, formats, and sharpening tricks that keep visuals crisp without bloat." />
+    <meta property="og:url" content="https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html" />
+    <meta property="og:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Resize Images Without Losing Quality" />
+    <meta name="twitter:description" content="Clear steps for creators to keep images sharp at any size." />
+    <meta name="twitter:image" content="https://imagetoolkit.tech/public/og/og-default.svg" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="keywords"
+        content="image resizing, image quality, resize algorithms, image scaling, lanczos resampling, bicubic interpolation, image dimensions, quality preservation, smart resize, aspect ratio" />
+    <meta name="author" content="ImageToolkit Pro" />
+    <meta property="article:published_time" content="2025-09-18T10:00:00+05:30" />
+    <meta property="article:modified_time" content="2026-01-28T11:00:00+05:30" />
+    <meta property="article:author" content="ImageToolkit Pro" />
+    <meta property="article:section" content="Image Processing" />
+    <meta property="article:tag" content="Image Resizing" />
+    <meta property="article:tag" content="Quality Preservation" />
+    <meta property="article:tag" content="Image Scaling" />
+    <script type="application/ld+json">{
     "@context":"https://schema.org",
-    "@type":"BlogPosting",
-    "headline":"Resize Images Without Losing Quality",
-    "datePublished":"2025-09-18",
-    "dateModified":"2025-09-18",
-    "author":{"@type":"Organization","name":"ImageToolkit Pro"},
-    "publisher":{"@type":"Organization","name":"ImageToolkit Pro"}
+    "@type":["BlogPosting","HowTo"],
+    "headline":"Resize Images Without Losing Quality: Algorithms, Techniques, and Best Practices",
+    "description":"Comprehensive guide to high-quality image resizing covering resampling algorithms, sharpening techniques, format considerations, and quality preservation strategies.",
+    "image":{"@type":"ImageObject","url":"https://imagetoolkit.tech/public/og/og-default.svg","width":1200,"height":630},
+    "datePublished":"2025-09-18T10:00:00+05:30",
+    "dateModified":"2026-01-28T11:00:00+05:30",
+    "author":{"@type":"Organization","name":"ImageToolkit Pro","url":"https://imagetoolkit.tech"},
+    "publisher":{"@type":"Organization","name":"ImageToolkit Pro","logo":{"@type":"ImageObject","url":"https://imagetoolkit.tech/public/favicon.svg"}},
+    "mainEntityOfPage":{"@type":"WebPage","@id":"https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html"},
+    "wordCount":5000,
+    "articleSection":"Image Processing",
+    "keywords":["image resizing","quality preservation","lanczos","bicubic","resampling"]
+  }</script>
+    <script type="application/ld+json">{
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://imagetoolkit.tech/"},
+      {"@type":"ListItem","position":2,"name":"Blog","item":"https://imagetoolkit.tech/pages/blog/"},
+      {"@type":"ListItem","position":3,"name":"Resize Images Without Losing Quality"}
+    ]
   }</script>
 </head>
+
 <body class="bg-background text-text-primary font-inter antialiased">
-  <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded" href="#main">Skip to content</a>
-  <header></header>
-  <main id="main" class="py-16">
-    <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-invert">
-      <h1 class="text-4xl font-bold">Resize Images Without Losing Quality</h1>
-      <p class="text-text-secondary text-lg">Resizing ka matlab sirf dimensions change karna nahi — ye ek balance exercise hai. Humein sharpness maintain karni hoti hai, file size optimize rakhna hota hai, aur platform requirements meet karni hoti hain.</p>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded z-50"
+        href="#main">Skip to content</a>
 
-      <h2 class="mt-8 text-2xl font-semibold">Platform-specific dimensions</h2>
-      <ul>
-        <li>Website content: 1200–1600px width</li>
-        <li>Hero banners: 1920–2560px width</li>
-        <li>Thumbnails: 320–640px width</li>
-        <li>Social: IG square 1080px, story 1080×1920, LinkedIn 1200×627</li>
-      </ul>
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3">
+                    <div
+                        class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gradient">ImageToolkit Pro</h1>
+                        <p class="text-xs text-text-secondary">Easy Image & PDF Tools</p>
+                    </div>
+                </div>
 
-      <h2 class="mt-8 text-2xl font-semibold">Aspect ratio and cropping</h2>
-      <p>Resize karte waqt aspect ratio lock rehna chahiye, warna stretching/pillarboxing issues aate hain. Social ke liye alag aspect variants maintain karna best hota hai (1:1, 4:5, 16:9). Critical content ko safe areas me rakhein taaki auto‑crops me information cut na ho.</p>
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="../../index.html"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="../image_processing_hub.html"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300">Image Tools</a>
+                    <div class="relative group has-dropdown">
+                        <button class="text-text-secondary hover:text-primary transition-colors duration-300"
+                            aria-haspopup="true" aria-expanded="false">PDF Tools</button>
+                        <div
+                            class="dropdown-menu absolute hidden bg-surface border border-border rounded-lg mt-2 shadow-lg right-0 w-48 z-20">
+                            <a href="../pdf_merge.html" class="block px-4 py-2 text-sm hover:bg-background-light">Merge
+                                PDFs</a>
+                            <a href="../pdf_split.html" class="block px-4 py-2 text-sm hover:bg-background-light">Split
+                                PDF</a>
+                        </div>
+                    </div>
+                    <a href="../qr_code_studio.html"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+                    <a href="../batch_processing_center.html"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
+                    <a href="index.html" class="text-primary font-medium">Blog</a>
+                    <a href="../privacy-policy.html"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+                </div>
 
-      <h2 class="mt-8 text-2xl font-semibold">Sharpness ka real trick</h2>
-      <p>Downscaling ke baad mild sharpening lagana most cases me results ko crisp bana deta hai. Over‑sharpen mat kijiye — halos aayenge. Mild radius, low amount, bas enough to restore micro‑contrast.</p>
+                <!-- Mobile Menu Button -->
+                <button class="md:hidden p-2 rounded-lg hover:bg-surface transition-colors duration-300"
+                    id="mobile-menu-btn">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
 
-      <h3>Recommended sequence</h3>
-      <ol class="list-decimal pl-6">
-        <li>Color/profile fix (sRGB)</li>
-        <li>Resize to target dimensions</li>
-        <li>Mild sharpen (preview 100%)</li>
-        <li>Export format choose (WebP/AVIF/PNG)</li>
-      </ol>
+            <!-- Mobile Navigation -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-surface rounded-lg mt-2">
+                    <a href="../../index.html"
+                        class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+                    <a href="../image_processing_hub.html"
+                        class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Image
+                        Tools</a>
+                    <div class="px-3 py-2">
+                        <div class="text-text-secondary mb-2">PDF Tools</div>
+                        <div class="grid grid-cols-1 gap-1">
+                            <a href="../pdf_merge.html" class="block px-3 py-2 rounded hover:bg-surface">Merge PDFs</a>
+                            <a href="../pdf_split.html" class="block px-3 py-2 rounded hover:bg-surface">Split PDF</a>
+                        </div>
+                    </div>
+                    <a href="../qr_code_studio.html"
+                        class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">QR
+                        Studio</a>
+                    <a href="../batch_processing_center.html"
+                        class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Batch
+                        Process</a>
+                    <a href="index.html" class="block px-3 py-2 text-primary font-medium">Blog</a>
+                    <a href="../privacy-policy.html"
+                        class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-      <h2 class="mt-8 text-2xl font-semibold">Upscaling: when and how</h2>
-      <p>Agar source chhota hai aur aapko larger output chahiye, standard resize pixelation laa sakta hai. Is case me AI upscaling consider karein, specially logos/photos jaha detail recover karna zaroori hai. Still, brand‑critical assets me manual retouch prefer karein.</p>
+    <a class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:bg-surface-light focus:text-white focus:p-2 focus:rounded"
+        href="#main">Skip to content</a>
+    <header></header>
+    <main id="main" class="py-16">
+        <article class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 prose prose-invert">
+            <h1 class="text-4xl font-bold">Resize Images Without Losing Quality</h1>
+            <p class="text-text-secondary text-lg">Resizing ka matlab sirf dimensions change karna nahi — ye ek balance
+                exercise hai. Humein sharpness maintain karni hoti hai, file size optimize rakhna hota hai, aur platform
+                requirements meet karni hoti hain.</p>
 
-      <h2 class="mt-8 text-2xl font-semibold">Responsive delivery basics</h2>
-      <p>Server pe ek hi badi image rakhne ke bajay multiple widths serve karein. <code>srcset</code> + <code>sizes</code> se browser best match pick karta hai, bandwidth bachta hai.</p>
-      <pre><code>&lt;img src="img-1600.webp"
+            <h2 class="mt-8 text-2xl font-semibold">Platform-specific dimensions</h2>
+            <ul>
+                <li>Website content: 1200–1600px width</li>
+                <li>Hero banners: 1920–2560px width</li>
+                <li>Thumbnails: 320–640px width</li>
+                <li>Social: IG square 1080px, story 1080×1920, LinkedIn 1200×627</li>
+            </ul>
+
+            <h2 class="mt-8 text-2xl font-semibold">Aspect ratio and cropping</h2>
+            <p>Resize karte waqt aspect ratio lock rehna chahiye, warna stretching/pillarboxing issues aate hain. Social
+                ke liye alag aspect variants maintain karna best hota hai (1:1, 4:5, 16:9). Critical content ko safe
+                areas me rakhein taaki auto‑crops me information cut na ho.</p>
+
+            <h2 class="mt-8 text-2xl font-semibold">Sharpness ka real trick</h2>
+            <p>Downscaling ke baad mild sharpening lagana most cases me results ko crisp bana deta hai. Over‑sharpen mat
+                kijiye — halos aayenge. Mild radius, low amount, bas enough to restore micro‑contrast.</p>
+
+            <h3>Recommended sequence</h3>
+            <ol class="list-decimal pl-6">
+                <li>Color/profile fix (sRGB)</li>
+                <li>Resize to target dimensions</li>
+                <li>Mild sharpen (preview 100%)</li>
+                <li>Export format choose (WebP/AVIF/PNG)</li>
+            </ol>
+
+            <h2 class="mt-8 text-2xl font-semibold">Upscaling: When and How</h2>
+
+            <h3 class="text-xl font-semibold">Standard Upscaling Limitations</h3>
+            <p>Agar source chhota hai aur aapko larger output chahiye, standard resize pixelation laa sakta hai.
+                Traditional algorithms (bicubic, bilinear) simply pixel values interpolate karte hain without
+                understanding content.</p>
+
+            <h3 class="text-xl font-semibold">AI Upscaling Alternative</h3>
+            <p>Is case mein AI upscaling consider karein:</p>
+            <ul class="list-disc pl-6">
+                <li><strong>Logos/photos:</strong> Detail recovery important hai</li>
+                <li><strong>Limitation:</strong> 2× safe hai, 4× risky (artifacts/hallucinations)</li>
+                <li><strong>Caution:</strong> Brand-critical assets mein manual retouch prefer karein</li>
+            </ul>
+
+            <h2 class="mt-8 text-2xl font-semibold">Resizing Algorithms Compared</h2>
+
+            <h3 class="text-xl font-semibold">Bicubic (Recommended Default)</h3>
+            <p><strong>How it works:</strong> 16 nearby pixels consider karta hai smooth interpolation ke liye</p>
+            <p><strong>Best for:</strong> Photographs, general images, downscaling</p>
+            <p><strong>Quality:</strong> Sharp results without excessive artifacts</p>
+
+            <h3 class="text-xl font-semibold">Lanczos (Maximum Sharpness)</h3>
+            <p><strong>How it works:</strong> Sinc function-based resampling</p>
+            <p><strong>Best for:</strong> Detailed imagery, technical graphics</p>
+            <p><strong>Caution:</strong> Can introduce ringing around high-contrast edges</p>
+
+            <h3 class="text-xl font-semibold">Bilinear (Fastest)</h3>
+            <p><strong>How it works:</strong> Simple 4-pixel averaging</p>
+            <p><strong>Best for:</strong> Quick previews, non-critical resizing</p>
+            <p><strong>Trade-off:</strong> Softer results than bicubic</p>
+
+            <h2 class="mt-8 text-2xl font-semibold">Responsive Image Delivery</h2>
+
+            <h3 class="text-xl font-semibold">Multi-Size Strategy</h3>
+            <p>Server pe ek hi badi image rakhne ke bajay multiple widths serve karein. <code>srcset</code> +
+                <code>sizes</code> se browser best match pick karta hai, bandwidth bachta hai.
+            </p>
+
+            <pre><code>&lt;img src="img-1600.webp"
   srcset="img-480.webp 480w, img-800.webp 800w, img-1200.webp 1200w, img-1600.webp 1600w"
   sizes="(max-width: 640px) 95vw, (max-width: 1024px) 80vw, 1200px"
   width="1600" height="1067" alt="Sample" loading="lazy" decoding="async" /&gt;
       </code></pre>
 
-      <h2 class="mt-8 text-2xl font-semibold">In ImageToolkit Pro</h2>
-      <ol class="list-decimal pl-6">
-        <li>Open <a class="text-primary" href="../resize-images.html">Resize Images</a>.</li>
-        <li>Set target width/height; aspect ratio lock on rakhein.</li>
-        <li>Enable optional sharpen; preview at 100%.</li>
-        <li>Export as WebP/AVIF for web, PNG for UI assets.</li>
-      </ol>
+            <h3 class="text-xl font-semibold">Breakpoint Selection</h3>
+            <p>Common responsive breakpoints:</p>
+            <ul class="list-disc pl-6">
+                <li><strong>480px:</strong> Mobile portrait</li>
+                <li><strong>768px:</strong> Tablet portrait</li>
+                <li><strong>1024px:</strong> Tablet landscape / small desktop</li>
+                <li><strong>1440px:</strong> Desktop</li>
+                <li><strong>1920px+:</strong> Large desktop / retina displays</li>
+            </ul>
 
-      <h2 class="mt-8 text-2xl font-semibold">Presets you can reuse</h2>
-      <ul class="list-disc pl-6">
-        <li>Blog images: 1600px wide, AVIF Q50, mild sharpen</li>
-        <li>Thumbnails: 480px wide, WebP Q75, hard cap 120 KB</li>
-        <li>Hero: 1920px (plus optional 2560px), WebP Q80</li>
-        <li>UI screenshots: 1x + 2x PNG lossless, strip metadata</li>
-      </ul>
+            <h2 class="mt-8 text-2xl font-semibold">Advanced Sharpening Techniques</h2>
 
-      <h2 class="mt-8 text-2xl font-semibold">Common mistakes</h2>
-      <ul>
-        <li>Upscaling without AI — pixelation. Prefer AI upscaling when needed.</li>
-        <li>Wrong color space — sRGB for web, CMYK only for print workflows.</li>
-        <li>Meta sizes missing — CLS increases; always include width/height.</li>
-      </ul>
+            <h3 class="text-xl font-semibold">Unsharp Mask Parameters</h3>
+            <p>Downscaling ke baad optimal sharpening:</p>
+            <ul class="list-disc pl-6">
+                <li><strong>Amount:</strong> 50-80% (higher = more aggressive)</li>
+                <li><strong>Radius:</strong> 0.5-1.0 pixels (wider = broader effect)</li>
+                <li><strong>Threshold:</strong> 2-5 levels (higher = protects smooth areas)</li>
+            </ul>
 
-      <h2 class="mt-8 text-2xl font-semibold">Case studies</h2>
-      <h3 class="text-xl font-semibold">Portfolio grid</h3>
-      <p>4800px sources ko 1600px me downscale + light sharpen: total bytes −68%, visual crispness maintained; LCP −0.7s.</p>
-      <h3 class="text-xl font-semibold">Support article screenshots</h3>
-      <p>PNG lossless 1x/2x exports; text readability preserved, CLS zero due to explicit dimensions.</p>
+            <p><strong>Watch out:</strong> Over-sharpen mat kijiye — halos aayenge. Mild radius, low amount, bas enough
+                to restore micro-contrast.</p>
 
-      <h2 class="mt-8 text-2xl font-semibold">FAQs</h2>
-      <h3 class="text-xl font-semibold">Best export format?</h3>
-      <p>Web ke liye WebP/AVIF; UI assets ke liye PNG; photos print ke liye high‑quality JPEG/TIFF.</p>
-      <h3 class="text-xl font-semibold">Kya har resize ke baad sharpen karna chahiye?</h3>
-      <p>Mild sharpening helpful hoti hai, but preview at 100% to avoid halos.</p>
-      <h3 class="text-xl font-semibold">Retina support kaise?</h3>
-      <p>Content images ke liye <code>srcset</code> width descriptors ka use karein. Strict pixel‑perfect UIs me 1x/2x assets maintain karein.</p>
+            <h3 class="text-xl font-semibold">Content-Adaptive Sharpening</h3>
+            <ul class="list-disc pl-6">
+                <li><strong>Portraits:</strong> Lower amount (30-50%) to preserve skin smoothness</li>
+                <li><strong>Landscapes:</strong> Medium amount (60-80%) for detail</li>
+                <li><strong>Product photos:</strong> Higher amount (70-90%) for crispness</li>
+            </ul>
 
-      <h2 class="mt-8 text-2xl font-semibold">Wrap‑up</h2>
-      <p>Right dimensions + light sharpening + smart formats = crisp results at smaller sizes. That’s the recipe.</p>
-    </article>
-  </main>
-  <footer></footer>
-  <script type="application/ld+json">{
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Blog","item":"https://imagetoolkit.tech/pages/blog/"},
-      {"@type":"ListItem","position":2,"name":"Resize Images Without Losing Quality","item":"https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html"}
-    ]
-  }</script>
-  <script src="../../js/nav.js" defer></script>
-<script id="dhws-dataInjector" src="../../public/dhws-data-injector.js"></script>
+            <h2 class="mt-8 text-2xl font-semibold">ImageToolkit Pro Workflow</h2>
+
+            <h3 class="text-xl font-semibold">Recommended Sequence</h3>
+            <ol class="list-decimal pl-6">
+                <li><strong>Color/profile fix:</strong> Convert to sRGB for web</li>
+                <li><strong>Resize to target dimensions:</strong> Lock aspect ratio</li>
+                <li><strong>Mild sharpen:</strong> Preview at 100% zoom</li>
+                <li><strong>Export format:</strong> Choose WebP/AVIF/PNG based on use case</li>
+            </ol>
+
+            <h3 class="text-xl font-semibold">Tool Usage</h3>
+            <ol class="list-decimal pl-6">
+                <li>Open <a class="text-primary" href="../resize-images.html">Resize Images</a></li>
+                <li>Set target width/height; aspect ratio lock on rakhein</li>
+                <li>Enable optional sharpen; preview at 100%</li>
+                <li>Export as WebP/AVIF for web, PNG for UI assets</li>
+            </ol>
+
+            <h2 class="mt-8 text-2xl font-semibold">Copy-Paste Presets</h2>
+
+            <p><strong>Blog images:</strong></p>
+            <pre><code>Width: 1600px
+Format: AVIF Q50
+Sharpen: Mild (Amount 60%, Radius 0.8)
+Target: &lt;150KB</code></pre>
+
+            <p><strong>Thumbnails:</strong></p>
+            <pre><code>Width: 480px
+Format: WebP Q75
+Sharpen: Medium
+Hard cap: 80KB</code></pre>
+
+            <p><strong>Hero banners:</strong></p>
+            <pre><code>Width: 1920px (+ optional 2560px for retina)
+Format: WebP Q80
+Sharpen: Light
+Target: &lt;250KB</code></pre>
+
+            <p><strong>UI screenshots:</strong></p>
+            <pre><code>Size: 1× + 2× versions
+Format: PNG lossless
+Sharpen: None
+Strip metadata: Yes</code></pre>
+
+            <h2 class="mt-8 text-2xl font-semibold">Common Mistakes to Avoid</h2>
+
+            <h3 class="text-xl font-semibold">1. Upscaling Without AI</h3>
+            <p><strong>Problem:</strong> Standard upscaling creates pixelation/blur</p>
+            <p><strong>Solution:</strong> Use AI upscaling tools or source higher resolution originals</p>
+
+            <h3 class="text-xl font-semibold">2. Wrong Color Space</h3>
+            <p><strong>Problem:</strong> Color shifts when moving between spaces</p>
+            <p><strong>Solution:</strong> sRGB for web delivery, CMYK only for print workflows</p>
+
+            <h3 class="text-xl font-semibold">3. Missing Dimensions</h3>
+            <p><strong>Problem:</strong> Images without width/height cause layout shifts (CLS)</p>
+            <p><strong>Solution:</strong> Always include explicit dimensions in HTML</p>
+
+            <h3 class="text-xl font-semibold">4. Excessive Sharpening</h3>
+            <p><strong>Problem:</strong> Halos and artifacts around edges</p>
+            <p><strong>Solution:</strong> Conservative settings, preview at 100%/200% zoom</p>
+
+            <h2 class="mt-8 text-2xl font-semibold">Real-World Case Studies</h2>
+
+            <h3 class="text-xl font-semibold">Portfolio Grid Optimization</h3>
+            <p><strong>Challenge:</strong> 4800px sources ko efficient grid size mein convert karna</p>
+            <p><strong>Solution:</strong> 1600px downscale + light sharpen (Amount 65%, Radius 0.7)</p>
+            <p><strong>Results:</strong> Total bytes −68%, visual crispness maintained, LCP</p>
+            −0.7s.</p>
+            <h3 class="text-xl font-semibold">Support article screenshots</h3>
+            <p>PNG lossless 1x/2x exports; text readability preserved, CLS zero due to explicit dimensions.</p>
+
+            <h2 class="mt-8 text-2xl font-semibold">FAQs</h2>
+
+            <div class="space-y-4 mt-6">
+                <details class="group bg-surface/30 border border-border rounded-lg overflow-hidden">
+                    <summary
+                        class="cursor-pointer px-6 py-4 font-semibold flex justify-between items-center hover:bg-surface/50 transition-colors">
+                        <span>Best export format kaunsa hai?</span>
+                        <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <div class="px-6 py-4 text-text-secondary border-t border-border">
+                        <p>Web ke liye WebP/AVIF best hain kyunki smaller file sizes milti hain with good quality. UI
+                            assets aur graphics ke liye PNG use karein jaha transparency aur pixel-perfect quality
+                            chahiye. Photos print ke liye high-quality JPEG ya TIFF prefer karein with appropriate DPI
+                            settings.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface/30 border border-border rounded-lg overflow-hidden">
+                    <summary
+                        class="cursor-pointer px-6 py-4 font-semibold flex justify-between items-center hover:bg-surface/50 transition-colors">
+                        <span>Kya har resize ke baad sharpen karna chahiye?</span>
+                        <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <div class="px-6 py-4 text-text-secondary border-t border-border">
+                        <p>Haan, mild sharpening generally helpful hoti hai especially downscaling ke baad kyunki resize
+                            process soft edges create karta hai. Lekin always preview at 100% zoom to avoid halos aur
+                            over-sharpening. Low amount aur small radius se start karein - just enough to restore
+                            clarity without artifacts.</p>
+                    </div>
+                </details>
+
+                <details class="group bg-surface/30 border border-border rounded-lg overflow-hidden">
+                    <summary
+                        class="cursor-pointer px-6 py-4 font-semibold flex justify-between items-center hover:bg-surface/50 transition-colors">
+                        <span>Retina support kaise implement karein?</span>
+                        <svg class="w-5 h-5 transition-transform group-open:rotate-180" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </summary>
+                    <div class="px-6 py-4 text-text-secondary border-t border-border">
+                        <p>Content images ke liye <code>srcset</code> with width descriptors ka use karein - browser
+                            automatically best size choose kar lega based on device. Example:
+                            <code>srcset="img-800.webp 800w, img-1600.webp 1600w"</code>. Strict pixel-perfect UIs (like
+                            design tool screenshots) ke liye explicitly 1x aur 2x assets maintain karein with density
+                            descriptors: <code>srcset="ui.png 1x, ui@2x.png 2x"</code>.
+                        </p>
+                    </div>
+                </details>
+            </div>
+
+            <h2 class="mt-8 text-2xl font-semibold">Wrap‑up</h2>
+            <p>Right dimensions + light sharpening + smart formats = crisp results at smaller sizes. That’s the recipe.
+            </p>
+        </article>
+    </main>
+
+    <footer class="bg-surface border-t border-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Brand -->
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div
+                            class="w-10 h-10 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-bold text-gradient">ImageToolkit Pro</h3>
+                            <p class="text-sm text-text-secondary">Easy Image & PDF Tools</p>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary mb-4 max-w-md leading-relaxed">
+                        Easy-to-use tools for working with images and PDFs. Fast, simple, and keeps your files private.
+                    </p>
+                </div>
+
+                <!-- Quick Access -->
+                <div>
+                    <h4 class="font-semibold mb-4">Tools</h4>
+                    <ul class="space-y-2">
+                        <li><a href="../image_processing_hub.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Image
+                                Processing</a></li>
+                        <li><a href="../pdf_merge.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Merge
+                                PDFs</a></li>
+                        <li><a href="../pdf_split.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Split
+                                PDF</a></li>
+                        <li><a href="../qr_code_studio.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">QR
+                                Studio</a></li>
+                        <li><a href="../batch_processing_center.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Batch
+                                Processing</a></li>
+                        <li><a href="index.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Blog</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-semibold mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="../privacy-policy.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy
+                                Policy</a></li>
+                        <li><a href="../terms.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Terms &
+                                Conditions</a></li>
+                        <li><a href="../disclaimer.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Disclaimer</a>
+                        </li>
+                        <li><a href="../cookies.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Cookie
+                                Policy</a></li>
+                        <li><a href="../about.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">About
+                                Us</a></li>
+                        <li><a href="../contact.html"
+                                class="text-text-secondary hover:text-primary transition-colors duration-300">Contact
+                                Us</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-border mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-text-secondary text-sm">
+                    © 2025 ImageToolkit Pro. All Rights Reserved. Simple tools that keep your files safe.
+                </p>
+                <div class="flex items-center space-x-6 mt-4 md:mt-0">
+                    <a href="https://github.com/techuhat" target="_blank" rel="noopener noreferrer"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300"
+                        aria-label="GitHub">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 0C5.374 0 0 5.373 0 12 0 17.302 3.438 21.8 8.207 23.387c.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/in/mohdkhanumar/" target="_blank" rel="noopener noreferrer"
+                        class="text-text-secondary hover:text-primary transition-colors duration-300"
+                        aria-label="LinkedIn">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="../../js/nav.js" defer></script>
+    <script id="dhws-dataInjector" src="../../public/dhws-data-injector.js"></script>
 </body>
+
 </html>
