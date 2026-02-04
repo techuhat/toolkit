@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
+  <url>
+    <loc>https://imagetoolkit.tech/</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- Core Tool Pages -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/image_processing_hub.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/compress-images.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/resize-images.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/convert-images.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- PDF Tools -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/pdf_merge.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/pdf_split.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/pdf_convert.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- Additional Tools -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/qr_code_studio.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/batch_processing_center.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- Blog -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/index.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/ultimate-image-compression-guide-2025.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/optimize-images-for-seo-2025.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/webp-vs-avif-2025.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/social-media-image-sizes-2025.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/resize-images-without-losing-quality.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/qr-codes-that-convert.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/pdf-merge-workflows-for-creators.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/faster-workflows-with-presets.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/image-conversion-best-practices.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/how-to-avoid-over-compression.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/local-processing-vs-cloud.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/efficient-file-naming-for-batches.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/memory-friendly-image-processing.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/smart-pdf-splitting-techniques.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/brand-consistent-qr-codes.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/pdf-to-image-pro-tips.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/batch-processing-power-hacks.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/choosing-right-dpi-for-exports.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/ai-upscaling-when-to-use.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/blog/privacy-first-client-side-processing.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- Informational Pages -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/about.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/contact.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://imagetoolkit.tech/pages/privacy-policy.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/terms.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/disclaimer.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+  <url>
+    <loc>https://imagetoolkit.tech/pages/cookies.html</loc>
+    <lastmod>2026-01-28</lastmod>
+  </url>
+
+</urlset>
