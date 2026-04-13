@@ -1,0 +1,504 @@
+/* ===== PREMIUM UI POLISH ===== */
+
+/* --- Nav dropdown smooth transition --- */
+.nav-dropdown {
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+
+/* Responsive dropdown: prevent overflow on medium screens */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .nav-dropdown {
+    left: auto !important;
+    right: 0 !important;
+    transform: none !important;
+    width: 320px !important;
+  }
+
+  .nav-dropdown.opacity-100 {
+    transform: none !important;
+  }
+}
+
+/* Ensure dropdown doesn't go off-screen on any desktop size */
+@media (min-width: 1024px) {
+  .nav-dropdown {
+    max-width: calc(100vw - 2rem);
+  }
+}
+
+/* Touch device: bigger hit targets inside dropdown */
+@media (hover: none) and (pointer: coarse) {
+  .nav-dd-item {
+    padding: 0.625rem 0.5rem !important;
+    min-height: 44px;
+  }
+
+  .has-dropdown>button {
+    min-height: 44px;
+  }
+}
+
+/* --- File Chips (uploaded files inline display) --- */
+.file-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  max-height: 200px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
+.file-chips-container::-webkit-scrollbar {
+  width: 4px;
+}
+
+.file-chips-container::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+.file-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.625rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.5rem;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s ease;
+  animation: chipIn 0.25s ease-out forwards;
+  max-width: 220px;
+}
+
+.file-chip:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.file-chip .chip-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 0.375rem;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.file-chip .chip-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+  font-weight: 500;
+}
+
+.file-chip .chip-size {
+  font-size: 0.6875rem;
+  color: rgba(255, 255, 255, 0.4);
+  flex-shrink: 0;
+}
+
+.file-chip .chip-remove {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.3);
+  transition: color 0.15s ease;
+  flex-shrink: 0;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.file-chip .chip-remove:hover {
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* --- Drop zone compact mode (after files uploaded) --- */
+.drop-zone-compact {
+  padding: 1rem 1.5rem !important;
+}
+
+.drop-zone-compact .icon-float {
+  width: 2.5rem !important;
+  height: 2.5rem !important;
+  animation: none !important;
+}
+
+.drop-zone-compact .icon-float svg {
+  width: 1.25rem !important;
+  height: 1.25rem !important;
+}
+
+.drop-zone-compact h3,
+.drop-zone-compact p {
+  display: none;
+}
+
+.drop-zone-compact .flex {
+  flex-direction: row !important;
+  gap: 0.75rem !important;
+}
+
+/* Subtle grid background for tool pages */
+.tool-page-bg {
+  position: relative;
+}
+
+.tool-page-bg::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 168, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 168, 255, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Premium drop zone with animated gradient border */
+.drop-zone-premium {
+  position: relative;
+  border: none !important;
+  background: rgba(51, 51, 51, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.drop-zone-premium::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 2px;
+  background: linear-gradient(135deg, #00a8ff, #2ed573, #00a8ff, #2ed573);
+  background-size: 400% 400%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: borderGlow 6s ease-in-out infinite;
+}
+
+.drop-zone-premium::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 168, 255, 0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.drop-zone-premium:hover::after,
+.drop-zone-premium:focus::after {
+  opacity: 1;
+}
+
+.drop-zone-premium:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 168, 255, 0.15);
+}
+
+.drop-zone-premium.drag-over {
+  box-shadow: 0 12px 40px rgba(0, 168, 255, 0.25);
+  transform: translateY(-3px);
+}
+
+@keyframes borderGlow {
+
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Glass card variant */
+.card-glass {
+  background: rgba(51, 51, 51, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(64, 64, 64, 0.4);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.card-glass:hover {
+  border-color: rgba(0, 168, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* Stats badge premium */
+.stats-badge {
+  background: rgba(51, 51, 51, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(64, 64, 64, 0.5);
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Page title with subtle glow */
+.title-glow {
+  text-shadow: 0 0 40px rgba(0, 168, 255, 0.2);
+}
+
+/* Entrance animations */
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+.animate-slide-up-delay-1 {
+  animation-delay: 0.1s;
+}
+
+.animate-slide-up-delay-2 {
+  animation-delay: 0.2s;
+}
+
+.animate-slide-up-delay-3 {
+  animation-delay: 0.3s;
+}
+
+.animate-slide-up-delay-4 {
+  animation-delay: 0.4s;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Premium button hover glow */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #00a8ff, #2ed573);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  filter: blur(8px);
+}
+
+.btn-glow:hover::before {
+  opacity: 0.6;
+}
+
+.btn-glow:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(0, 168, 255, 0.3);
+}
+
+/* Icon circle with subtle animation */
+.icon-float {
+  animation: iconFloat 3s ease-in-out infinite;
+}
+
+@keyframes iconFloat {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Section divider line */
+.section-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 168, 255, 0.3), rgba(46, 213, 115, 0.3), transparent);
+  margin: 2rem 0;
+}
+
+/* Privacy card premium */
+.privacy-card {
+  background: linear-gradient(135deg, rgba(0, 168, 255, 0.08), rgba(46, 213, 115, 0.05));
+  border: 1px solid rgba(0, 168, 255, 0.15);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.privacy-card:hover {
+  border-color: rgba(0, 168, 255, 0.3);
+}
+
+.privacy-card::before {
+  content: '';
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(0, 168, 255, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Queue card */
+.queue-card {
+  background: rgba(51, 51, 51, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(64, 64, 64, 0.4);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.queue-card:hover {
+  border-color: rgba(0, 168, 255, 0.2);
+}
+
+/* Preset buttons premium */
+.preset-btn-premium {
+  border: 1px solid rgba(64, 64, 64, 0.5);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  text-align: left;
+  transition: all 0.25s ease;
+  background: rgba(51, 51, 51, 0.2);
+}
+
+.preset-btn-premium:hover {
+  border-color: rgba(0, 168, 255, 0.5);
+  background: rgba(0, 168, 255, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 168, 255, 0.1);
+}
+
+/* Settings panel glass */
+.settings-glass {
+  background: rgba(51, 51, 51, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(64, 64, 64, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Smooth range slider override */
+.itp-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, rgba(0, 168, 255, 0.3), rgba(46, 213, 115, 0.3));
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.itp-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00a8ff;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.4);
+  transition: all 0.2s ease;
+}
+
+.itp-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 16px rgba(0, 168, 255, 0.6);
+}
+
+.itp-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #00a8ff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px rgba(0, 168, 255, 0.4);
+}
+
+/* Metric stat cards */
+.metric-card {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.metric-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+  transition: opacity 0.3s ease;
+}
+
+.metric-card:hover::before {
+  opacity: 1;
+}
+
+/* Format cards in convert page */
+.format-info-card {
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.format-info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
