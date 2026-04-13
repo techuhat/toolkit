@@ -1,5 +1,5 @@
 /* ImageToolkit Pro Service Worker */
-const CACHE_VERSION = 'itp-v1-2025-09-20c';
+const CACHE_VERSION = 'itp-v3-2026-04-13';
 // Compute base from current SW scope, so it works under root or /toolkit
 const SCOPE_BASE = new URL('./', self.registration.scope).pathname.replace(/\/+/g, '/');
 const APP_SHELL = [
@@ -65,8 +65,25 @@ self.addEventListener('activate', (event) => {
   })());
 });
 
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+});
+
 function isHTMLRequest(req) {
   return req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html');
+}
+
+function isNetworkFirstStatic(url) {
+  if (url.origin !== self.location.origin) return false;
+  const path = url.pathname.toLowerCase();
+  return path.endsWith('/js/nav.js')
+    || path.endsWith('/js/pwa.js')
+    || path.endsWith('/css/main.css')
+    || path.endsWith('/css/premium.css')
+    || path.endsWith('.js')
+    || path.endsWith('.css');
 }
 
 self.addEventListener('fetch', (event) => {
@@ -88,20 +105,20 @@ self.addEventListener('fetch', (event) => {
       try {
         const resp = await fetch(navUrl, { redirect: 'follow' });
         if (resp && resp.ok) {
-          caches.open(CACHE_VERSION).then(cache => cache.put(navUrl, resp.clone())).catch(()=>{});
+          caches.open(CACHE_VERSION).then(cache => cache.put(navUrl, resp.clone())).catch(() => { });
           return resp;
         }
         // Non-OK (e.g., 404/500): try cached index, then offline
         const cache = await caches.open(CACHE_VERSION);
         return (await cache.match(SCOPE_BASE + 'index.html'))
-            || (await cache.match(navUrl))
-            || (await cache.match(SCOPE_BASE + 'offline.html'))
-            || resp; // last resort return resp
+          || (await cache.match(navUrl))
+          || (await cache.match(SCOPE_BASE + 'offline.html'))
+          || resp; // last resort return resp
       } catch (e) {
         const cache = await caches.open(CACHE_VERSION);
         return (await cache.match(SCOPE_BASE + 'index.html'))
-            || (await cache.match(navUrl))
-            || cache.match(SCOPE_BASE + 'offline.html');
+          || (await cache.match(navUrl))
+          || cache.match(SCOPE_BASE + 'offline.html');
       }
     })());
     return;
@@ -109,15 +126,32 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
 
-  // Cache-first for same-origin static assets
-  if (url.origin === self.location.origin) {
-    event.respondWith(
-      caches.match(request).then(cached => cached || fetch(request).then(resp => {
-        const copy = resp.clone();
-        caches.open(CACHE_VERSION).then(cache => cache.put(request, copy)).catch(()=>{});
+  // Network-first for JS/CSS to avoid stale UI without hard refresh
+  if (isNetworkFirstStatic(url)) {
+    event.respondWith((async () => {
+      try {
+        const resp = await fetch(request);
+        if (resp && resp.ok) {
+          caches.open(CACHE_VERSION).then(cache => cache.put(request, resp.clone())).catch(() => { });
+        }
         return resp;
-      }))
-    );
+      } catch {
+        const cached = await caches.match(request);
+        return cached || Response.error();
+      }
+    })());
+    return;
+  }
+
+  // Cache-first for other same-origin static assets
+  if (url.origin === self.location.origin) {
+    event.respondWith((async () => {
+      const cached = await caches.match(request);
+      if (cached) return cached;
+      const resp = await fetch(request);
+      caches.open(CACHE_VERSION).then(cache => cache.put(request, resp.clone())).catch(() => { });
+      return resp;
+    })());
     return;
   }
 

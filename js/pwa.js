@@ -5,10 +5,35 @@
       // Custom domain is served at root, fix scope to '/'
       return '/';
     }
+
+    let reloadingAfterUpdate = false;
+
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (reloadingAfterUpdate) return;
+      reloadingAfterUpdate = true;
+      window.location.reload();
+    });
+
     window.addEventListener('load', () => {
       const scope = getBaseScope();
       const swUrl = `${scope}sw.js`;
-      navigator.serviceWorker.register(swUrl, { scope }).catch(console.error);
+      navigator.serviceWorker.register(swUrl, { scope }).then((registration) => {
+        registration.update().catch(() => { });
+
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
+            }
+          });
+        });
+      }).catch(console.error);
     });
   }
 

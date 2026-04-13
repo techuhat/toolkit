@@ -106,43 +106,50 @@
         </div>
 
         <div class="hidden md:flex items-center space-x-8">
-          <a href="${scopeBase}index.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
-          <a href="${scopeBase}pages/image_processing_hub.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Image Tools</a>
-          <div class="relative group has-dropdown">
-            <button class="text-text-secondary hover:text-primary transition-colors duration-300" aria-haspopup="true" aria-expanded="false">PDF Tools</button>
-            <div class="absolute hidden dropdown-menu bg-surface border border-border rounded-lg mt-2 shadow-lg right-0 w-48 z-20">
-              <a href="${scopeBase}pages/pdf_merge.html" class="block px-4 py-2 text-sm hover:bg-background-light">Merge PDFs</a>
-              <a href="${scopeBase}pages/pdf_split.html" class="block px-4 py-2 text-sm hover:bg-background-light">Split PDF</a>
+          <a href="${scopeBase}index.html" class="nav-link text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+          <div class="relative has-dropdown">
+            <button class="nav-link nav-tools-btn inline-flex items-center gap-1 text-text-secondary hover:text-primary transition-colors duration-300" aria-haspopup="true" aria-expanded="false">
+              Tools
+              <svg class="w-4 h-4 dropdown-chevron transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div class="nav-dropdown absolute right-0 mt-2 hidden bg-surface border border-border rounded-lg shadow-lg z-30 py-1" style="width:min(280px, calc(100vw - 1rem))">
+              <a href="${scopeBase}pages/image_processing_hub.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Image Hub</a>
+              <a href="${scopeBase}pages/compress-images.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Compress</a>
+              <a href="${scopeBase}pages/resize-images.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Resize</a>
+              <a href="${scopeBase}pages/convert-images.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Convert</a>
+              <a href="${scopeBase}pages/pdf_merge.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Merge PDF</a>
+              <a href="${scopeBase}pages/pdf_split.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Split PDF</a>
+              <a href="${scopeBase}pages/qr_code_studio.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">QR Studio</a>
+              <a href="${scopeBase}pages/batch_processing_center.html" class="nav-dd-link block px-4 py-2 text-sm whitespace-nowrap text-text-secondary hover:text-primary hover:bg-background-light">Batch Process</a>
             </div>
           </div>
-          <a href="${scopeBase}pages/qr_code_studio.html" class="text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
-          <a href="${scopeBase}pages/batch_processing_center.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
-          <a href="${scopeBase}pages/blog/index.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Blog</a>
-          <a href="${scopeBase}pages/privacy-policy.html" class="text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+          <a href="${scopeBase}pages/qr_code_studio.html" class="nav-link text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+          <a href="${scopeBase}pages/blog/index.html" class="nav-link text-text-secondary hover:text-primary transition-colors duration-300">Blog</a>
+          <a href="${scopeBase}pages/about.html" class="nav-link text-text-secondary hover:text-primary transition-colors duration-300">About</a>
+          <a href="${scopeBase}pages/privacy-policy.html" class="nav-link text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
         </div>
 
-        <button class="md:hidden p-2 rounded-lg hover:bg-surface transition-colors duration-300" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
+        <button class="md:hidden p-2 rounded-lg hover:bg-surface transition-colors duration-300" id="mobile-menu-btn" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+          <svg class="w-6 h-6 hamburger-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg class="w-6 h-6 close-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="md:hidden hidden" id="mobile-menu">
+      <div class="md:hidden mobile-menu-container overflow-x-hidden transition-all duration-300 ease-out" id="mobile-menu" style="max-height:0;opacity:0">
         <div class="px-2 pt-2 pb-3 space-y-1 bg-surface rounded-lg mt-2">
-          <a href="${scopeBase}index.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
-          <a href="${scopeBase}pages/image_processing_hub.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Image Tools</a>
-          <div class="px-3 py-2">
-            <div class="text-text-secondary mb-2">PDF Tools</div>
-            <div class="grid grid-cols-1 gap-1">
-              <a href="${scopeBase}pages/pdf_merge.html" class="block px-3 py-2 rounded hover:bg-surface">Merge PDFs</a>
-              <a href="${scopeBase}pages/pdf_split.html" class="block px-3 py-2 rounded hover:bg-surface">Split PDF</a>
-            </div>
-          </div>
-          <a href="${scopeBase}pages/qr_code_studio.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
-          <a href="${scopeBase}pages/batch_processing_center.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
-          <a href="${scopeBase}pages/blog/index.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Blog</a>
-          <a href="${scopeBase}pages/privacy-policy.html" class="block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
+          <a href="${scopeBase}index.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Home</a>
+          <div class="px-3 pt-1 text-xs uppercase tracking-wide text-text-secondary">Tools</div>
+          <a href="${scopeBase}pages/image_processing_hub.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Image Processing Hub</a>
+          <a href="${scopeBase}pages/compress-images.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Compress Images</a>
+          <a href="${scopeBase}pages/resize-images.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Resize Images</a>
+          <a href="${scopeBase}pages/convert-images.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Convert Images</a>
+          <a href="${scopeBase}pages/pdf_merge.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Merge PDFs</a>
+          <a href="${scopeBase}pages/pdf_split.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Split PDF</a>
+          <a href="${scopeBase}pages/qr_code_studio.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">QR Studio</a>
+          <a href="${scopeBase}pages/batch_processing_center.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Batch Process</a>
+          <a href="${scopeBase}pages/blog/index.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Blog</a>
+          <a href="${scopeBase}pages/about.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">About</a>
+          <a href="${scopeBase}pages/privacy-policy.html" class="mobile-nav-link block px-3 py-2 text-text-secondary hover:text-primary transition-colors duration-300">Privacy</a>
         </div>
       </div>
     </nav>`;
@@ -154,23 +161,48 @@
     if (!btn || !menu) return;
 
     if (!menu.dataset.bound) {
+      const hamburger = btn.querySelector('.hamburger-icon');
+      const closeIcon = btn.querySelector('.close-icon');
+
+      const getMenuOpenHeight = () => {
+        const viewportSafeHeight = Math.max(window.innerHeight - 88, 220);
+        return Math.min(menu.scrollHeight, viewportSafeHeight);
+      };
+
+      const openMenu = () => {
+        menu.style.maxHeight = getMenuOpenHeight() + 'px';
+        menu.style.opacity = '1';
+        menu.style.overflowY = menu.scrollHeight > getMenuOpenHeight() ? 'auto' : 'hidden';
+        btn.setAttribute('aria-expanded', 'true');
+        if (hamburger) hamburger.classList.add('hidden');
+        if (closeIcon) closeIcon.classList.remove('hidden');
+      };
+      const closeMenu = () => {
+        menu.style.maxHeight = '0';
+        menu.style.opacity = '0';
+        menu.style.overflowY = 'hidden';
+        btn.setAttribute('aria-expanded', 'false');
+        if (hamburger) hamburger.classList.remove('hidden');
+        if (closeIcon) closeIcon.classList.add('hidden');
+      };
+      const isOpen = () => parseInt(menu.style.maxHeight) > 0;
+
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const hidden = menu.classList.toggle('hidden');
-        btn.setAttribute('aria-expanded', String(!hidden));
+        isOpen() ? closeMenu() : openMenu();
       });
       document.addEventListener('click', (e) => {
-        if (!menu.classList.contains('hidden')) {
-          if (!menu.contains(e.target) && !btn.contains(e.target)) {
-            menu.classList.add('hidden');
-            btn.setAttribute('aria-expanded', 'false');
-          }
+        if (isOpen() && !menu.contains(e.target) && !btn.contains(e.target)) {
+          closeMenu();
         }
       });
       document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !menu.classList.contains('hidden')) {
-          menu.classList.add('hidden');
-          btn.setAttribute('aria-expanded', 'false');
+        if (e.key === 'Escape' && isOpen()) closeMenu();
+      });
+      window.addEventListener('resize', () => {
+        if (isOpen()) {
+          menu.style.maxHeight = getMenuOpenHeight() + 'px';
+          menu.style.overflowY = menu.scrollHeight > getMenuOpenHeight() ? 'auto' : 'hidden';
         }
       });
       menu.dataset.bound = 'true';
@@ -179,44 +211,116 @@
 
   function ensureHeaderConsistency() {
     try {
-      let header = document.querySelector('header');
+      const bodyHeaders = Array.from(document.querySelectorAll('body > header'));
+      let header = bodyHeaders[0];
       if (!header) {
         header = document.createElement('header');
         header.className = 'sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border';
         document.body.insertBefore(header, document.body.firstChild);
+      } else if (bodyHeaders.length > 1) {
+        bodyHeaders.slice(1).forEach(h => h.remove());
       }
+      header.className = 'sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border';
       header.innerHTML = buildHeaderHTML();
       bindMobileNav();
-      // Bind improved desktop dropdown behavior
+
+      // Highlight active nav link based on current page
       try {
-        const dropdownParents = Array.from(header.querySelectorAll('.has-dropdown'));
-        dropdownParents.forEach(parent => {
-          const btn = parent.querySelector('button');
-          const menu = parent.querySelector('.dropdown-menu');
-          if (!btn || !menu) return;
+        const currentPath = location.pathname.replace(/\\/g, '/').toLowerCase();
+        const navLinks = header.querySelectorAll('a[href]');
+        const inToolsSection = [
+          '/pages/image_processing_hub.html',
+          '/pages/compress-images.html',
+          '/pages/resize-images.html',
+          '/pages/convert-images.html',
+          '/pages/pdf_merge.html',
+          '/pages/pdf_split.html',
+          '/pages/qr_code_studio.html',
+          '/pages/batch_processing_center.html',
+          '/pages/pdf_convert.html'
+        ].some(path => currentPath.endsWith(path));
 
-          let hideTimer;
-          const show = () => {
-            menu.classList.remove('hidden');
-            btn.setAttribute('aria-expanded', 'true');
-            clearTimeout(hideTimer);
-          };
-          const scheduleHide = () => {
-            clearTimeout(hideTimer);
-            hideTimer = setTimeout(() => {
-              menu.classList.add('hidden');
-              btn.setAttribute('aria-expanded', 'false');
-            }, 120);
-          };
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          if (!href || href === '#') return;
+          const resolved = new URL(href, location.href).pathname.replace(/\\/g, '/').toLowerCase();
+          const currentIsBlog = currentPath.includes('/pages/blog/');
+          const linkIsBlogIndex = resolved.endsWith('/pages/blog/index.html');
+          const isMatch = currentPath === resolved
+            || (currentPath.endsWith('/') && currentPath + 'index.html' === resolved)
+            || (currentIsBlog && linkIsBlogIndex);
 
-          parent.addEventListener('mouseenter', show);
-          parent.addEventListener('mouseleave', scheduleHide);
-          menu.addEventListener('mouseenter', show);
-          menu.addEventListener('mouseleave', scheduleHide);
-          parent.addEventListener('focusin', show);
-          parent.addEventListener('focusout', scheduleHide);
+          if (isMatch) {
+            if (link.classList.contains('nav-link')) {
+              link.classList.remove('text-text-secondary');
+              link.classList.add('text-primary');
+            }
+            if (link.classList.contains('nav-dd-link')) {
+              link.classList.remove('text-text-secondary');
+              link.classList.add('text-primary', 'bg-background-light');
+            }
+            if (link.classList.contains('mobile-nav-link')) {
+              link.classList.remove('text-text-secondary');
+              link.classList.add('text-primary', 'font-medium', 'bg-background-light');
+            }
+          }
         });
-      } catch (_) {}
+
+        if (inToolsSection) {
+          const toolsBtn = header.querySelector('.nav-tools-btn');
+          if (toolsBtn) {
+            toolsBtn.classList.remove('text-text-secondary');
+            toolsBtn.classList.add('text-primary');
+          }
+        }
+      } catch (_) { }
+
+      // Desktop dropdown interaction
+      try {
+        const dropdownParent = header.querySelector('.has-dropdown');
+        const dropdownBtn = dropdownParent ? dropdownParent.querySelector('.nav-tools-btn') : null;
+        const dropdownMenu = dropdownParent ? dropdownParent.querySelector('.nav-dropdown') : null;
+        const chevron = dropdownParent ? dropdownParent.querySelector('.dropdown-chevron') : null;
+
+        if (dropdownParent && dropdownBtn && dropdownMenu && !dropdownParent.dataset.bound) {
+          const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+          const openDropdown = () => {
+            dropdownMenu.classList.remove('hidden');
+            dropdownBtn.setAttribute('aria-expanded', 'true');
+            if (chevron) chevron.classList.add('rotate-180');
+          };
+          const closeDropdown = () => {
+            dropdownMenu.classList.add('hidden');
+            dropdownBtn.setAttribute('aria-expanded', 'false');
+            if (chevron) chevron.classList.remove('rotate-180');
+          };
+          const toggleDropdown = () => {
+            const open = !dropdownMenu.classList.contains('hidden');
+            if (open) closeDropdown(); else openDropdown();
+          };
+
+          dropdownBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleDropdown();
+          });
+          dropdownParent.addEventListener('mouseenter', () => {
+            if (isDesktop()) openDropdown();
+          });
+          dropdownParent.addEventListener('mouseleave', () => {
+            if (isDesktop()) closeDropdown();
+          });
+          document.addEventListener('click', (e) => {
+            if (!dropdownParent.contains(e.target)) closeDropdown();
+          });
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDropdown();
+          });
+          window.addEventListener('resize', closeDropdown);
+
+          dropdownParent.dataset.bound = 'true';
+        }
+      } catch (_) { }
     } catch (e) {
       // no-op
     }
@@ -316,14 +420,14 @@
         if (!href || href.startsWith('#') || href.startsWith('javascript:') || href.startsWith('mailto:') || href.startsWith('tel:')) return;
 
         // Absolute to custom domain → normalize to root-relative
-        if (href.startsWith('https://'+domain+'/') || href.startsWith('http://'+domain+'/')) {
+        if (href.startsWith('https://' + domain + '/') || href.startsWith('http://' + domain + '/')) {
           const path = href.replace(/^https?:\/\/[^/]+\//, '');
           a.setAttribute('href', scopeBase + path);
           return;
         }
 
         // Absolute to GitHub Pages path → normalize to root-relative
-        if (href.startsWith('https://'+ghPagesHost+'/toolkit/') || href.startsWith('http://'+ghPagesHost+'/toolkit/')) {
+        if (href.startsWith('https://' + ghPagesHost + '/toolkit/') || href.startsWith('http://' + ghPagesHost + '/toolkit/')) {
           const path = href.replace(/^https?:\/\/[^/]+\/toolkit\//, '');
           a.setAttribute('href', scopeBase + path);
           return;
@@ -353,7 +457,7 @@
         }
         // Otherwise: relative links are fine
       });
-    } catch (_) {}
+    } catch (_) { }
   }
 
   function getCookiePrefs() {
@@ -371,7 +475,7 @@
         marketing: !!prefs.marketing,
         savedAt: Date.now()
       }));
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function injectCookieModal() {
@@ -507,15 +611,15 @@
         touch.sizes = '180x180';
         touch.href = url;
         document.head.appendChild(touch);
-      }).catch(() => {});
-    } catch (_) {}
+      }).catch(() => { });
+    } catch (_) { }
   }
 
   onReady(() => {
-    try { ensureHeaderConsistency(); } catch (e) {}
-    try { ensureFooterConsistency(); } catch (e) {}
-    try { fixPrivacyFAQ(); } catch (e) {}
-    try { normalizeInternalLinks(); } catch (e) {}
+    try { ensureHeaderConsistency(); } catch (e) { }
+    try { ensureFooterConsistency(); } catch (e) { }
+    try { fixPrivacyFAQ(); } catch (e) { }
+    try { normalizeInternalLinks(); } catch (e) { }
     // Ensure manifest and PWA bootstrap are present site-wide
     try {
       const hasManifest = !!document.querySelector('link[rel="manifest"]');
@@ -536,7 +640,7 @@
       }
       // Prefer a PNG apple-touch-icon for iOS add-to-home (only if file exists)
       ensureAppleTouchIcon();
-    } catch (_) {}
+    } catch (_) { }
     window.__SITE_UI_INIT_DONE = true;
   });
 })();
